@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,9 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField] private Rigidbody rb;
+    [SerializeField] private CharacterController cc;
     private InputAction moveAction;
+    private Vector3 moveVector;
 
     private void Start()
     {
@@ -16,14 +18,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Vector2 moveValue = moveAction.ReadValue<Vector2>();
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
 
+        moveVector = new Vector3(moveInput.x * moveSpeed, moveVector.y, moveInput.y * moveSpeed);
 
+        moveVector += Physics.gravity * Time.deltaTime;
 
-        //rb.velocity = transform.forward * moveValue * moveSpeed * Time.deltaTime;
-
-        Vector3 movement = new Vector3(moveValue.x * moveSpeed * Time.deltaTime, 0, moveValue.y * moveSpeed * Time.deltaTime);
-
-        transform.position += movement;
+        cc.Move(moveVector * Time.deltaTime);
     }
 }
