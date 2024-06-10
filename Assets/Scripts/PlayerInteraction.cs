@@ -51,7 +51,7 @@ public class PlayerInteraction : MonoBehaviour
             }
             else
             {
-                SetInteractionText(hit.transform.name);
+                SetInteractionText("");
             }
         }
         else
