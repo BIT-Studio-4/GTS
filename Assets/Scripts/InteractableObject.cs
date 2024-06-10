@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Put this script onto an object to make it have display text or the ability to interact with it. 
+/// Override this class for an item that would run code when interacted with.
+/// </summary>
 public class InteractableObject : MonoBehaviour
 {
     private string title;
