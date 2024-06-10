@@ -11,16 +11,17 @@ public class PlayerMovement : MonoBehaviour
     private InputAction moveAction;
     private Vector3 moveVector;
 
-    private void Start()
+    void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
     }
 
     void Update()
     {
-        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        Vector2 moveInput = moveAction.ReadValue<Vector2>() * moveSpeed;
+        Vector2.ClampMagnitude(moveInput, moveSpeed);
 
-        moveVector = new Vector3(moveInput.x * moveSpeed, moveVector.y, moveInput.y * moveSpeed);
+        moveVector = new Vector3(moveInput.x, moveVector.y, moveInput.y);
 
         moveVector += Physics.gravity * Time.deltaTime;
 
