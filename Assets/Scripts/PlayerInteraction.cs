@@ -45,9 +45,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private void SetInteractionDisplay(InteractableObject interactableObject)
     {
-        if (interactableObject.isInteractable)
+        if (interactableObject.IsInteractable)
         {
-            SetInteractionText(interactableObject.title, interactableObject.description, interactableObject.interactableText);
+            SetInteractionText(interactableObject.Title, interactableObject.Description, interactableObject.InteractableText);
             
             //Do a check here when the interact key is pressed down once the input system is implimented
             //if (Check For Input)
@@ -57,7 +57,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            SetInteractionText(interactableObject.title, interactableObject.description);
+            SetInteractionText(interactableObject.Title, interactableObject.Description);
         }
     }
 
