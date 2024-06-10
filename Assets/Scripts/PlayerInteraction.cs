@@ -14,7 +14,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactionTextDescription;
     [SerializeField] private TextMeshProUGUI interactionTextButton;
 
-    private void Awake()
+    private void Start()
     {
         SetInteractionText("");
     }
