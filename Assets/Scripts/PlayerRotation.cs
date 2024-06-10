@@ -14,6 +14,7 @@ public class PlayerRotation : MonoBehaviour
     private InputAction lookAction;
     private CharacterController cc;
     private Camera cam;
+    private float yaw;
 
     void Awake()
     {
@@ -35,7 +36,9 @@ public class PlayerRotation : MonoBehaviour
         // rotate character horizontally (around the Y axis)
         transform.Rotate(Vector3.up * lookInput.x * Time.deltaTime);
 
-        // rotate camera vertically (around the X axis)
-        cam.transform.Rotate(Vector3.right * -lookInput.y * Time.deltaTime);
+        // rotate camera vertically (around the X axis) with clamp
+        yaw += -lookInput.y * Time.deltaTime;
+        yaw = Mathf.Clamp(yaw, -maxYaw, maxYaw);
+        cam.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
     }
 }
