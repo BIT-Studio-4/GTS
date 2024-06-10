@@ -4,12 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField] private CharacterController cc;
+    private CharacterController cc;
     private InputAction moveAction;
     private Vector3 moveVector;
+
+    void Awake()
+    {
+        cc = GetComponent<CharacterController>();
+    }
 
     void Start()
     {
@@ -21,10 +27,10 @@ public class PlayerMovement : MonoBehaviour
         Vector2 moveInput = moveAction.ReadValue<Vector2>() * moveSpeed;
         Vector2.ClampMagnitude(moveInput, moveSpeed);
 
-        moveVector = new Vector3(moveInput.x, moveVector.y, moveInput.y);
+        Vector3 moveHorizontal = transform.forward * moveInput.y + transform.right * moveInput.x;
 
+        moveVector = new Vector3(moveHorizontal.x, moveVector.y, moveHorizontal.z);
         moveVector += Physics.gravity * Time.deltaTime;
-
         cc.Move(moveVector * Time.deltaTime);
     }
 }

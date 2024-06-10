@@ -306,7 +306,7 @@ PrefabInstance:
     - target: {fileID: 6064358372453876376, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.27
+      value: 6.03
       objectReference: {fileID: 0}
     - target: {fileID: 6064358372453876376, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
@@ -352,7 +352,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cc
       value: 
-      objectReference: {fileID: 2093669397}
+      objectReference: {fileID: 0}
     - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: gravity
@@ -361,7 +361,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2893661565376030556, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 2093669401}
   m_SourcePrefab: {fileID: 100100000, guid: 671aa3d2f1b2d74468ca28aa9dd85b07, type: 3}
 --- !u!1 &1532701935
 GameObject:
@@ -471,12 +475,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &2093669397 stripped
-CharacterController:
-  m_CorrespondingSourceObject: {fileID: 4496438269360216504, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+--- !u!1 &2093669396 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2893661565376030556, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
     type: 3}
   m_PrefabInstance: {fileID: 1163623655}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2093669401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093669396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f7f9320cdba5f408321b3b960fa631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxYaw: 89
+  lookSensitivity: 15
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
