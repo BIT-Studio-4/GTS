@@ -29,8 +29,12 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveHorizontal = transform.forward * moveInput.y + transform.right * moveInput.x;
 
-        moveVector = new Vector3(moveHorizontal.x, moveVector.y, moveHorizontal.z);
+        if (cc.isGrounded)
+            moveVector.y = 0;
+        else
+            // add gravity acceleration~ multiplying by deltaTime twice is NOT a mistake!!
         moveVector += Physics.gravity * Time.deltaTime;
+
         cc.Move(moveVector * Time.deltaTime);
     }
 }
