@@ -493,9 +493,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f7f9320cdba5f408321b3b960fa631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxYaw: 89
-  lookSensitivity: 15
-  verticalModifier: 0
+  maxYaw: 90
+  lookSensitivity: 20
+  verticalModifier: 0.75
+  lockCursor: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
