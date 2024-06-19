@@ -5,4 +5,4 @@ Team members are John, Jenna, Josh, Keyra, Christian, Matt.
 This repo exists so the team can make a game for our studies
 
 ## API Repo
-https://github.com/wilsjw/gts-api
+https://github.com/otherotherjosh/GTS-API
