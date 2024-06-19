@@ -39,10 +39,6 @@ public class PlayerInteraction : MonoBehaviour
                     SetInteractionText(interactableObject.Title, interactableObject.Description, interactableObject.InteractableText);
 
                     // Do a check here when the interact key is pressed down once the input system is implimented
-                    // if (Check For Input)
-                    // {
-                    //     interactableObject.Interact();
-                    // }
                 }
                 else
                 {
@@ -51,30 +47,20 @@ public class PlayerInteraction : MonoBehaviour
             }
             else
             {
-                SetInteractionText("");
+                SetInteractionText();
             }
         }
         else
         {
-            SetInteractionText("");
+            SetInteractionText();
         }
     }
 
     // Sets the various interaction texts, uses polymorphism to not have to write out all variables when not needed
-    private void SetInteractionText(string title, string description, string button)
+    private void SetInteractionText(string title = "", string description = "", string button = "")
     {
         interactionTextTitle.text = title;
         interactionTextDescription.text = description;
         interactionTextButton.text = button;
-    }
-
-    private void SetInteractionText(string title, string description)
-    {
-        SetInteractionText(title, description, "");
-    }
-
-    private void SetInteractionText(string title)
-    {
-        SetInteractionText(title, "");
     }
 }
