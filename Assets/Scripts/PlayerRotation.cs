@@ -13,7 +13,6 @@ public class PlayerRotation : MonoBehaviour
     [SerializeField][Range(0.5f, 1)] float verticalModifier;
     [SerializeField] bool lockCursor;
     private InputAction lookAction;
-    private CharacterController cc;
     private Camera cam;
     private float yaw;
 
@@ -21,7 +20,6 @@ public class PlayerRotation : MonoBehaviour
     {
         Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
         
-        cc = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
     }
 
