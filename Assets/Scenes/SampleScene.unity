@@ -794,7 +794,7 @@ GameObject:
   - component: {fileID: 1070010232}
   - component: {fileID: 1070010231}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -809,8 +809,8 @@ RectTransform:
   m_GameObject: {fileID: 1070010229}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1706078206}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -833,7 +833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: test cube
-  description: this cube is interactable!!
+  description: this cube is not interactable!!
   isInteractable: 0
   interactableText: Press (X) To Interact
 --- !u!65 &1242252027
