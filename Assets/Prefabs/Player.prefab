@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6064358372453876376}
   - component: {fileID: 6830794489188715879}
+  - component: {fileID: 6386847648168054992}
   - component: {fileID: 1381666900072175795}
   - component: {fileID: 4496438269360216504}
-  - component: {fileID: 6386847648168054992}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -50,6 +50,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   terminalVelocity: 0
+--- !u!114 &6386847648168054992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2893661565376030556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f7f9320cdba5f408321b3b960fa631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxYaw: 90
+  lookSensitivity: 25.3
+  verticalModifier: 0.801
+  lockCursor: 1
 --- !u!136 &1381666900072175795
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -99,22 +115,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6386847648168054992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2893661565376030556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0f7f9320cdba5f408321b3b960fa631, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxYaw: 90
-  lookSensitivity: 25.3
-  verticalModifier: 0.801
-  lockCursor: 1
 --- !u!1 &3103663510848858061
 GameObject:
   m_ObjectHideFlags: 0
