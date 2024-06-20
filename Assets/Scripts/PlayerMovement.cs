@@ -11,7 +11,6 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float terminalVelocity;
     private CharacterController cc;
     private InputAction moveAction;
     private Vector3 moveVector;
