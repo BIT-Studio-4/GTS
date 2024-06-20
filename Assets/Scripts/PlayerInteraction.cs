@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 
 /// <summary>
 /// PlayerInteraction detects what the player is looking at and displays it to the player via the UI.

@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 /// <summary>
 /// Controls the rotation of a player object. Tilts the camera for vertical rotation, spins the character controller for horizontal rotation.
