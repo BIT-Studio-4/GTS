@@ -1,4 +1,6 @@
-# Welcome to GTS
+![GTS Logo](https://github.com/otherotherjosh/GTS/assets/127159745/e54a3adb-7b0d-4cf5-a0cf-00d9ec279e8d) (placeholder logo until we make a better one)
+
+
 Team members are John, Jenna, Josh, Keyra, Christian, Matt. 
 <br/><br/>
 
