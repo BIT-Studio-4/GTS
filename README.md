@@ -2,6 +2,14 @@
 Team members are John, Jenna, Josh, Keyra, Christian, Matt. 
 <br/><br/>
 
+# Table Of Contents
+- [Purpose of this Repo](#purpose-of-this-repo)
+- [Install and Run](#install-and-run)
+  - [With Project Builds](#with-project-builds)
+  - [With the Unity Editor](#with-the-unity-editor)
+- [API](#api)
+
+
 # Purpose of this Repo
 This repo exists so the team can make a game for our studies 
 <br/><br/>
@@ -11,7 +19,7 @@ Both ways of running the game require you to clone down this repo with git
 ```
 git clone https://github.com/otherotherjosh/GTS.git
 ```
-## With project builds
+## With Project Builds
 1. Inside the repo clone, open the folder `Builds`. <br/>
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/f5ab04f2-97a4-4aec-a2f5-32181d6188a1)
 
