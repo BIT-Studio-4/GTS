@@ -9,6 +9,7 @@ Team members are John, Jenna, Josh, Keyra, Christian, Matt.
 - [Install and Run](#install-and-run)
   - [With Project Builds](#with-project-builds)
   - [With the Unity Editor](#with-the-unity-editor)
+- [Feedback](#feedback)
 - [API](#api)
 
 
@@ -28,7 +29,7 @@ git clone https://github.com/otherotherjosh/GTS.git
 2. Find the most recent .exe file and open it. <br/>
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/1ac707fe-ace2-4e3e-a90e-47769772a346)
 
-3. Enjoy our game and please leave feedback through the Feedback section below
+3. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
 
 ## With the Unity Editor
 1. Open Unity Hub and click the `Add` button. Find and select this repo's folder <br/>
@@ -50,7 +51,12 @@ It should show as a small window in the bottom left corner of your screen, like 
 The Game Window should maximise, and the game should run. <br/>
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/9a938038-c055-4a09-aaad-030217af678a)
 
-6. Enjoy our game and please leave feedback through the Feedback section below
+6. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
+<br/><br/>
+
+# Feedback
+One of the most important parts of developing a game is getting feedback from exterior sources. <br/>
+If you have played our game and want to let us know how it went, please fill in this `[form](link to google form)`
 <br/><br/>
 
 # API
