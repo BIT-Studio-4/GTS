@@ -10,8 +10,8 @@
 # Table Of Contents
 - [Purpose of this Repo](#purpose-of-this-repo)
 - [Install and Run](#install-and-run)
-- [Download Whole Project](#download-whole-project)
 - [Feedback](#feedback)
+- [Download Whole Project](#download-whole-project)
 - [API](#api)
 - [Further Reading](#further-reading)
 
@@ -36,6 +36,11 @@ This repo exists so the team can make a game for our studies
 5. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
 <br/><br/>
 
+# Feedback
+One of the most important parts of developing a game is getting feedback from exterior sources. <br/>
+If you have played our game and want to let us know how it went, please fill in this `[form](link to google form)`
+<br/><br/>
+
 # Download Whole Project
 **Only do this if you want to look at all scripts and assets used to make the game**
 1. Clone down this repo with git
@@ -54,12 +59,7 @@ git clone https://github.com/otherotherjosh/GTS.git
 4. Once the Unity project is open, you can find all the assets used in the file explorer
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/5e12af4d-8ab0-4416-8da8-98fbf6561ac3) (placeholder image until actual starting scene is made)
 
-6. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
-<br/><br/>
-
-# Feedback
-One of the most important parts of developing a game is getting feedback from exterior sources. <br/>
-If you have played our game and want to let us know how it went, please fill in this `[form](link to google form)`
+6. Enjoy our game and please leave feedback through the [Feedback](#feedback) section
 <br/><br/>
 
 # API
