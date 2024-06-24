@@ -21,7 +21,19 @@ This repo exists so the team can make a game for our studies
 <br/><br/>
 
 # Install and Run
-<!--- players should DL the zip from release, and run the .exe NOT called "UnityCrashHandler64" -->
+1. Find and open the releases from the repo's home page <br/>
+![image](https://github.com/otherotherjosh/GTS/assets/127159745/5061560b-ab15-497c-b9eb-bed54a492be3)
+
+2. Find the most recent release (has green `Latest`), and click the top link to download the release <br/>
+![image](https://github.com/otherotherjosh/GTS/assets/127159745/a9ac4732-a807-4c75-9d23-383a92baae4c)
+
+3. Extract the zip folder (with 7zip or WinRar) <br/>
+![image](https://github.com/otherotherjosh/GTS/assets/127159745/4a0bf412-9703-4cd3-b25f-9b0bb39f2a1f)
+
+4. Double click on the .exe file that is NOT called `UnityCrashHandler` <br/>
+![image](https://github.com/otherotherjosh/GTS/assets/127159745/afa498cd-dece-4e4f-9491-4391414f87b6) (placeholder img until we rename the game to make more sense)
+
+5. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
 <br/><br/>
 
 # Download Whole Project
