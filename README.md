@@ -30,7 +30,7 @@ This repo exists so the team can make a game for our studies
 3. Extract the zip folder (with 7zip or WinRar) <br/>
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/4a0bf412-9703-4cd3-b25f-9b0bb39f2a1f)
 
-4. Double click on the .exe file that is NOT called `UnityCrashHandler` <br/>
+4. Double click on the `[insert game name].exe` file, NOT the one called `UnityCrashHandler64.exe` <br/>
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/afa498cd-dece-4e4f-9491-4391414f87b6) (placeholder img until we rename the game to make more sense)
 
 5. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
