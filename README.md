@@ -1,9 +1,11 @@
-<img src="https://github.com/otherotherjosh/GTS/assets/127159745/e54a3adb-7b0d-4cf5-a0cf-00d9ec279e8d" alt="GTS Logo" align="center"/> <br/>
-<img src="https://github.com/otherotherjosh/GTS/assets/127159745/e54a3adb-7b0d-4cf5-a0cf-00d9ec279e8d" alt="GTS Logo" style="width: 25%; display: block; margin-left: auto; margin-right: auto;"/> <br/>
-(placeholder logo until we make a better one)
+<p align="center" width="100%">
+  <img width="35%" src="https://github.com/otherotherjosh/GTS/assets/127159745/e54a3adb-7b0d-4cf5-a0cf-00d9ec279e8d"> <br/>
+  (placeholder logo until we make a better one)
+</p>
+<br/>
 
-Team members are John, Jenna, Josh, Keyra, Christian, Matt. 
-<br/><br/>
+### Team members are John, Jenna, Josh, Keyra, Christian, Matt
+<br/>
 
 # Table Of Contents
 - [Purpose of this Repo](#purpose-of-this-repo)
