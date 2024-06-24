@@ -11,6 +11,7 @@ Team members are John, Jenna, Josh, Keyra, Christian, Matt.
   - [With the Unity Editor](#with-the-unity-editor)
 - [Feedback](#feedback)
 - [API](#api)
+- [Further Reading](#further-reading)
 
 
 # Purpose of this Repo
@@ -62,3 +63,9 @@ If you have played our game and want to let us know how it went, please fill in 
 # API
 This game has an associated API that manages all player info <br/>
 https://github.com/otherotherjosh/GTS-API
+<br/><br/>
+
+# Further Reading
+Please check out our wiki pages,
+- [Concept Art](./wiki/Concept-Art)
+- [Change Log](./wiki/Changelog)
