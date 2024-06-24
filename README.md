@@ -14,11 +14,11 @@
 - [Download Whole Project](#download-whole-project)
 - [API](#api)
 - [Further Reading](#further-reading)
-
+<br/><br/><br/>
 
 # Purpose of this Repo
 This repo exists so the team can make a game for our studies 
-<br/><br/>
+<br/><br/><br/>
 
 # Install and Run
 1. Find and open the releases from the repo's home page <br/>
@@ -34,16 +34,19 @@ This repo exists so the team can make a game for our studies
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/afa498cd-dece-4e4f-9491-4391414f87b6) (placeholder img until we rename the game to make more sense)
 
 5. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
-<br/><br/>
+<br/><br/><br/>
 
 # Feedback
 One of the most important parts of developing a game is getting feedback from exterior sources. <br/>
 If you have played our game and want to let us know how it went, please fill in this `[form](link to google form)`
-<br/><br/>
+<br/><br/><br/>
 
 # Download Whole Project
-**Only do this if you want to look at all scripts and assets used to make the game**
-1. Clone down this repo with git
+<details> 
+  <summary>Only do this if you want to look at all scripts and assets used to make the game</summary>
+<br/>
+  
+  1. Clone down this repo with git
 ```
 git clone https://github.com/otherotherjosh/GTS.git
 ```
@@ -60,12 +63,13 @@ git clone https://github.com/otherotherjosh/GTS.git
 ![image](https://github.com/otherotherjosh/GTS/assets/127159745/5e12af4d-8ab0-4416-8da8-98fbf6561ac3) (placeholder image until actual starting scene is made)
 
 6. Enjoy our game and please leave feedback through the [Feedback](#feedback) section
+</details>
 <br/><br/>
 
 # API
 This game has an associated API that manages all player info <br/>
 https://github.com/otherotherjosh/GTS-API
-<br/><br/>
+<br/><br/><br/>
 
 # Further Reading
 Please check out our wiki pages,
