@@ -67,5 +67,5 @@ https://github.com/otherotherjosh/GTS-API
 
 # Further Reading
 Please check out our wiki pages,
-- [Concept Art](./wiki/Concept-Art)
-- [Change Log](./wiki/Changelog)
+- [Concept Art](../wiki/Concept-Art)
+- [Change Log](../wiki/Changelog)
