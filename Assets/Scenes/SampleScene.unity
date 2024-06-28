@@ -1034,11 +1034,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2893661565376030556, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2908576040736156004, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: interactionTextTitle
@@ -1054,11 +1049,6 @@ PrefabInstance:
       propertyPath: interactionTextDescription
       value: 
       objectReference: {fileID: 728192599}
-    - target: {fileID: 3103663510848858061, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6064358372453876376, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: m_LocalPosition.x
