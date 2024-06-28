@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 6064358372453876376}
   - component: {fileID: 6830794489188715879}
   - component: {fileID: 6386847648168054992}
-  - component: {fileID: 1381666900072175795}
   - component: {fileID: 4496438269360216504}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -49,7 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  terminalVelocity: 0
 --- !u!114 &6386847648168054992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,29 +64,6 @@ MonoBehaviour:
   lookSensitivity: 25.3
   verticalModifier: 0.801
   lockCursor: 1
---- !u!136 &1381666900072175795
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2893661565376030556}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &4496438269360216504
 CharacterController:
   m_ObjectHideFlags: 0
@@ -108,7 +83,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1.8
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -128,7 +103,7 @@ GameObject:
   - component: {fileID: 5290291616857744171}
   - component: {fileID: 4635837565340512232}
   - component: {fileID: 2908576040736156004}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -144,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 3103663510848858061}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
