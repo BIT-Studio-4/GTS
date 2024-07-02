@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// PlayerInteraction detects what the player is looking at and displays it to the player via the UI.
@@ -11,9 +12,12 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactionTextDescription;
     [SerializeField] private TextMeshProUGUI interactionTextButton;
 
+    private InputAction interactAction;
+
     private void Start()
     {
         SetInteractionText("");
+        interactAction = InputSystem.actions.FindAction("Interact");
     }
 
     // Draws a raycast to whats in front of it and updates the UI depending on what it hits
@@ -36,6 +40,7 @@ public class PlayerInteraction : MonoBehaviour
                     SetInteractionText(interactableObject.Title, interactableObject.Description, interactableObject.InteractableText);
 
                     // Do a check here when the interact key is pressed down once the input system is implimented
+                    
                 }
                 else
                 {
