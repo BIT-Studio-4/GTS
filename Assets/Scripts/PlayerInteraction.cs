@@ -39,8 +39,11 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     SetInteractionText(interactableObject.Title, interactableObject.Description, interactableObject.InteractableText);
 
-                    // Do a check here when the interact key is pressed down once the input system is implimented
-                    
+                    // Calling the overrideable Interact method on the interactable object
+                    if (interactAction.IsPressed())
+                    {
+                        interactableObject.Interact();
+                    }
                 }
                 else
                 {
