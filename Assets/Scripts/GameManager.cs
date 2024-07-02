@@ -16,35 +16,25 @@ public class GameManager : MonoBehaviour
         get => money;
         private set
         {
-            money = value; 
+            money = value;
             // can add more stuff here, eg updating UI etc later on
         }
     }
-    void Awake() //only one instance of GM at once
+    void Awake()
     {
-        if (Instance == null)
-        { Instance = this;
-            DontDestroyOnLoad(gameObject);
-            Initialize();
-        }
-        else
+        if (Instance != null) //Ensures there is only one instance of GM at once
         {
             Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        Initialize();
     }
 
     private void Initialize()
     {
         Money = startingMoney;
     }
-
-    public void AddMoney(int amount)
-    {
-        Money += amount;
-    }
-
-    public void SubtractMoney(int amount)
-    {
-        Money -= amount;
-    }    
 }
