@@ -38,6 +38,8 @@ public class InventoryManager : MonoBehaviour
     private void ToggleInventoryGUI()
     {
         inventoryGUI.SetActive(!inventoryGUI.activeSelf);
+
+        Cursor.lockState = inventoryGUI.activeSelf ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
     public void SwitchTab(int index)
