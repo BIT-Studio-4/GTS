@@ -15,8 +15,6 @@ public class InventoryManager : MonoBehaviour
     private PlaceableObject heldObject;
     public PlaceableObject HeldObject { get { return heldObject; } set { heldObject = value; } }
 
-    private InputAction toggleInventoryAction;
-
     private void Awake()
     {
         if (Instance != null)
@@ -32,16 +30,7 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryGUI.SetActive(false);
         HeldObject = null;
-        toggleInventoryAction = InputSystem.actions.FindAction("ToggleInventory");
-    }
-
-    void Update()
-    {
-        if (toggleInventoryAction.WasPressedThisFrame())
-        {
-            ToggleInventoryGUI();
-
-        }
+        InputSystem.actions.FindAction("ToggleInventory").performed += ctx => ToggleInventoryGUI();
     }
 
     private void ToggleInventoryGUI()
