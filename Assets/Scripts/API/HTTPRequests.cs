@@ -19,8 +19,26 @@ public static class HTTPRequests<T>
 
         string response = http.downloadHandler.text;
 
-        if (http.result != UnityWebRequest.Result.Success) Debug.LogError(http.error);
+        if (http.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(http.error);
 
-        
+            return default;
+        }
+
+        try
+        {
+            T result = JsonUtility.FromJson<T>(response);
+
+            Debug.Log(http.downloadHandler.text);
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+
+            return default;
+        }
     }
 }
