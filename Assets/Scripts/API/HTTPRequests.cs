@@ -37,7 +37,9 @@ public class HTTPRequests
         // Attempt to parse the JSON result to an Object that represents the data.
         try
         {
-            T result = JsonUtility.FromJson<T>(response); // Converts the JSON to the 'T' type provided whenever the method is called.
+            // Due to the way our API formats responses, the extra 'data' step is necessary.
+            Data<T> data = JsonUtility.FromJson<Data<T>>(response); // Converts the JSON to the 'T' type provided whenever the method is called.
+            T result = data.data;
 
             Debug.Log(http.downloadHandler.text);
 
