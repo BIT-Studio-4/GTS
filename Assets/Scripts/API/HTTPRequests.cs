@@ -25,8 +25,6 @@ public static class HTTPRequests<T>
 
         string response = http.downloadHandler.text;
 
-        // Check if the request was successful.
-        // If not, early return with an error log.
         if (http.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError(http.error);
@@ -37,7 +35,7 @@ public static class HTTPRequests<T>
         // Attempt to parse the JSON result to an Object that represents the data.
         try
         {
-            T result = JsonUtility.FromJson<T>(response);
+            T result = JsonUtility.FromJson<T>(response); // Converts the JSON to the 'T' type provided whenever the method is called.
 
             Debug.Log(http.downloadHandler.text);
 
