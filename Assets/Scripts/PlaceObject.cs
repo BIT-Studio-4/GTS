@@ -12,7 +12,9 @@ public class PlaceObject : MonoBehaviour
 
     void Awake()
     {
-        placedObjects = new GameObject("Placed Objects"); // empty parent to keep all instantiated objects hidden in hierarchy
+        // empty parent to keep all instantiated objects hidden in hierarchy
+        placedObjects = new GameObject("Placed Objects");
+        // add listener to place input action
         InputSystem.actions.FindAction("Place").performed += ctx => InstantiateObject(ctx);
     }
 
@@ -25,11 +27,15 @@ public class PlaceObject : MonoBehaviour
             return;
         }
 
+        // hard coding what objects are being placed, for now
         int objectIndex = 0;
 
         if (randomMode)
             objectIndex = Random.Range(0, prefabs.Count);
 
         GameObject placedObject = Instantiate(prefabs[objectIndex], hit.point, Quaternion.identity, placedObjects.transform);
+        placedObject.transform.LookAt(transform.position);
+        placedObject.transform.eulerAngles = new Vector3(
+            0, placedObject.transform.eulerAngles.y, 0);
     }
 }
