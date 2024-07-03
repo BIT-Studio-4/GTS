@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Handles all HTTP requests that the game requires to function.
+/// </summary>
+
 public class HTTPRequests
 {
     public static async Task<T> Get<T>(string url)
