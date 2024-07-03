@@ -9,6 +9,10 @@ public static class HTTPRequests<T>
 {
     public static async Task<T> Get(string url)
     {
+        UnityWebRequest http = UnityWebRequest.Get(url);
+        http.method = "GET";
+        http.SetRequestHeader("Content-Type", "application/json");
+
         
     }
 }
