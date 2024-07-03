@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
+
     [SerializeField] private List<PlaceableObject> stockObjects = new List<PlaceableObject>();
     [SerializeField] private List<PlaceableObject> structureObjects = new List<PlaceableObject>();
+    [SerializeField] private GameObject inventoryGUI;
 
+    private PlaceableObject heldObject;
+    public PlaceableObject HeldObject { get { return heldObject; } set { heldObject = value; } }
+
+    private InputAction toggleInventoryAction;
 
     private void Awake()
     {
@@ -20,15 +28,25 @@ public class InventoryManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        inventoryGUI.SetActive(false);
+        HeldObject = null;
+        toggleInventoryAction = InputSystem.actions.FindAction("ToggleInventory");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (toggleInventoryAction.WasPressedThisFrame())
+        {
+            ToggleInventoryGUI();
+
+        }
+    }
+
+    private void ToggleInventoryGUI()
+    {
+        inventoryGUI.SetActive(!inventoryGUI.activeSelf);
+        Debug.Log("Toggled Inventory GUI");
     }
 }

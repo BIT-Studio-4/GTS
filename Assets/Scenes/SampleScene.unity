@@ -988,6 +988,7 @@ MonoBehaviour:
   structureObjects:
   - prefab: {fileID: 0}
     name: Shelf
+  inventoryGUI: {fileID: 96840608}
 --- !u!4 &775283612
 Transform:
   m_ObjectHideFlags: 0
@@ -2989,8 +2990,8 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1305344629}
-  - {fileID: 1124159751}
   - {fileID: 775283612}
+  - {fileID: 1124159751}
   - {fileID: 1005884405}
   - {fileID: 1864946303}
   - {fileID: 1939693580}
