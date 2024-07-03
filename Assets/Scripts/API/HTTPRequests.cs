@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public static class HTTPRequests<T>
+public class HTTPRequests
 {
-    public static async Task<T> Get(string url)
+    public static async Task<T> Get<T>(string url)
     {
         // Create a new GET request.
         // Similar to the 'options' parameter of a javascript request.
