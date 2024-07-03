@@ -34,8 +34,9 @@ public class PlaceObject : MonoBehaviour
             objectIndex = Random.Range(0, prefabs.Count);
 
         GameObject placedObject = Instantiate(prefabs[objectIndex], hit.point, Quaternion.identity, placedObjects.transform);
-        placedObject.transform.LookAt(transform.position);
-        placedObject.transform.eulerAngles = new Vector3(
-            0, placedObject.transform.eulerAngles.y, 0);
+        placedObject.transform.LookAt(new Vector3(
+            transform.position.x,
+            placedObject.transform.position.y,
+            transform.position.z));
     }
 }
