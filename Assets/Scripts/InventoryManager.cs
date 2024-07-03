@@ -15,6 +15,8 @@ public class InventoryManager : MonoBehaviour
     private PlaceableObject heldObject;
     public PlaceableObject HeldObject { get { return heldObject; } set { heldObject = value; } }
 
+    private int tabIndex = 0;
+
     private void Awake()
     {
         if (Instance != null)
@@ -36,6 +38,10 @@ public class InventoryManager : MonoBehaviour
     private void ToggleInventoryGUI()
     {
         inventoryGUI.SetActive(!inventoryGUI.activeSelf);
-        Debug.Log("Toggled Inventory GUI");
+    }
+
+    public void SwitchTab(int index)
+    {
+        tabIndex = index;
     }
 }
