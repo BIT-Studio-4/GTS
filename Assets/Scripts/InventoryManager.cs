@@ -8,8 +8,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    [SerializeField] private List<PlaceableObject> stockObjects = new List<PlaceableObject>();
-    [SerializeField] private List<PlaceableObject> structureObjects = new List<PlaceableObject>();
+    [SerializeField] private List<PlaceableObject> placeableObjects = new List<PlaceableObject>();
     [SerializeField] private GameObject inventoryGUI;
 
     private PlaceableObject heldObject;

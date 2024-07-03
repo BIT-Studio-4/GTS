@@ -203,7 +203,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 50.15
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1171,7 +1171,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 46.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1252,16 +1252,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86a892d926573e45b3dd6bb37bb1eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stockObjects:
-  - prefab: {fileID: 0}
-    name: Can
-  - prefab: {fileID: 0}
-    name: Box
-  - prefab: {fileID: 0}
-    name: Bottle
-  structureObjects:
-  - prefab: {fileID: 0}
-    name: Shelf
+  placeableObjects:
+  - name: Shelf
+    prefab: {fileID: 0}
+    type: 0
+  - name: Bottle
+    prefab: {fileID: 0}
+    type: 1
+  - name: Box
+    prefab: {fileID: 0}
+    type: 1
+  - name: Can
+    prefab: {fileID: 0}
+    type: 1
   inventoryGUI: {fileID: 96840608}
 --- !u!4 &775283612
 Transform:
@@ -2845,7 +2848,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35252085, y: 0.83000004}
   m_AnchorMax: {x: 0.544, y: 0.938}
-  m_AnchoredPosition: {x: 0.000030518, y: -0.000061035156}
+  m_AnchoredPosition: {x: 0.000030517578, y: -0.000061035156}
   m_SizeDelta: {x: 0.000030518, y: -0.00011444}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1872956535
