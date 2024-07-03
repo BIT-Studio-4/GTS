@@ -14,6 +14,13 @@ public class PlaceObject : MonoBehaviour
 
     void InstantiateObject(InputAction.CallbackContext ctx)
     {
-        GameObject placedObject = Instantiate(prefabs[0], transform.position + Vector3.forward, Quaternion.identity);
+        RaycastHit hit;
+
+        if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10))
+        {
+            return;
+        }
+
+        GameObject placedObject = Instantiate(prefabs[0], hit.point, Quaternion.identity);
     }
 }
