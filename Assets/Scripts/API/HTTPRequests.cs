@@ -17,6 +17,10 @@ public static class HTTPRequests<T>
 
         while (!req.isDone) await Task.Yield();
 
+        string response = http.downloadHandler.text;
+
+        if (http.result != UnityWebRequest.Result.Success) Debug.LogError(http.error);
+
         
     }
 }
