@@ -13,6 +13,10 @@ public static class HTTPRequests<T>
         http.method = "GET";
         http.SetRequestHeader("Content-Type", "application/json");
 
+        UnityWebRequestAsyncOperation req = http.SendWebRequest();
+
+        while (!req.isDone) await Task.Yield();
+
         
     }
 }
