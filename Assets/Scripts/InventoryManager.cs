@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoreInventory : MonoBehaviour
+public class InventoryManager : MonoBehaviour
 {
-    public static StoreInventory Instance;
+    public static InventoryManager Instance;
+    [SerializeField] private List<PlaceableObject> stockObjects = new List<PlaceableObject>();
+    [SerializeField] private List<PlaceableObject> structureObjects = new List<PlaceableObject>();
+
 
     private void Awake()
     {
