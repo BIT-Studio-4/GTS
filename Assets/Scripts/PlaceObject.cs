@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class PlaceObject : MonoBehaviour
 {
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
+    [SerializeField] bool randomMode;
+
     private GameObject placedObjects;
 
     void Awake()
@@ -23,6 +25,11 @@ public class PlaceObject : MonoBehaviour
             return;
         }
 
-        GameObject placedObject = Instantiate(prefabs[0], hit.point, Quaternion.identity, placedObjects.transform);
+        int objectIndex = 0;
+
+        if (randomMode)
+            objectIndex = Random.Range(0, prefabs.Count);
+
+        GameObject placedObject = Instantiate(prefabs[objectIndex], hit.point, Quaternion.identity, placedObjects.transform);
     }
 }
