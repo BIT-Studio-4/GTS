@@ -12,12 +12,14 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject inventoryGUI;
     [SerializeField] private GameObject inventoryGrid;
     [SerializeField] private GameObject inventoryItemPrefab;
+    [SerializeField] private GameObject playerHeldItemParent;
 
     private PlaceableObject heldObject;
     public PlaceableObject HeldObject { get { return heldObject; } set { heldObject = value; } }
     private int tabIndex;
     private List<GameObject> gridObjectList = new List<GameObject>();
     private List<PlaceableObject> inventoryObjectList = new List<PlaceableObject>();
+    private GameObject playerHeldItem;
 
     private void Awake()
     {
@@ -46,13 +48,14 @@ public class InventoryManager : MonoBehaviour
         SwitchTab(tabIndex);
     }
 
+    // Changes the tab and resets the contents of the inventory
     public void SwitchTab(int index)
     {
         tabIndex = index;
-        Debug.Log($"New Tab Index is {index}");
         SetInventoryContent();
     }
 
+    // Sets all of the content of the inventory GUI
     private void SetInventoryContent()
     {
         gridObjectList.ForEach(gridItem => Destroy(gridItem));
@@ -87,6 +90,9 @@ public class InventoryManager : MonoBehaviour
     // Method that is called when an item button is clicked
     public void StockButtonClick(int index)
     {
-        Debug.Log($"Item clicked is {inventoryObjectList[index].name}");
+        PlaceableObject placeableObject = inventoryObjectList[index];
+
+        Destroy(playerHeldItem);
+        playerHeldItem = Instantiate(placeableObject.prefab, playerHeldItemParent.transform);
     }
 }
