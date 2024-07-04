@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public int Money
     {
         get => money;
-        private set
+        set
         {
             money = value;
             // can add more stuff here, eg updating UI etc later on
