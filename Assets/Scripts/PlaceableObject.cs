@@ -9,6 +9,7 @@ public enum PlacementType
     Structure,
 }
 
+// The Placeable Object class which stores information on each placeable object like cans and boxes
 [System.Serializable]
 public class PlaceableObject
 {
