@@ -17,7 +17,7 @@ public class InteractableObject : MonoBehaviour
     public bool IsInteractable { get { return isInteractable; } set { isInteractable = value; } }
 
     // This is the default but can be changed in Inspector, using X here for an example we can change this later when we pick a default
-    [SerializeField] private string interactableText = "Press (X) To Interact"; 
+    [SerializeField] private string interactableText = "Press (E) To Interact"; 
     public string InteractableText { get { return interactableText; } set { interactableText = value; } }
 
     // This method is made to be overridden if interactable is toggled true
