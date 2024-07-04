@@ -1324,16 +1324,16 @@ MonoBehaviour:
   placeableObjects:
   - name: Shelf
     prefab: {fileID: 0}
-    type: 0
+    type: 1
   - name: Bottle
     prefab: {fileID: 0}
-    type: 1
+    type: 0
   - name: Box
     prefab: {fileID: 0}
-    type: 1
+    type: 0
   - name: Can
     prefab: {fileID: 0}
-    type: 1
+    type: 0
   inventoryGUI: {fileID: 96840608}
   inventoryGrid: {fileID: 623046402}
   inventoryItemPrefab: {fileID: 5036502275639446614, guid: a988f004b1bc5be418324c80bd1ada10,
