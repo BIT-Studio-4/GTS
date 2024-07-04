@@ -33,7 +33,10 @@ public class PlaceObject : MonoBehaviour
         if (randomMode)
             objectIndex = Random.Range(0, prefabs.Count);
 
+        // places the object at the coordinates of the raycast hit
+        // and becomes a child of placedObjects
         GameObject placedObject = Instantiate(prefabs[objectIndex], hit.point, Quaternion.identity, placedObjects.transform);
+        // rotate object to opposite of player rotation
         placedObject.transform.LookAt(new Vector3(
             transform.position.x,
             placedObject.transform.position.y,
