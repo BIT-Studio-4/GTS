@@ -17,15 +17,15 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private float stockScale;
     [SerializeField] private float structureScale;
 
-
+    // The data stored about each object that is held
     private PlaceableObject heldObject;
     public PlaceableObject HeldObject { get => heldObject; set => heldObject = value; }
     private int tabIndex;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
-    //List of items currently displayed in GUI
+    // List of items currently displayed in GUI
     private List<PlaceableObject> inventoryObjectDisplayList = new List<PlaceableObject>();
+    // The GameObject that the player is holding for display.
     private GameObject playerHeldItem;
-    public GameObject PlayerHeldItem { get => playerHeldItem; set => playerHeldItem = value; }
 
     // Makes InventorManager a singleton
     private void Awake()
