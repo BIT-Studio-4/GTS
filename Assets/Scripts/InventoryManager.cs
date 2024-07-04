@@ -15,7 +15,6 @@ public class InventoryManager : MonoBehaviour
 
     private PlaceableObject heldObject;
     public PlaceableObject HeldObject { get { return heldObject; } set { heldObject = value; } }
-
     private int tabIndex;
 
     private void Awake()
@@ -55,5 +54,10 @@ public class InventoryManager : MonoBehaviour
     private void SetInventoryContent()
     {
         
+    }
+
+    public void StockButtonClick(int index)
+    {
+        Debug.Log($"New stock Index is {index}");
     }
 }
