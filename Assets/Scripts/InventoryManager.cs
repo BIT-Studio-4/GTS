@@ -8,11 +8,15 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    [SerializeField] private List<PlaceableObject> placeableObjects = new List<PlaceableObject>();
+    //This will be the list that things are added and removed to via purchasing items
+    [SerializeField] private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
     [SerializeField] private GameObject inventoryGUI;
     [SerializeField] private GameObject inventoryGrid;
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private GameObject playerHeldItemParent;
+    [SerializeField] private float stockScale;
+    [SerializeField] private float structureScale;
+
 
     private PlaceableObject heldObject;
     public PlaceableObject HeldObject { get { return heldObject; } set { heldObject = value; } }
@@ -44,8 +48,16 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryGUI.SetActive(!inventoryGUI.activeSelf);
 
-        Cursor.lockState = inventoryGUI.activeSelf ? CursorLockMode.None : CursorLockMode.Locked;
-        SwitchTab(tabIndex);
+        if (inventoryGUI.activeSelf)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            SwitchTab(tabIndex);
+            ClearHandItem();
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     // Changes the tab and resets the contents of the inventory
@@ -64,7 +76,7 @@ public class InventoryManager : MonoBehaviour
 
         int indexCount = 0;
 
-        placeableObjects.ForEach(placeableObject => {
+        inventoryPlaceableObjects.ForEach(placeableObject => {
             if (((int)placeableObject.type) == tabIndex)
             {
                 CreateGridItem(indexCount, placeableObject);
@@ -92,7 +104,21 @@ public class InventoryManager : MonoBehaviour
     {
         PlaceableObject placeableObject = inventoryObjectList[index];
 
-        Destroy(playerHeldItem);
+        SetHandItem(placeableObject);
+        ToggleInventoryGUI();
+    }
+
+    private void SetHandItem(PlaceableObject placeableObject)
+    {
+        ClearHandItem();
+
         playerHeldItem = Instantiate(placeableObject.prefab, playerHeldItemParent.transform);
+        playerHeldItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockScale, stockScale, stockScale) : new Vector3(structureScale, structureScale, structureScale);
+    }
+
+    private void ClearHandItem()
+    {
+        Destroy(playerHeldItem);
+        playerHeldItem = null;
     }
 }
