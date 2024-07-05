@@ -122,7 +122,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3692416180384438132}
   m_Father: {fileID: 6064358372453876376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &6208913853307529671
@@ -244,3 +245,34 @@ MonoBehaviour:
   interactionTextTitle: {fileID: 0}
   interactionTextDescription: {fileID: 0}
   interactionTextButton: {fileID: 0}
+--- !u!1 &3226304405040356737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3692416180384438132}
+  m_Layer: 2
+  m_Name: PlayerItemParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3692416180384438132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3226304405040356737}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.043847922, y: 0.022678815, z: -0.04243002, w: 0.99787915}
+  m_LocalPosition: {x: 0.303, y: -0.335, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 919820447903404100}
+  m_LocalEulerAnglesHint: {x: 5.131, y: 2.39, z: -4.762}
