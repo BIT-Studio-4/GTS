@@ -30,7 +30,7 @@ public class InventoryManager : MonoBehaviour
     // Makes InventorManager a singleton
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(this);
             return;
