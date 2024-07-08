@@ -17,4 +17,12 @@ public class PlaceableObject
     public GameObject prefab;
     public PlacementType type;
     public int count;
+
+    public PlaceableObject(string name, GameObject prefab, PlacementType type, int count = 0)
+    {
+        this.name = name;
+        this.prefab = prefab;
+        this.type = type;
+        this.count = count;
+    }
 }

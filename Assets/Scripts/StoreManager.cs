@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
-using static UnityEditor.Progress;
 
 public class StoreManager : MonoBehaviour
 {
@@ -174,6 +173,25 @@ public class StoreManager : MonoBehaviour
     {
         GameManager.Instance.Money -= totalCost;
         ToggleStoreGUI();
+
+        for (int i = 0; i < allStoreItems.Count; i++)
+        {
+            if (purchaseItems[i].count > 0)
+            {
+                int indexOfItem = InventoryManager.Instance.InventoryPlaceableObjects.FindIndex(item => item.name == allStoreItems[i].name);
+
+                if (indexOfItem == -1)
+                {
+                    StoreItemSO item = allStoreItems[i];
+
+                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, purchaseItems[i].count));
+                }
+                else
+                {
+                    InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += purchaseItems[i].count;
+                }
+            }
+        }
     }
 
     private void UpdateMoneyText()

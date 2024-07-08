@@ -8,14 +8,16 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    // This will be the list that things are added and removed to via purchasing items
-    [SerializeField] private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
     [SerializeField] private GameObject inventoryGUI;
     [SerializeField] private GameObject inventoryGrid;
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private GameObject playerHeldItemParent;
     [SerializeField] private float stockScale;
     [SerializeField] private float structureScale;
+
+    // This is the list of items the inventory contains
+    private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
+    public List<PlaceableObject> InventoryPlaceableObjects { get => inventoryPlaceableObjects; set => inventoryPlaceableObjects = value; }
 
     // The data stored about each object that is held
     private PlaceableObject heldObject;
