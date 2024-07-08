@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4586930432070901149}
   - component: {fileID: 3304457482563095027}
+  - component: {fileID: 7829943895897873014}
   m_Layer: 0
   m_Name: Bottle_01
   m_TagString: Untagged
@@ -54,6 +55,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.085, y: 0.245, z: 0.085}
   m_Center: {x: 0, y: 0.123, z: 0}
+--- !u!114 &7829943895897873014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92670362388832611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678dc432228b3484c9d8d514294aadff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avgSellTimeSecs: 10
+  varianceSellTimeSecs: 2
+  moneyOnSell: 3
 --- !u!1001 &3175411093793283463
 PrefabInstance:
   m_ObjectHideFlags: 0
