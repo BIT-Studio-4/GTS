@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+using static UnityEditor.Progress;
 
 public class StoreManager : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject storeGUI;
     [SerializeField] private GameObject storeGrid;
     [SerializeField] private GameObject storeItemPrefab;
+    [SerializeField] private TextMeshProUGUI totalCostText;
     private int tabIndex = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     private List<PurchaseItem> purchaseItems = new List<PurchaseItem>();
@@ -48,6 +51,7 @@ public class StoreManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             FillPurchaseItemList();
             SwitchTab(tabIndex);
+            totalCostText.text = $"Total: ${CalculateTotalCost()}";
         }
         else
         {
@@ -101,6 +105,8 @@ public class StoreManager : MonoBehaviour
 
         StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
         slot.CountText.text = countChange.count.ToString();
+
+        totalCostText.text = $"Total: ${CalculateTotalCost()}";
     }
 
     // Changes the tab and resets the contents of the store
@@ -120,5 +126,17 @@ public class StoreManager : MonoBehaviour
             purchaseItems.Add(purchaseItem);
             Debug.Log(item.itemName);
         });
+    }
+
+    private int CalculateTotalCost()
+    {
+        int totalCost = 0;
+
+        for (int i = 0; i < allStoreItems.Count; i++)
+        {
+            totalCost += allStoreItems[i].cost * purchaseItems[i].count;
+        }
+
+        return totalCost;
     }
 }
