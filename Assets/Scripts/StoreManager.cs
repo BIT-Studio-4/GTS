@@ -20,7 +20,10 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject storeGrid;
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
+    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI buyButtonText;
     private int tabIndex = 0;
+    private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     private List<PurchaseItem> purchaseItems = new List<PurchaseItem>();
 
@@ -39,6 +42,7 @@ public class StoreManager : MonoBehaviour
     {
         storeGUI.SetActive(false);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => ToggleStoreGUI();
+        GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
     }
 
     // This toggles the state of the Store GUI (open or closed)
@@ -51,11 +55,15 @@ public class StoreManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             FillPurchaseItemList();
             SwitchTab(tabIndex);
-            totalCostText.text = $"Total: ${CalculateTotalCost()}";
+            totalCost = CalculateTotalCost();
+            totalCostText.text = $"Total: ${totalCost}";
+            UpdateMoneyText();
+            buyButtonText.text = "Buy!";
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
+            totalCost = 0;
         }
     }
 
@@ -107,7 +115,8 @@ public class StoreManager : MonoBehaviour
         StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
         slot.CountText.text = countChange.count.ToString();
 
-        totalCostText.text = $"Total: ${CalculateTotalCost()}";
+        totalCost = CalculateTotalCost();
+        totalCostText.text = $"Total: ${totalCost}";
     }
 
     // Changes the tab and resets the contents of the store
@@ -126,7 +135,6 @@ public class StoreManager : MonoBehaviour
             PurchaseItem purchaseItem = new PurchaseItem();
             purchaseItem.count = 0;
             purchaseItems.Add(purchaseItem);
-            Debug.Log(item.itemName);
         });
     }
 
@@ -141,5 +149,35 @@ public class StoreManager : MonoBehaviour
         }
 
         return totalCost;
+    }
+
+    public void TryPurchaseStock()
+    {
+        if (GameManager.Instance.Money >= totalCost)
+        {
+            PurchaseStock();
+        } 
+        else
+        {
+            StartCoroutine(DisplayTooExpensive());
+        }
+    }
+
+    private IEnumerator DisplayTooExpensive()
+    {
+        buyButtonText.text = "Too Expensive!";
+        yield return new WaitForSeconds(2);
+        buyButtonText.text = "Buy!";
+    }
+
+    private void PurchaseStock()
+    {
+        GameManager.Instance.Money -= totalCost;
+        ToggleStoreGUI();
+    }
+
+    private void UpdateMoneyText()
+    {
+        moneyText.text = $"${GameManager.Instance.Money}";
     }
 }
