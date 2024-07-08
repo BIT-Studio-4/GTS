@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 586006309}
   - component: {fileID: 586006308}
   m_Layer: 0
-  m_Name: StockManager
+  m_Name: StoreManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -783,6 +783,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326d0646656df884eb821691dd57ef37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storeGUI: {fileID: 721979055}
+  storeGrid: {fileID: 879174327}
 --- !u!4 &586006309
 Transform:
   m_ObjectHideFlags: 0

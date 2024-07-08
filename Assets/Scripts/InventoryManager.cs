@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    //This will be the list that things are added and removed to via purchasing items
+    // This will be the list that things are added and removed to via purchasing items
     [SerializeField] private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
     [SerializeField] private GameObject inventoryGUI;
     [SerializeField] private GameObject inventoryGrid;
