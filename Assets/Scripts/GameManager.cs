@@ -7,6 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] 
+    private string apiUrl;
+
+    [SerializeField]
+    private string username;
+
     private User user;
     public User  User { get => user; set => user = value; }
 
@@ -38,6 +44,12 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
+        GetUser();
         Money = startingMoney;
+    }
+
+    private async void GetUser()
+    {
+        User = await HTTPRequests.Get<User>($"{apiUrl}/users/{username}");
     }
 }
