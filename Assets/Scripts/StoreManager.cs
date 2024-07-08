@@ -6,11 +6,6 @@ using TMPro;
 
 public class StoreManager : MonoBehaviour
 {
-    private struct PurchaseItem
-    {
-        public int count;
-    }
-
     public static StoreManager Instance;
 
     // The list of all items that are purchasable
@@ -24,7 +19,7 @@ public class StoreManager : MonoBehaviour
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
-    private List<PurchaseItem> purchaseItems = new List<PurchaseItem>();
+    private List<int> purchaseItems = new List<int>();
 
     private void Awake()
     { 
@@ -101,18 +96,18 @@ public class StoreManager : MonoBehaviour
         gridSlot.SubtractButton.onClick.AddListener(() => ChangeStockCount(UIIndex, storeIndex, -1));
         gridSlot.NameText.text = storeItem.name;
         gridSlot.PriceText.text = $"${storeItem.cost}";
-        gridSlot.CountText.text = $"{purchaseItems[storeIndex].count}";
+        gridSlot.CountText.text = $"{purchaseItems[storeIndex]}";
     }
 
     // Runs when the amount of stock the player wants is added to or subtracted from
     public void ChangeStockCount(int UIIndex, int storeIndex, int change)
     {
-        PurchaseItem countChange = purchaseItems[storeIndex];
-        countChange.count = Mathf.Max(countChange.count + change, 0);
+        int countChange = purchaseItems[storeIndex];
+        countChange = Mathf.Max(countChange + change, 0);
         purchaseItems[storeIndex] = countChange;
 
         StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
-        slot.CountText.text = countChange.count.ToString();
+        slot.CountText.text = countChange.ToString();
 
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
@@ -131,9 +126,7 @@ public class StoreManager : MonoBehaviour
         purchaseItems.Clear();
 
         allStoreItems.ForEach(item => {
-            PurchaseItem purchaseItem = new PurchaseItem();
-            purchaseItem.count = 0;
-            purchaseItems.Add(purchaseItem);
+            purchaseItems.Add(0);
         });
     }
 
@@ -144,7 +137,7 @@ public class StoreManager : MonoBehaviour
 
         for (int i = 0; i < allStoreItems.Count; i++)
         {
-            totalCost += allStoreItems[i].cost * purchaseItems[i].count;
+            totalCost += allStoreItems[i].cost * purchaseItems[i];
         }
 
         return totalCost;
@@ -181,7 +174,7 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < allStoreItems.Count; i++)
         {
             // Checks if any of these are actually being bought
-            if (purchaseItems[i].count > 0)
+            if (purchaseItems[i] > 0)
             {
                 // Gets index of item inside of inventory if it exists (if not returns -1)
                 int indexOfItem = InventoryManager.Instance.InventoryPlaceableObjects.FindIndex(item => item.name == allStoreItems[i].name);
@@ -191,12 +184,12 @@ public class StoreManager : MonoBehaviour
                     StoreItemSO item = allStoreItems[i];
 
                     // Adds new PlaceableObject item inside of Inventory if it doesn't already exist
-                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, purchaseItems[i].count));
+                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, purchaseItems[i]));
                 }
                 else
                 {
                     // Adds to the count of Inventory if the player already has that stock item
-                    InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += purchaseItems[i].count;
+                    InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += purchaseItems[i];
                 }
             }
         }

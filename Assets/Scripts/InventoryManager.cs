@@ -144,6 +144,7 @@ public class InventoryManager : MonoBehaviour
         if (placeableObject.count <= 0)
         {
             inventoryPlaceableObjects.Remove(placeableObject);
+            ClearHandItem();
         }
     }
 }
