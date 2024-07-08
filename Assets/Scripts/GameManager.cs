@@ -7,6 +7,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] 
+    private string apiUrl;
+
+    [SerializeField]
+    private string username;
+
+    private User user;
+    public User  User { get => user; set => user = value; }
+
     [SerializeField]
     private int startingMoney = 100; //change to whatever we want
 
@@ -30,11 +39,20 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        Initialize();
+        StartCoroutine(nameof(Initialize));
     }
 
-    private void Initialize()
+    private IEnumerator Initialize()
     {
+        GetUser();
+
+        yield return new WaitUntil(() => User != null);
+
         Money = startingMoney;
+    }
+
+    private async void GetUser()
+    {
+        User = await HTTPRequests.Get<User>($"{apiUrl}/users/{username}");
     }
 }

@@ -512,6 +512,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e3c97c1d8b790499c2af3b3a52c0c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  apiUrl: https://gts-api-p9ar.onrender.com/api
+  username: dave
   startingMoney: 100
 --- !u!4 &220861225
 Transform:
