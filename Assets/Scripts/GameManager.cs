@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    private User user;
+    public User  User { get => user; set => user = value; }
+
     [SerializeField]
     private int startingMoney = 100; //change to whatever we want
 
