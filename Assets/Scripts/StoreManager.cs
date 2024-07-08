@@ -150,6 +150,7 @@ public class StoreManager : MonoBehaviour
         return totalCost;
     }
 
+    // Tries to purchase stock if the player can afford it
     public void TryPurchaseStock()
     {
         if (GameManager.Instance.Money >= totalCost)
@@ -162,6 +163,7 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    // Displays too expensive text if the user cannot afford the items
     private IEnumerator DisplayTooExpensive()
     {
         buyButtonText.text = "Too Expensive!";
@@ -169,31 +171,38 @@ public class StoreManager : MonoBehaviour
         buyButtonText.text = "Buy!";
     }
 
+    // Adds items to Inventory when purchasing them and removes money
     private void PurchaseStock()
     {
         GameManager.Instance.Money -= totalCost;
         ToggleStoreGUI();
 
+        // Iterates over all items able to be bought
         for (int i = 0; i < allStoreItems.Count; i++)
         {
+            // Checks if any of these are actually being bought
             if (purchaseItems[i].count > 0)
             {
+                // Gets index of item inside of inventory if it exists (if not returns -1)
                 int indexOfItem = InventoryManager.Instance.InventoryPlaceableObjects.FindIndex(item => item.name == allStoreItems[i].name);
 
                 if (indexOfItem == -1)
                 {
                     StoreItemSO item = allStoreItems[i];
 
+                    // Adds new PlaceableObject item inside of Inventory if it doesn't already exist
                     InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, purchaseItems[i].count));
                 }
                 else
                 {
+                    // Adds to the count of Inventory if the player already has that stock item
                     InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += purchaseItems[i].count;
                 }
             }
         }
     }
 
+    // Updates the money text to reflect money value in GameManager
     private void UpdateMoneyText()
     {
         moneyText.text = $"${GameManager.Instance.Money}";

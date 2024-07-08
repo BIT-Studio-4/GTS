@@ -9,6 +9,8 @@ public class InventoryItemSlot : MonoBehaviour
 {
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI countText;
     [HideInInspector] public Button Button { get => button;  set => button = value; } 
     [HideInInspector] public TextMeshProUGUI Text { get => text; set => text = value; }
+    [HideInInspector] public TextMeshProUGUI CountText { get => countText; set => countText = value; }
 }

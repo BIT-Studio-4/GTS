@@ -106,6 +106,7 @@ public class InventoryManager : MonoBehaviour
 
         gridSlot.Button.onClick.AddListener(() => StockButtonClick(index));
         gridSlot.Text.text = placeableObject.name;
+        gridSlot.CountText.text = $"{placeableObject.count}x";
     }
 
     // Method that is called when an item button is clicked

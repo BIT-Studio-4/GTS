@@ -770,7 +770,7 @@ GameObject:
   - component: {fileID: 569845728}
   - component: {fileID: 569845727}
   m_Layer: 5
-  m_Name: Money text
+  m_Name: Money Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -933,7 +933,8 @@ MonoBehaviour:
   storeItemPrefab: {fileID: 458661302285995283, guid: 5993ce23366979341979021d342d1ffa,
     type: 3}
   totalCostText: {fileID: 989199894}
-  moneyText: {fileID: 0}
+  moneyText: {fileID: 569845727}
+  buyButtonText: {fileID: 688829468}
 --- !u!4 &586006309
 Transform:
   m_ObjectHideFlags: 0
@@ -1313,7 +1314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &721979056
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1755,26 +1756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86a892d926573e45b3dd6bb37bb1eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryPlaceableObjects:
-  - name: Shelf
-    prefab: {fileID: 8947323300707565331, guid: c2cf5ef4ef98e534f88958120472e1b8,
-      type: 3}
-    type: 1
-    count: 0
-  - name: Box
-    prefab: {fileID: 1729293619525604392, guid: ec53c5bf8b1667c46b232405d4c61293,
-      type: 3}
-    type: 0
-    count: 0
-  - name: Can
-    prefab: {fileID: 5527126596583947887, guid: a7338e75769c78841b0306eaa2a6b933,
-      type: 3}
-    type: 0
-    count: 0
-  - name: Bottle
-    prefab: {fileID: 92670362388832611, guid: 8c8ba9083d724b6419fa93ea297327e9, type: 3}
-    type: 0
-    count: 0
   inventoryGUI: {fileID: 96840608}
   inventoryGrid: {fileID: 623046402}
   inventoryItemPrefab: {fileID: 5036502275639446614, guid: a988f004b1bc5be418324c80bd1ada10,
