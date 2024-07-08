@@ -14,8 +14,6 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject storeItemPrefab;
     private int tabIndex;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
-    // List of items currently displayed in GUI
-    private List<StoreItemSO> storeObjectDisplayList = new List<StoreItemSO>();
 
     private void Awake()
     { 
@@ -30,6 +28,7 @@ public class StoreManager : MonoBehaviour
 
     private void Start()
     {
+        storeGUI.SetActive(false);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => ToggleStoreGUI();
         SwitchTab(0);
     }
@@ -56,37 +55,46 @@ public class StoreManager : MonoBehaviour
         // Removes all the old GUI display gridItems, and clears the lists of what was in them
         gridObjectDisplayList.ForEach(gridItem => Destroy(gridItem));
         gridObjectDisplayList.Clear();
-        storeObjectDisplayList.Clear();
 
-        int indexCount = 0;
+        int UIIndex = 0;
+        int storeIndex = 0;
 
         // Iterates over all items to see if it should display in current tab
         allStoreItems.ForEach(placeableObject => {
+            storeIndex++;
             if (((int)placeableObject.type) == tabIndex)
             {
-                CreateGridItem(indexCount, placeableObject);
+                CreateGridItem(UIIndex, storeIndex, placeableObject);
 
-                indexCount++;
+                UIIndex++;
             }
         });
     }
 
     // Instantiates a new grid GameObject in the Inventory menu
-    private void CreateGridItem(int index, StoreItemSO storeItem)
+    private void CreateGridItem(int UIIndex, int storeIndex, StoreItemSO storeItem)
     {
         // Creates the new GameObject and puts it in a list
         GameObject gridItem = Instantiate(storeItemPrefab, storeGrid.transform);
         gridObjectDisplayList.Add(gridItem);
-        storeObjectDisplayList.Add(storeItem);
         StoreItemSlot gridSlot = gridItem.GetComponent<StoreItemSlot>();
 
-        //gridSlot.Button.onClick.AddListener(() => ItemButtonClick(index));
-        //gridSlot.Text.text = storeItem.name;
+        gridSlot.AddButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex));
+        gridSlot.SubtractButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex));
+        gridSlot.NameText.text = storeItem.name;
+        gridSlot.PriceText.text = $"${storeItem.cost}";
+        gridSlot.CountText.text = "0";
     }
 
-    public void ItemButtonClick(int index)
+    public void SubtractButtonClick(int UIIndex, int storeIndex)
     {
-        StoreItemSO storeItem = storeObjectDisplayList[index];
+        StoreItemSO storeItem = allStoreItems[storeIndex];
+
+    }
+
+    public void PlusButtonClick(int UIIndex, int storeIndex)
+    {
+        StoreItemSO storeItem = allStoreItems[storeIndex];
     }
 
     // Changes the tab and resets the contents of the store

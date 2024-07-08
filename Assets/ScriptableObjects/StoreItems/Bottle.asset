@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Bottle
   prefab: {fileID: 92670362388832611, guid: 8c8ba9083d724b6419fa93ea297327e9, type: 3}
   type: 0
+  cost: 2

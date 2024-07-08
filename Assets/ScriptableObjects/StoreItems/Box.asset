@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Box
   prefab: {fileID: 1729293619525604392, guid: ec53c5bf8b1667c46b232405d4c61293, type: 3}
   type: 0
+  cost: 4

@@ -8,4 +8,5 @@ public class StoreItemSO : ScriptableObject
     public string itemName;
     public GameObject prefab;
     public PlacementType type;
+    public int cost;
 }

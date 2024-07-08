@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Shelf
   prefab: {fileID: 8947323300707565331, guid: c2cf5ef4ef98e534f88958120472e1b8, type: 3}
   type: 1
+  cost: 50
