@@ -8,19 +8,29 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField][Range(0,2)] private float crouchDepth;
     private CharacterController cc;
     private InputAction moveAction;
     private Vector3 moveVector;
+    private float cameraHeight;
+    private float cameraTargetHeight;
+    private Camera cam;
 
     void Awake()
     {
         cc = GetComponent<CharacterController>();
+        cam = GetComponentInChildren<Camera>();
+
+        cameraHeight = cam.transform.localPosition.y;
+        cameraTargetHeight = cameraHeight;
     }
 
     void Start()
     {
         // returns Vector2 where x = left/right & y = up/down, on controller/keyboard
         moveAction = InputSystem.actions.FindAction("Move");
+        // add listener to crouch event
+        InputSystem.actions.FindAction("Crouch").performed += ctx => HandleCrouchInput();
     }
 
     void Update()
@@ -41,5 +51,16 @@ public class PlayerMovement : MonoBehaviour
             moveVector += Physics.gravity * Time.deltaTime;
 
         cc.Move(moveVector * Time.deltaTime);
+
+        float cameraNewHeight = Mathf.Lerp(cam.transform.localPosition.y, cameraTargetHeight, 12f * Time.deltaTime);
+        cam.transform.localPosition = new Vector3(
+            cam.transform.localPosition.x,
+            cameraNewHeight,
+            cam.transform.localPosition.z);
+    }
+
+    void HandleCrouchInput()
+    {
+        cameraTargetHeight = cameraTargetHeight == cameraHeight ? cameraHeight - crouchDepth : cameraHeight;
     }
 }
