@@ -16,4 +16,5 @@ public class PlaceableObject
     public string name;
     public GameObject prefab;
     public PlacementType type;
+    public int count;
 }
