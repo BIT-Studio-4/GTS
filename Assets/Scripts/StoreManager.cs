@@ -5,6 +5,11 @@ using UnityEngine.InputSystem;
 
 public class StoreManager : MonoBehaviour
 {
+    private struct PurchaseItem
+    {
+        public int count;
+    }
+
     public static StoreManager Instance;
 
     // The list of all items that are purchasable
@@ -14,6 +19,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject storeItemPrefab;
     private int tabIndex;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
+    private List<PurchaseItem> purchaseItems = new List<PurchaseItem>();
 
     private void Awake()
     { 
@@ -41,6 +47,7 @@ public class StoreManager : MonoBehaviour
         if (storeGUI.activeSelf)
         {
             Cursor.lockState = CursorLockMode.None;
+            FillPurchaseItemList();
             SwitchTab(tabIndex);
         }
         else
@@ -79,22 +86,23 @@ public class StoreManager : MonoBehaviour
         gridObjectDisplayList.Add(gridItem);
         StoreItemSlot gridSlot = gridItem.GetComponent<StoreItemSlot>();
 
-        gridSlot.AddButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex));
-        gridSlot.SubtractButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex));
+        gridSlot.AddButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex, 1));
+        gridSlot.SubtractButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex, -1));
         gridSlot.NameText.text = storeItem.name;
         gridSlot.PriceText.text = $"${storeItem.cost}";
         gridSlot.CountText.text = "0";
     }
 
-    public void SubtractButtonClick(int UIIndex, int storeIndex)
+    public void PlusButtonClick(int UIIndex, int storeIndex, int change)
     {
-        StoreItemSO storeItem = allStoreItems[storeIndex];
+        //StoreItemSO storeItem = allStoreItems[storeIndex];
 
-    }
+        PurchaseItem countChange = purchaseItems[storeIndex];
+        countChange.count += change;
+        purchaseItems[storeIndex] = countChange;
 
-    public void PlusButtonClick(int UIIndex, int storeIndex)
-    {
-        StoreItemSO storeItem = allStoreItems[storeIndex];
+        StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
+        slot.CountText.text = countChange.count.ToString();
     }
 
     // Changes the tab and resets the contents of the store
@@ -102,5 +110,16 @@ public class StoreManager : MonoBehaviour
     {
         tabIndex = index;
         SetStoreDisplayContent();
+    }
+
+    private void FillPurchaseItemList()
+    {
+        purchaseItems.Clear();
+
+        allStoreItems.ForEach(item => {
+            PurchaseItem purchaseItem = new PurchaseItem();
+            purchaseItem.count = 0;
+            purchaseItems.Add(purchaseItem);
+        });
     }
 }
