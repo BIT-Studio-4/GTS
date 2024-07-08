@@ -39,12 +39,15 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        Initialize();
+        StartCoroutine(nameof(Initialize));
     }
 
-    private void Initialize()
+    private IEnumerator Initialize()
     {
         GetUser();
+
+        yield return new WaitUntil(() => User != null);
+
         Money = startingMoney;
     }
 
