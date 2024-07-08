@@ -78,10 +78,10 @@ public class StoreManager : MonoBehaviour
         GameObject gridItem = Instantiate(storeItemPrefab, storeGrid.transform);
         gridObjectDisplayList.Add(gridItem);
         storeObjectDisplayList.Add(storeItem);
-        InventoryItemSlot gridSlot = gridItem.GetComponent<InventoryItemSlot>();
+        StoreItemSlot gridSlot = gridItem.GetComponent<StoreItemSlot>();
 
-        gridSlot.Button.onClick.AddListener(() => ItemButtonClick(index));
-        gridSlot.Text.text = storeItem.name;
+        //gridSlot.Button.onClick.AddListener(() => ItemButtonClick(index));
+        //gridSlot.Text.text = storeItem.name;
     }
 
     public void ItemButtonClick(int index)
