@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlaceObject : MonoBehaviour
 {
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
-    [SerializeField] bool randomMode;
 
     private GameObject placedObjects;
 
