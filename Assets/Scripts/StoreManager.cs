@@ -17,7 +17,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject storeGUI;
     [SerializeField] private GameObject storeGrid;
     [SerializeField] private GameObject storeItemPrefab;
-    private int tabIndex;
+    private int tabIndex = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     private List<PurchaseItem> purchaseItems = new List<PurchaseItem>();
 
@@ -36,7 +36,6 @@ public class StoreManager : MonoBehaviour
     {
         storeGUI.SetActive(false);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => ToggleStoreGUI();
-        SwitchTab(0);
     }
 
     // This toggles the state of the Store GUI (open or closed)
@@ -68,13 +67,14 @@ public class StoreManager : MonoBehaviour
 
         // Iterates over all items to see if it should display in current tab
         allStoreItems.ForEach(placeableObject => {
-            storeIndex++;
             if (((int)placeableObject.type) == tabIndex)
             {
                 CreateGridItem(UIIndex, storeIndex, placeableObject);
 
                 UIIndex++;
             }
+
+            storeIndex++;
         });
     }
 
@@ -90,15 +90,13 @@ public class StoreManager : MonoBehaviour
         gridSlot.SubtractButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex, -1));
         gridSlot.NameText.text = storeItem.name;
         gridSlot.PriceText.text = $"${storeItem.cost}";
-        gridSlot.CountText.text = "0";
+        gridSlot.CountText.text = $"{purchaseItems[storeIndex].count}";
     }
 
     public void PlusButtonClick(int UIIndex, int storeIndex, int change)
     {
-        //StoreItemSO storeItem = allStoreItems[storeIndex];
-
         PurchaseItem countChange = purchaseItems[storeIndex];
-        countChange.count += change;
+        countChange.count = Mathf.Max(countChange.count + change, 0);
         purchaseItems[storeIndex] = countChange;
 
         StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
@@ -120,6 +118,7 @@ public class StoreManager : MonoBehaviour
             PurchaseItem purchaseItem = new PurchaseItem();
             purchaseItem.count = 0;
             purchaseItems.Add(purchaseItem);
+            Debug.Log(item.itemName);
         });
     }
 }
