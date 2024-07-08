@@ -122,6 +122,8 @@ public class InventoryManager : MonoBehaviour
 
         playerHeldItem = Instantiate(placeableObject.prefab, playerHeldItemParent.transform);
         playerHeldItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockScale, stockScale, stockScale) : new Vector3(structureScale, structureScale, structureScale);
+        
+        heldObject = placeableObject;
     }
 
     // Clears the item the player is holding
@@ -131,5 +133,7 @@ public class InventoryManager : MonoBehaviour
 
         Destroy(playerHeldItem);
         playerHeldItem = null;
+        
+        heldObject = null;
     }
 }

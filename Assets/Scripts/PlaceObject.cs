@@ -20,22 +20,19 @@ public class PlaceObject : MonoBehaviour
 
     void InstantiateObject(InputAction.CallbackContext ctx)
     {
+        Debug.Log(InventoryManager.Instance.HeldObject);
+
+        if (InventoryManager.Instance.HeldObject == null)
+            return;
+
         RaycastHit hit;
 
         if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10)) // hard coded interaction distance (10)
-        {
             return;
-        }
-
-        // hard coding what objects are being placed, for now
-        int objectIndex = 0;
-
-        if (randomMode)
-            objectIndex = Random.Range(0, prefabs.Count);
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
-        GameObject placedObject = Instantiate(prefabs[objectIndex], hit.point, Quaternion.identity, placedObjects.transform);
+        GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, hit.point, Quaternion.identity, placedObjects.transform);
         // rotate object to opposite of player rotation
         placedObject.transform.LookAt(new Vector3(
             transform.position.x,
