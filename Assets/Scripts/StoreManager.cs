@@ -82,7 +82,7 @@ public class StoreManager : MonoBehaviour
         });
     }
 
-    // Instantiates a new grid GameObject in the Inventory menu
+    // Instantiates a new grid GameObject in the Store menu
     private void CreateGridItem(int UIIndex, int storeIndex, StoreItemSO storeItem)
     {
         // Creates the new GameObject and puts it in a list
@@ -90,14 +90,15 @@ public class StoreManager : MonoBehaviour
         gridObjectDisplayList.Add(gridItem);
         StoreItemSlot gridSlot = gridItem.GetComponent<StoreItemSlot>();
 
-        gridSlot.AddButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex, 1));
-        gridSlot.SubtractButton.onClick.AddListener(() => PlusButtonClick(UIIndex, storeIndex, -1));
+        gridSlot.AddButton.onClick.AddListener(() => ChangeStockCount(UIIndex, storeIndex, 1));
+        gridSlot.SubtractButton.onClick.AddListener(() => ChangeStockCount(UIIndex, storeIndex, -1));
         gridSlot.NameText.text = storeItem.name;
         gridSlot.PriceText.text = $"${storeItem.cost}";
         gridSlot.CountText.text = $"{purchaseItems[storeIndex].count}";
     }
 
-    public void PlusButtonClick(int UIIndex, int storeIndex, int change)
+    // Runs when the amount of stock the player wants is added to or subtracted from
+    public void ChangeStockCount(int UIIndex, int storeIndex, int change)
     {
         PurchaseItem countChange = purchaseItems[storeIndex];
         countChange.count = Mathf.Max(countChange.count + change, 0);
@@ -116,6 +117,7 @@ public class StoreManager : MonoBehaviour
         SetStoreDisplayContent();
     }
 
+    // Fills the list of all empty items possible to purchase
     private void FillPurchaseItemList()
     {
         purchaseItems.Clear();
@@ -128,6 +130,7 @@ public class StoreManager : MonoBehaviour
         });
     }
 
+    // Calculates the total cost of all selected items to purchase
     private int CalculateTotalCost()
     {
         int totalCost = 0;
