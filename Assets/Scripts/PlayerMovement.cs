@@ -8,7 +8,9 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField][Range(0,2)] private float crouchDepth;
+    [SerializeField][Range(0.1f,2)] private float crouchDepth;
+    [SerializeField][Range(0.1f,20)] private float crouchSpeed;
+
     private CharacterController cc;
     private InputAction moveAction;
     private Vector3 moveVector;
@@ -52,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         cc.Move(moveVector * Time.deltaTime);
 
-        float cameraNewHeight = Mathf.Lerp(cam.transform.localPosition.y, cameraTargetHeight, 12f * Time.deltaTime);
+        float cameraNewHeight = Mathf.Lerp(cam.transform.localPosition.y, cameraTargetHeight, crouchSpeed * Time.deltaTime);
         cam.transform.localPosition = new Vector3(
             cam.transform.localPosition.x,
             cameraNewHeight,
