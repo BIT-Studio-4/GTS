@@ -135,4 +135,15 @@ public class InventoryManager : MonoBehaviour
         Destroy(playerHeldItem);
         playerHeldItem = null;
     }
+
+    // Consumes an item when it is placed (will be called later)
+    public void ConsumePlacedItem(PlaceableObject placeableObject)
+    {
+        placeableObject.count -= 1;
+
+        if (placeableObject.count <= 0)
+        {
+            inventoryPlaceableObjects.Remove(placeableObject);
+        }
+    }
 }
