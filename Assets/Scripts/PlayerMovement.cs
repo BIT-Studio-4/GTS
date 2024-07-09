@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController cc;
     private InputAction moveAction;
     private Vector3 moveVector;
-    private float cameraHeight;
+    private float standHeight;
     private float cameraTargetHeight;
     private Camera cam;
 
@@ -23,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
         cc = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
 
-        cameraHeight = cam.transform.localPosition.y;
-        cameraTargetHeight = cameraHeight;
+        standHeight = cam.transform.localPosition.y;
+        cameraTargetHeight = standHeight;
     }
 
     void Start()
@@ -63,6 +63,9 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleCrouchInput()
     {
-        cameraTargetHeight = cameraTargetHeight == cameraHeight ? cameraHeight - crouchDepth : cameraHeight;
+        if (cameraTargetHeight == standHeight)
+            cameraTargetHeight = standHeight - crouchDepth;
+        else
+            cameraTargetHeight = standHeight;
     }
 }
