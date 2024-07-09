@@ -1678,7 +1678,12 @@ PrefabInstance:
     - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: crouchDepth
-      value: 1.065
+      value: 0.701
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: crouchSpeed
+      value: 13.12
       objectReference: {fileID: 0}
     - target: {fileID: 7439313883792136263, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
