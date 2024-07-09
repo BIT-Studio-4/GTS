@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         cc.Move(moveVector * Time.deltaTime);
 
+        // move camera towards target (crouched or standing) height, with an exponential ease
         float cameraNewHeight = Mathf.Lerp(cam.transform.localPosition.y, cameraTargetHeight, crouchSpeed * Time.deltaTime);
         cam.transform.localPosition = new Vector3(
             cam.transform.localPosition.x,
