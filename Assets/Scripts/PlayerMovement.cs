@@ -8,19 +8,31 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField][Range(0.1f,2)] private float crouchDepth;
+    [SerializeField][Range(0.1f,20)] private float crouchSpeed;
+
     private CharacterController cc;
     private InputAction moveAction;
     private Vector3 moveVector;
+    private float standHeight;
+    private float cameraTargetHeight;
+    private Camera cam;
 
     void Awake()
     {
         cc = GetComponent<CharacterController>();
+        cam = GetComponentInChildren<Camera>();
+
+        standHeight = cam.transform.localPosition.y;
+        cameraTargetHeight = standHeight;
     }
 
     void Start()
     {
         // returns Vector2 where x = left/right & y = up/down, on controller/keyboard
         moveAction = InputSystem.actions.FindAction("Move");
+        // add listener to crouch event
+        InputSystem.actions.FindAction("Crouch").performed += ctx => HandleCrouchInput();
     }
 
     void Update()
@@ -41,5 +53,20 @@ public class PlayerMovement : MonoBehaviour
             moveVector += Physics.gravity * Time.deltaTime;
 
         cc.Move(moveVector * Time.deltaTime);
+
+        // move camera towards target (crouched or standing) height, with an exponential ease
+        float cameraNewHeight = Mathf.Lerp(cam.transform.localPosition.y, cameraTargetHeight, crouchSpeed * Time.deltaTime);
+        cam.transform.localPosition = new Vector3(
+            cam.transform.localPosition.x,
+            cameraNewHeight,
+            cam.transform.localPosition.z);
+    }
+
+    void HandleCrouchInput()
+    {
+        if (cameraTargetHeight == standHeight)
+            cameraTargetHeight = standHeight - crouchDepth;
+        else
+            cameraTargetHeight = standHeight;
     }
 }
