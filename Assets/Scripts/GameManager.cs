@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 //you can access the singleton instance using Game.Manager.Instance + anything you need (eg GameManager.Instance.AddMoney(amount);
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    public UnityEvent OnMoneyChange = new UnityEvent();
 
     [SerializeField] 
     private string apiUrl;
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
         set
         {
             money = value;
+            OnMoneyChange?.Invoke();
             // can add more stuff here, eg updating UI etc later on
         }
     }

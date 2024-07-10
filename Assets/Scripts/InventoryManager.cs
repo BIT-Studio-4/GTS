@@ -8,14 +8,16 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
 
-    //This will be the list that things are added and removed to via purchasing items
-    [SerializeField] private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
     [SerializeField] private GameObject inventoryGUI;
     [SerializeField] private GameObject inventoryGrid;
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private GameObject playerHeldItemParent;
     [SerializeField] private float stockScale;
     [SerializeField] private float structureScale;
+
+    // This is the list of items the inventory contains
+    private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
+    public List<PlaceableObject> InventoryPlaceableObjects { get => inventoryPlaceableObjects; set => inventoryPlaceableObjects = value; }
 
     // The data stored about each object that is held
     private PlaceableObject heldObject;
@@ -104,6 +106,7 @@ public class InventoryManager : MonoBehaviour
 
         gridSlot.Button.onClick.AddListener(() => StockButtonClick(index));
         gridSlot.Text.text = placeableObject.name;
+        gridSlot.CountText.text = $"{placeableObject.count}x";
     }
 
     // Method that is called when an item button is clicked
@@ -135,5 +138,17 @@ public class InventoryManager : MonoBehaviour
         playerHeldItem = null;
         
         heldObject = null;
+    }
+
+    // Consumes an item when it is placed (will be called later)
+    public void ConsumePlacedItem(PlaceableObject placeableObject)
+    {
+        placeableObject.count -= 1;
+
+        if (placeableObject.count <= 0)
+        {
+            inventoryPlaceableObjects.Remove(placeableObject);
+            ClearHandItem();
+        }
     }
 }
