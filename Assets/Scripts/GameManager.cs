@@ -17,7 +17,13 @@ public class GameManager : MonoBehaviour
     private string username;
 
     private User user;
-    public User  User { get => user; set => user = value; }
+    public User User { 
+        get => user; 
+        set 
+        {
+            user = value;
+        }
+    }
 
     [SerializeField]
     private int startingMoney = 100; //change to whatever we want
@@ -30,9 +36,15 @@ public class GameManager : MonoBehaviour
         {
             money = value;
             OnMoneyChange?.Invoke();
+
             // can add more stuff here, eg updating UI etc later on
+            if (user != null) 
+            { 
+                user.Money = money;
+            }
         }
     }
+
     void Awake()
     {
         if (Instance != null) //Ensures there is only one instance of GM at once
