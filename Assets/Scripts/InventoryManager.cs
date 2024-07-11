@@ -143,7 +143,7 @@ public class InventoryManager : MonoBehaviour
         if (randomSell != null)
             randomSell.enabled = false;
         
-        heldObject = placeableObject;
+        HeldObject = placeableObject;
     }
 
     // Clears the item the player is holding
@@ -154,17 +154,17 @@ public class InventoryManager : MonoBehaviour
         Destroy(playerHeldItem);
         playerHeldItem = null;
         
-        heldObject = null;
+        HeldObject = null;
     }
 
-    // Consumes an item when it is placed (will be called later)
-    public void ConsumePlacedItem(PlaceableObject placeableObject)
+    // Consumes an item when it is placed
+    public void ConsumePlacedItem()
     {
-        placeableObject.count -= 1;
+        HeldObject.count -= 1;
 
-        if (placeableObject.count <= 0)
+        if (HeldObject.count <= 0)
         {
-            inventoryPlaceableObjects.Remove(placeableObject);
+            inventoryPlaceableObjects.Remove(HeldObject);
             ClearHandItem();
         }
     }
