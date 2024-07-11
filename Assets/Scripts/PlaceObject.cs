@@ -37,5 +37,9 @@ public class PlaceObject : MonoBehaviour
             transform.position.x,
             placedObject.transform.position.y,
             transform.position.z));
+
+        InventoryManager.Instance.HeldObject.count--;
+        if (InventoryManager.Instance.HeldObject.count <= 0)
+            InventoryManager.Instance.HeldObject = null;
     }
 }
