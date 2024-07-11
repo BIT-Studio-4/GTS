@@ -21,7 +21,21 @@ public class InventoryManager : MonoBehaviour
 
     // The data stored about each object that is held
     private PlaceableObject heldObject;
-    public PlaceableObject HeldObject { get => heldObject; set => heldObject = value; }
+    public PlaceableObject HeldObject
+    {
+        get
+        {
+            if (heldObject == null)
+                ClearHandItem();
+            return heldObject;
+        }
+        set
+        {
+            heldObject = value;
+            if (heldObject == null)
+                ClearHandItem();
+        }
+    }
     private int tabIndex;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     // List of items currently displayed in GUI
