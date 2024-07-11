@@ -38,11 +38,6 @@ public class PlaceObject : MonoBehaviour
             placedObject.transform.position.y,
             transform.position.z));
 
-        InventoryManager.Instance.HeldObject.count--;
-        if (InventoryManager.Instance.HeldObject.count <= 0)
-        {
-            InventoryManager.Instance.InventoryPlaceableObjects.Remove(InventoryManager.Instance.HeldObject);
-            InventoryManager.Instance.HeldObject = null;
-        }
+        InventoryManager.Instance.ConsumePlacedItem();
     }
 }
