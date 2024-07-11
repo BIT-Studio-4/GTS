@@ -450,7 +450,7 @@ MonoBehaviour:
       m_Calls: []
   apiUrl: https://gts-api-p9ar.onrender.com/api
   username: dave
-  startingMoney: 100
+  startingMoney: 70
 --- !u!4 &220861225
 Transform:
   m_ObjectHideFlags: 0
