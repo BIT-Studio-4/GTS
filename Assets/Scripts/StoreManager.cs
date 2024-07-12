@@ -53,11 +53,13 @@ public class StoreManager : MonoBehaviour
             totalCostText.text = $"Total: ${totalCost}";
             UpdateMoneyText();
             buyButtonText.text = "Buy!";
+            InputSystem.actions.FindAction("Place").Disable();
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             totalCost = 0;
+            InputSystem.actions.FindAction("Place").Enable();
         }
     }
 

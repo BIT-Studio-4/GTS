@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField][Range(0.1f,2)] private float crouchDepth;
     [SerializeField][Range(0.1f,20)] private float crouchSpeed;
+    [SerializeField] private Transform spawnpoint;
 
     private CharacterController cc;
     private InputAction moveAction;
@@ -33,6 +34,9 @@ public class PlayerMovement : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
         // add listener to crouch event
         InputSystem.actions.FindAction("Crouch").performed += ctx => HandleCrouchInput();
+        // start at spawnpoint, + half of player height because its pivot is in the center
+        spawnpoint.position += Vector3.up * cc.height / 2;
+        transform.position = spawnpoint.position;
     }
 
     void Update()
@@ -60,6 +64,10 @@ public class PlayerMovement : MonoBehaviour
             cam.transform.localPosition.x,
             cameraNewHeight,
             cam.transform.localPosition.z);
+
+        // respawn if player has fallen out of bounds
+        if (transform.position.y < -1)
+            transform.position = spawnpoint.position + Vector3.up * cc.height / 2;
     }
 
     void HandleCrouchInput()

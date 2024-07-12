@@ -21,7 +21,21 @@ public class InventoryManager : MonoBehaviour
 
     // The data stored about each object that is held
     private PlaceableObject heldObject;
-    public PlaceableObject HeldObject { get => heldObject; set => heldObject = value; }
+    public PlaceableObject HeldObject
+    {
+        get
+        {
+            if (heldObject == null)
+                ClearHandItem();
+            return heldObject;
+        }
+        set
+        {
+            heldObject = value;
+            if (heldObject == null)
+                ClearHandItem();
+        }
+    }
     private int tabIndex;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     // List of items currently displayed in GUI
@@ -114,6 +128,8 @@ public class InventoryManager : MonoBehaviour
     {
         PlaceableObject placeableObject = inventoryObjectDisplayList[index];
 
+        if (placeableObject.count <= 0) return;
+
         SetHandItem(placeableObject);
         ToggleInventoryGUI();
     }
@@ -125,8 +141,11 @@ public class InventoryManager : MonoBehaviour
 
         playerHeldItem = Instantiate(placeableObject.prefab, playerHeldItemParent.transform);
         playerHeldItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockScale, stockScale, stockScale) : new Vector3(structureScale, structureScale, structureScale);
+        RandomSell randomSell = playerHeldItem.GetComponent<RandomSell>();
+        if (randomSell != null)
+            randomSell.enabled = false;
         
-        heldObject = placeableObject;
+        HeldObject = placeableObject;
     }
 
     // Clears the item the player is holding
@@ -137,17 +156,16 @@ public class InventoryManager : MonoBehaviour
         Destroy(playerHeldItem);
         playerHeldItem = null;
         
-        heldObject = null;
+        HeldObject = null;
     }
 
-    // Consumes an item when it is placed (will be called later)
-    public void ConsumePlacedItem(PlaceableObject placeableObject)
+    // Consumes an item when it is placed
+    public void ConsumePlacedItem()
     {
-        placeableObject.count -= 1;
+        HeldObject.count -= 1;
 
-        if (placeableObject.count <= 0)
+        if (HeldObject.count <= 0)
         {
-            inventoryPlaceableObjects.Remove(placeableObject);
             ClearHandItem();
         }
     }

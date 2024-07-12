@@ -37,5 +37,7 @@ public class PlaceObject : MonoBehaviour
             transform.position.x,
             placedObject.transform.position.y,
             transform.position.z));
+
+        InventoryManager.Instance.ConsumePlacedItem();
     }
 }
