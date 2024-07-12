@@ -128,6 +128,8 @@ public class InventoryManager : MonoBehaviour
     {
         PlaceableObject placeableObject = inventoryObjectDisplayList[index];
 
+        if (placeableObject.count <= 0) return;
+
         SetHandItem(placeableObject);
         ToggleInventoryGUI();
     }
@@ -164,7 +166,6 @@ public class InventoryManager : MonoBehaviour
 
         if (HeldObject.count <= 0)
         {
-            inventoryPlaceableObjects.Remove(HeldObject);
             ClearHandItem();
         }
     }
