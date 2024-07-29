@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,7 @@ public class PlayerRotation : MonoBehaviour
     private bool inputIsDelta;
     private Camera cam;
     private float yaw;
+    private int openUILayers;
 
     void Awake()
     {
@@ -31,10 +33,14 @@ public class PlayerRotation : MonoBehaviour
         // delta is mouse or touch control
         // this will set inputIsDelta whenever the player looks around
         lookAction.performed += ctx => { inputIsDelta = ctx.control.name == "delta"; };
+        GameManager.Instance.onUIOpen.AddListener(() => Debug.Log(openUILayers++));
+        GameManager.Instance.onUIClose.AddListener(() => Debug.Log(openUILayers--));
     }
 
     void Update()
     {
+        if (openUILayers > 0) return;
+
         Vector2 lookInput = lookAction.ReadValue<Vector2>();
         // delta (mouse) input doesn't need deltaTime but controller does
         if (inputIsDelta) lookInput *= mouseLookSensitivity;

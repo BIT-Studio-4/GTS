@@ -72,6 +72,7 @@ public class InventoryManager : MonoBehaviour
         {
             SwitchTab(tabIndex);
             ClearHandItem();
+            GameManager.Instance.onUIOpen?.Invoke();
         }
     }
 
