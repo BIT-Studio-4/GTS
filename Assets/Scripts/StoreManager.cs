@@ -11,6 +11,7 @@ public class StoreManager : MonoBehaviour
     // The list of all items that are purchasable
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
+    public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
     [SerializeField] private GameObject storeGrid;
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
@@ -34,15 +35,13 @@ public class StoreManager : MonoBehaviour
 
     private void Start()
     {
-        storeGUI.SetActive(false);
-        InputSystem.actions.FindAction("ToggleStore").performed += ctx => ToggleStoreGUI();
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
     }
 
     // This toggles the state of the Store GUI (open or closed)
-    private void ToggleStoreGUI()
+    public void SetStoreActiveState(bool isActive)
     {
-        storeGUI.SetActive(!storeGUI.activeSelf);
+        storeGUI.SetActive(isActive);
 
         if (storeGUI.activeSelf)
         {

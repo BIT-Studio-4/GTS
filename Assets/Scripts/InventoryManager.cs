@@ -9,6 +9,7 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     [SerializeField] private GameObject inventoryGUI;
+    public GameObject InventoryGUI { get => inventoryGUI; set => inventoryGUI = value; }
     [SerializeField] private GameObject inventoryGrid;
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private GameObject playerHeldItemParent;
@@ -58,16 +59,14 @@ public class InventoryManager : MonoBehaviour
     // Sets inventory to be closed when the game starts
     void Start()
     {
-        inventoryGUI.SetActive(false);
         HeldObject = null;
-        InputSystem.actions.FindAction("ToggleInventory").performed += ctx => ToggleInventoryGUI();
         SwitchTab(0);
     }
     
     // This toggles the state of the Inventory GUI (open or closed)
-    private void ToggleInventoryGUI()
+    public void SetInventoryActiveState(bool isActive)
     {
-        inventoryGUI.SetActive(!inventoryGUI.activeSelf);
+        inventoryGUI.SetActive(isActive);
 
         if (inventoryGUI.activeSelf)
         {
