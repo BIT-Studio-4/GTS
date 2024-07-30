@@ -34,18 +34,20 @@ public class UIManager : MonoBehaviour
     // Handles the inventory keybind press(call this from anywhere you want to toggle the inventory)
     private void InventoryKeyPress()
     {
-       SetInventoryState(InventoryManager.Instance.gameObject.activeSelf);
+       SetInventoryState(!InventoryManager.Instance.InventoryGUI.activeSelf);
     }
 
     // Handles the store keybind press (call this from anywhere you want to toggle the store)
     private void StoreKeyPress()
     {
-        SetStoreState(!StoreManager.Instance.gameObject.activeSelf);
+        SetStoreState(!StoreManager.Instance.StoreGUI.activeSelf);
     }
 
     // Method that is called to open/close the inventory(call this from anywhere you want to set the inventory)
     public void SetInventoryState(bool state)
     {
+        Debug.Log(state);
+
         InventoryManager.Instance.SetInventoryActiveState(state);
         StoreManager.Instance.SetStoreActiveState(false);
     }
@@ -53,6 +55,8 @@ public class UIManager : MonoBehaviour
     // Method that is called to open/close the store (call this from anywhere you want to set the store)
     public void SetStoreState(bool state)
     {
+        Debug.Log(state);
+
         StoreManager.Instance.SetStoreActiveState(state);
         InventoryManager.Instance.SetInventoryActiveState(false);
     }
