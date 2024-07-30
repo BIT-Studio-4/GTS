@@ -45,7 +45,6 @@ public class StoreManager : MonoBehaviour
 
         if (storeGUI.activeSelf)
         {
-            Cursor.lockState = CursorLockMode.None;
             FillPurchaseItemList();
             SwitchTab(tabIndex);
             totalCost = CalculateTotalCost();
@@ -56,7 +55,6 @@ public class StoreManager : MonoBehaviour
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
         }

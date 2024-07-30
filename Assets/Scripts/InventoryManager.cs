@@ -70,13 +70,8 @@ public class InventoryManager : MonoBehaviour
 
         if (inventoryGUI.activeSelf)
         {
-            Cursor.lockState = CursorLockMode.None;
             SwitchTab(tabIndex);
             ClearHandItem();
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

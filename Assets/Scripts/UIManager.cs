@@ -11,6 +11,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    private bool isGUIOpen = false;
+    public bool IsGUIOpen { get => isGUIOpen; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,18 +49,24 @@ public class UIManager : MonoBehaviour
     // Method that is called to open/close the inventory(call this from anywhere you want to set the inventory)
     public void SetInventoryState(bool state)
     {
-        Debug.Log(state);
-
         InventoryManager.Instance.SetInventoryActiveState(state);
         StoreManager.Instance.SetStoreActiveState(false);
+
+        SetOpenStatus(state);
     }
 
     // Method that is called to open/close the store (call this from anywhere you want to set the store)
     public void SetStoreState(bool state)
     {
-        Debug.Log(state);
-
         StoreManager.Instance.SetStoreActiveState(state);
         InventoryManager.Instance.SetInventoryActiveState(false);
+
+        SetOpenStatus(state);
+    }
+
+    private void SetOpenStatus(bool state)
+    {
+        isGUIOpen = state;
+        Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }
