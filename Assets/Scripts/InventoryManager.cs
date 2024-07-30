@@ -130,7 +130,9 @@ public class InventoryManager : MonoBehaviour
         if (placeableObject.count <= 0) return;
 
         SetHandItem(placeableObject);
-        ToggleInventoryGUI();
+
+        // This is done via UI manager so the correct windows are opened and closed
+        UIManager.Instance.SetInventoryState(false);
     }
 
     // Sets the item the player is holding

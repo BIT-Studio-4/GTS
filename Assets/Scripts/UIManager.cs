@@ -31,19 +31,29 @@ public class UIManager : MonoBehaviour
         StoreManager.Instance.SetStoreActiveState(false);
     }
 
+    // Handles the inventory keybind press(call this from anywhere you want to toggle the inventory)
     private void InventoryKeyPress()
     {
-        bool currentState = InventoryManager.Instance.gameObject.activeSelf;
+       SetInventoryState(InventoryManager.Instance.gameObject.activeSelf);
+    }
 
-        InventoryManager.Instance.SetInventoryActiveState(false);
+    // Handles the store keybind press (call this from anywhere you want to toggle the store)
+    private void StoreKeyPress()
+    {
+        SetStoreState(!StoreManager.Instance.gameObject.activeSelf);
+    }
+
+    // Method that is called to open/close the inventory(call this from anywhere you want to set the inventory)
+    public void SetInventoryState(bool state)
+    {
+        InventoryManager.Instance.SetInventoryActiveState(state);
         StoreManager.Instance.SetStoreActiveState(false);
     }
 
-    private void StoreKeyPress()
+    // Method that is called to open/close the store (call this from anywhere you want to set the store)
+    public void SetStoreState(bool state)
     {
-        bool currentState = StoreManager.Instance.gameObject.activeSelf;
-
+        StoreManager.Instance.SetStoreActiveState(state);
         InventoryManager.Instance.SetInventoryActiveState(false);
-        StoreManager.Instance.SetStoreActiveState(false);
     }
 }
