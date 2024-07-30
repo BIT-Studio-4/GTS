@@ -13,6 +13,7 @@ public class PlayerRotation : MonoBehaviour
     [SerializeField][Range(0.5f, 1)] float verticalModifier;
     [SerializeField] bool lockCursor;
     private InputAction lookAction;
+    private bool inputIsDelta;
     private Camera cam;
     private float yaw;
 
@@ -26,11 +27,16 @@ public class PlayerRotation : MonoBehaviour
     void Start()
     {
         lookAction = InputSystem.actions.FindAction("Look");
+        // delta is mouse or touch control
+        // this will set inputIsDelta whenever the player looks around
+        lookAction.performed += ctx => { inputIsDelta = ctx.control.name == "delta"; };
     }
 
     void Update()
     {
         Vector2 lookInput = lookAction.ReadValue<Vector2>() * lookSensitivity;
+        // only mutliply by deltaTime if not using delta input (mouse)
+        if (!inputIsDelta) lookInput *= Time.deltaTime;
 
         // rotate character horizontally (around the Y axis)
         transform.Rotate(Vector3.up * lookInput.x);
