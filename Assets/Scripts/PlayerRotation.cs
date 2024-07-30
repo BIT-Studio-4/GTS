@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerRotation : MonoBehaviour
 {
     [SerializeField][Range(45, 90)] float maxYaw;  
-    [SerializeField][Range(1, 100)] float lookSensitivity;
+    [SerializeField][Range(0.01f, 1)] float lookSensitivity;
     [SerializeField][Range(0.5f, 1)] float verticalModifier;
     [SerializeField] bool lockCursor;
     private InputAction lookAction;
@@ -33,10 +33,10 @@ public class PlayerRotation : MonoBehaviour
         Vector2 lookInput = lookAction.ReadValue<Vector2>() * lookSensitivity;
 
         // rotate character horizontally (around the Y axis)
-        transform.Rotate(Vector3.up * lookInput.x * Time.deltaTime);
+        transform.Rotate(Vector3.up * lookInput.x);
 
         // rotate camera vertically (around the X axis) with clamp
-        yaw += -lookInput.y * verticalModifier * Time.deltaTime;
+        yaw += -lookInput.y * verticalModifier;
         yaw = Mathf.Clamp(yaw, -maxYaw, maxYaw);
         cam.transform.localRotation = Quaternion.Euler(yaw, 0, 0);
     }
