@@ -63,13 +63,11 @@ public class StoreManager : MonoBehaviour
             UpdateMoneyColors();
             buyButtonText.text = "Buy!";
             InputSystem.actions.FindAction("Place").Disable();
-            GameManager.Instance.onUIOpen?.Invoke();
         }
         else
         {
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
-            GameManager.Instance.onUIClose?.Invoke();
         }
     }
 

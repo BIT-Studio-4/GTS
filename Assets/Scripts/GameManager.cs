@@ -45,9 +45,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public UnityEvent onUIOpen;
-    public UnityEvent onUIClose;
-
     void Awake()
     {
         if (Instance != null) //Ensures there is only one instance of GM at once

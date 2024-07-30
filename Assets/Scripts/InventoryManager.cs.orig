@@ -72,7 +72,16 @@ public class InventoryManager : MonoBehaviour
         {
             SwitchTab(tabIndex);
             ClearHandItem();
+            GameManager.Instance.onUIOpen?.Invoke();
         }
+<<<<<<< HEAD
+=======
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            GameManager.Instance.onUIClose?.Invoke();
+        }
+>>>>>>> 2703a46 (feat(cs): stop camera moving through UI)
     }
 
     // Changes the tab and resets the contents of the inventory
@@ -127,7 +136,7 @@ public class InventoryManager : MonoBehaviour
         SetHandItem(placeableObject);
 
         // This is done via UI manager so the correct windows are opened and closed
-        UIManager.Instance.SetGUIState(UIType.Inventory, false);
+        UIManager.Instance.SetInventoryState(false);
     }
 
     // Sets the item the player is holding
