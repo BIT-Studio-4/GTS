@@ -64,6 +64,7 @@ public class UIManager : MonoBehaviour
         SetOpenStatus(state);
     }
 
+    // Sets the state of if any GUI is open for the mouse and locking player e.t.c
     private void SetOpenStatus(bool state)
     {
         isGUIOpen = state;
