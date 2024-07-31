@@ -40,7 +40,11 @@ public class UIManager : MonoBehaviour
         StoreManager.Instance.SetStoreActiveState(false);
     }
 
-    // Method that is called to open/close a GUI (call this from anywhere you want to set the gui)
+    /// <summary>
+    /// Used to open/close a specific GUI
+    /// </summary>
+    /// <param name="UI"></param>
+    /// <param name="state"></param>
     public void SetGUIState(UIType UI, bool state)
     {
         switch (UI)
