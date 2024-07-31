@@ -127,7 +127,7 @@ public class InventoryManager : MonoBehaviour
         SetHandItem(placeableObject);
 
         // This is done via UI manager so the correct windows are opened and closed
-        UIManager.Instance.SetInventoryState(false);
+        UIManager.Instance.SetGUIState(UIType.Inventory, false);
     }
 
     // Sets the item the player is holding

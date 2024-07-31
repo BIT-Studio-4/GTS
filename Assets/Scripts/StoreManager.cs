@@ -169,7 +169,7 @@ public class StoreManager : MonoBehaviour
         GameManager.Instance.Money -= totalCost;
 
         // This is done via UI manager so the correct windows are opened and closed
-        UIManager.Instance.SetStoreState(false);
+        UIManager.Instance.SetGUIState(UIType.Store, false);
 
         // Iterates over all items able to be bought
         for (int i = 0; i < allStoreItems.Count; i++)
