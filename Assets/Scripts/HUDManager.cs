@@ -13,7 +13,6 @@ public class HUDManager : MonoBehaviour
     private VisualElement moneyContainer;
     private Label moneyDisplay;
 
-    // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
@@ -22,15 +21,18 @@ public class HUDManager : MonoBehaviour
 
     private void OnEnable()
     {
+        //hud elements selecting
         moneyContainer = hud.Q<VisualElement>("moneyContainer");
         moneyDisplay = moneyContainer.Q<Label>("moneyDisplay");
     }
 
     private void Start()
     {
+        //event listener to change display
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
     }
 
+    //method to update money when changed
     private void MoneyChange()
     {
         moneyDisplay.text = $"${GameManager.Instance.Money}";
