@@ -307,7 +307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f1c1e4f1ba24c4dbcdf4c43913a30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 8
+  walkSpeed: 4
+  handTransform: {fileID: 3229573020502574748}
   waypoints: []
   targetItem: {fileID: 0}
 --- !u!1 &8572610691087045508
@@ -320,7 +321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3229573020502574748}
   m_Layer: 0
-  m_Name: HandPosition
+  m_Name: HandTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

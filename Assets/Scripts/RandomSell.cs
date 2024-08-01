@@ -19,8 +19,6 @@ public class RandomSell : MonoBehaviour
         yield return new WaitForSeconds(waitTimeTotal);
         CustomerManager.Instance.SpawnCustomer(this);
         yield return new WaitUntil(() => isSold);
-        //destroy object and give player money
         GameManager.Instance.Money += moneyOnSell;
-        Destroy(gameObject);
     }
 }
