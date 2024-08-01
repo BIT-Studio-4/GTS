@@ -15,9 +15,7 @@ public class RandomSell : MonoBehaviour
         float variance = Random.Range(-varianceSellTimeSecs, varianceSellTimeSecs);
         float waitTimeTotal = avgSellTimeSecs + variance;
         yield return new WaitForSeconds(waitTimeTotal);
-
-        //destroy object and give player money
-        GameManager.Instance.Money += moneyOnSell;
-        Destroy(gameObject);
+        // spawn customer and give this item to it
+        CustomerManager.Instance.SpawnCustomer(this);
     }
 }
