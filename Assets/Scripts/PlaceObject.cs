@@ -35,6 +35,16 @@ public class PlaceObject : MonoBehaviour
             return;
         }
 
+        // If the held object is a Stock item, restrict placement to shelves only
+        if (InventoryManager.Instance.HeldObject.type == PlacementType.Stock)
+        {
+            if (!hit.collider.CompareTag("Shelf"))
+            {
+                Debug.Log("Stock items can only be placed on shelves");
+                return;
+            }
+        }
+
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
         GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, hit.point, Quaternion.identity, placedObjects.transform);

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6661917196110248267}
   m_Layer: 0
   m_Name: Shelf_01
-  m_TagString: Untagged
+  m_TagString: Shelf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,10 +90,55 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8451223844352555540, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: -5780950928546885950, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: -5525249646320217000, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: -4776810286014583467, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: -760723947301089920, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: -310824055941041989, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 28a05412846c07f4491cfd1626476c35,
         type: 3}
       propertyPath: m_Name
       value: Shelf_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719278231009666125, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365168192904467795, guid: 28a05412846c07f4491cfd1626476c35,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shelf
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
