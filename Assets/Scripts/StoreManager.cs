@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
+using System;
 
 public class StoreManager : MonoBehaviour
 {
@@ -15,7 +17,11 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
     [SerializeField] private TextMeshProUGUI moneyText;
-    [SerializeField] private TextMeshProUGUI buyButtonText;
+    [SerializeField] private GameObject buyButton;
+    [SerializeField] private Color buyButtonValidColor;
+    [SerializeField] private Color buyButtonInvalidColor;
+    private TextMeshProUGUI buyButtonText;
+    private Image buyButtonImage;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
@@ -30,6 +36,10 @@ public class StoreManager : MonoBehaviour
         }
 
         Instance = this;
+
+        buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
+        buyButtonImage = buyButton.GetComponent<Image>();
+        buyButtonImage.color = buyButtonInvalidColor;
     }
 
     private void Start()
@@ -113,6 +123,17 @@ public class StoreManager : MonoBehaviour
 
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
+
+        if (totalCost > GameManager.Instance.Money || totalCost <= 0)
+        {
+            Debug.Log("buy button INvalid!!");
+            buyButtonImage.color = buyButtonInvalidColor;
+        }
+        else
+        {
+            Debug.Log("buy button valid!!");
+            buyButtonImage.color = buyButtonValidColor;
+        }
     }
 
     // Changes the tab and resets the contents of the store
