@@ -2,5 +2,8 @@
     position: absolute;
     right: 0; 
     top: 0;
-    height: 5%;
+    color: white;
+    font-size: 50px;
+    padding: 20px;
+    background-color: rgba(151,151,151,0.43);
 }
