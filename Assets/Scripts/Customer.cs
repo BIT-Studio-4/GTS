@@ -6,14 +6,18 @@ public class Customer : MonoBehaviour
 {
     [SerializeField] private float walkSpeed;
     [SerializeField] private Transform handTransform;
+
     [HideInInspector] public List<Transform> waypoints;
-    private Vector3 targetPosition;
     [HideInInspector] public RandomSell targetItem;
+    private Vector3 targetPosition;
     private Vector3 moveVector;
     private bool atEndWaypoint;
 
     IEnumerator Start()
     {
+        // walks through all waypoints (from outside store to target item)
+        // then reverses the waypoints list to walk through in opposite order
+        // and then die
         waypoints.Add(targetItem.transform);
         StartCoroutine(WalkThroughWaypoints());
         yield return new WaitUntil(() => atEndWaypoint);
@@ -21,12 +25,13 @@ public class Customer : MonoBehaviour
         waypoints.Reverse();
         StartCoroutine(WalkThroughWaypoints());
         yield return new WaitUntil(() => atEndWaypoint);
-        yield return null;
         Destroy(gameObject);
     }
 
     void Update()
     {
+        // simple method to get to target position
+        // look at it and move forward
         transform.LookAt(targetPosition);
         moveVector = transform.forward * walkSpeed;
         transform.position += moveVector * Time.deltaTime;
@@ -46,7 +51,10 @@ public class Customer : MonoBehaviour
 
     void PickUpItem()
     {
-        targetItem.isSold = true;
+        GameManager.Instance.Money += targetItem.moneyOnSell;
+        // puts the item in customer's hand
+        // this also parents the item to the customer so when the customer is destroyed
+        // so too is the item
         targetItem.transform.parent = transform;
         targetItem.transform.position = handTransform.position;
         targetItem.transform.rotation = handTransform.rotation;
