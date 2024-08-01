@@ -28,6 +28,7 @@ public class CustomerManager : MonoBehaviour
     {
         Customer customer = Instantiate(customerPrefab, waypoints[0]).GetComponent<Customer>();
         customer.targetItem = targetItem;
-        customer.waypoints = new(waypoints);
+        // send duplicate of waypoints list, otherwise customer fiddles with list and breaks everything
+        customer.waypoints = new(waypoints); 
     }
 }
