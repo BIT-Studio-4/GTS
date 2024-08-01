@@ -20,16 +20,19 @@ public class HUDManager : MonoBehaviour
         hud = hudObject.GetComponent<UIDocument>().rootVisualElement;
     }
 
-    private void OnEnable(){
+    private void OnEnable()
+    {
         moneyContainer = hud.Q<VisualElement>("moneyContainer");
         moneyDisplay = moneyContainer.Q<Label>("moneyDisplay");
     }
 
-    private void Start(){
+    private void Start()
+    {
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
     }
 
-    private void MoneyChange(){
+    private void MoneyChange()
+    {
         moneyDisplay.text = $"${GameManager.Instance.Money}";
     }
 }

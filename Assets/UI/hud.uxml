@@ -5,6 +5,6 @@
     </ui:VisualElement>
     <ui:VisualElement name="controlHints" class="hud-container control-display" style="flex-grow: 1;">
         <ui:Label text="Shop: Q" name="shopControl" />
-        <ui:Label text="Inventory: Tab" name="inventoryControl" select-word-by-double-click="false" />
+        <ui:Label text="Inventory: Tab" name="inventoryControl"  />
     </ui:VisualElement>
 </ui:UXML>
