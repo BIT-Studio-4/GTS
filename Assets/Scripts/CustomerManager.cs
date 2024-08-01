@@ -1,21 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
     [SerializeField] private GameObject customerPrefab;
-    [SerializeField] private float timeBetweenSpawns;
-    [Header("Waypoints")]
-    [SerializeField] private GameObject spawnpoint;
-    [SerializeField] private GameObject storeEntrance;
-
-    private List<GameObject> shelves;
-    public List<GameObject> Shelves
-    {
-        get => shelves;
-        set => shelves = value;
-    }
+    [SerializeField] List<Transform> waypoints;
 
     private List<GameObject> customers;
     public List<GameObject> Customers 
@@ -23,8 +12,6 @@ public class CustomerManager : MonoBehaviour
         get => customers;
         set => customers = value;
     }
-
-    private float timeSinceSpawn;
 
     public static CustomerManager Instance;
 
@@ -35,20 +22,12 @@ public class CustomerManager : MonoBehaviour
             Debug.LogWarning("Found another instance of CustomerManager!!");
         }
         Instance = this;
-
-        shelves = new List<GameObject>();
     }
 
-    void Update()
+    public void SpawnCustomer(RandomSell targetItem)
     {
-        if (Time.time > timeSinceSpawn + timeBetweenSpawns / Mathf.Clamp(shelves.Count, 1, Mathf.Infinity))
-            SpawnCustomer();
-    }
-
-    void SpawnCustomer()
-    {
-        Debug.Log("Spawned Customer!!");
-        GameObject customer = Instantiate(customerPrefab, spawnpoint.transform);
-        timeSinceSpawn = Time.time;
+        Customer customer = Instantiate(customerPrefab, waypoints[0]).GetComponent<Customer>();
+        customer.targetItem = targetItem;
+        customer.waypoints = new(waypoints);
     }
 }

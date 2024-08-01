@@ -9,13 +9,16 @@ public class RandomSell : MonoBehaviour
     //this will be set by the stock item or stock list eventually
     public int moneyOnSell;
 
+    [HideInInspector] public bool isSold;
+
     private IEnumerator Start()
     {
         //wait random time
         float variance = Random.Range(-varianceSellTimeSecs, varianceSellTimeSecs);
         float waitTimeTotal = avgSellTimeSecs + variance;
         yield return new WaitForSeconds(waitTimeTotal);
-
+        CustomerManager.Instance.SpawnCustomer(this);
+        yield return new WaitUntil(() => isSold);
         //destroy object and give player money
         GameManager.Instance.Money += moneyOnSell;
         Destroy(gameObject);

@@ -38,9 +38,6 @@ public class PlaceObject : MonoBehaviour
             placedObject.transform.position.y,
             transform.position.z));
 
-        if (InventoryManager.Instance.HeldObject.name == "Shelf")
-            CustomerManager.Instance.Shelves.Add(placedObject);
-
         InventoryManager.Instance.ConsumePlacedItem();
     }
 }
