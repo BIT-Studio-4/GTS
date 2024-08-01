@@ -1,6 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/hud.uss?fileID=7433441132597879392&amp;guid=a2c53dd0d6d334a4191411c6f7313165&amp;type=3#hud" />
-    <ui:VisualElement name="moneyContainer" class="money-display" style="flex-grow: 1;">
+    <ui:VisualElement name="moneyContainer" class="money-display hud-container" style="flex-grow: 1;">
         <ui:Label name="moneyDisplay" text="$0" />
+    </ui:VisualElement>
+    <ui:VisualElement name="controlHints" class="hud-container control-display" style="flex-grow: 1;">
+        <ui:Label text="Shop: Q" name="shopControl" />
+        <ui:Label text="Inventory: Tab" name="inventoryControl" select-word-by-double-click="false" />
     </ui:VisualElement>
 </ui:UXML>

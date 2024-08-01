@@ -2,8 +2,18 @@
     position: absolute;
     right: 0; 
     top: 0;
-    color: white;
     font-size: 50px;
-    padding: 20px;
+}
+
+.hud-container{
     background-color: rgba(151,151,151,0.43);
+    padding: 20px;
+    color: white;
+}
+
+.control-display{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 30px;
 }
