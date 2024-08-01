@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
-    [SerializeField] private float spawnRate;
+    [SerializeField] private GameObject customerPrefab;
+    [SerializeField] private float timeBetweenSpawns;
+    [Header("Waypoints")]
+    [SerializeField] private GameObject spawnpoint;
+    [SerializeField] private GameObject storeEntrance;
 
     private List<GameObject> shelves;
-    public List<GameObject> Shelves {
+    public List<GameObject> Shelves
+    {
         get => shelves;
-        set
-        {
-            shelves = value;
-        }
+        set => shelves = value;
+    }
+
+    private List<GameObject> customers;
+    public List<GameObject> Customers 
+    {
+        get => customers;
+        set => customers = value;
     }
 
     private float timeSinceSpawn;
@@ -32,13 +41,14 @@ public class CustomerManager : MonoBehaviour
 
     void Update()
     {
-        if (Time.time > timeSinceSpawn + spawnRate / Mathf.Clamp(shelves.Count, 1, Mathf.Infinity))
+        if (Time.time > timeSinceSpawn + timeBetweenSpawns / Mathf.Clamp(shelves.Count, 1, Mathf.Infinity))
             SpawnCustomer();
     }
 
     void SpawnCustomer()
     {
         Debug.Log("Spawned Customer!!");
+        GameObject customer = Instantiate(customerPrefab, spawnpoint.transform);
         timeSinceSpawn = Time.time;
     }
 }
