@@ -128,11 +128,13 @@ public class StoreManager : MonoBehaviour
         {
             Debug.Log("buy button INvalid!!");
             buyButtonImage.color = buyButtonInvalidColor;
+            if (totalCost > 0) totalCostText.color = Color.red;
         }
         else
         {
             Debug.Log("buy button valid!!");
             buyButtonImage.color = buyButtonValidColor;
+            totalCostText.color = Color.black;
         }
     }
 
