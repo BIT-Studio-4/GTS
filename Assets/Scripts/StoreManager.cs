@@ -11,6 +11,7 @@ public class StoreManager : MonoBehaviour
     // The list of all items that are purchasable
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
+    public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
     [SerializeField] private GameObject storeGrid;
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
@@ -34,19 +35,16 @@ public class StoreManager : MonoBehaviour
 
     private void Start()
     {
-        storeGUI.SetActive(false);
-        InputSystem.actions.FindAction("ToggleStore").performed += ctx => ToggleStoreGUI();
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
     }
 
     // This toggles the state of the Store GUI (open or closed)
-    private void ToggleStoreGUI()
+    public void SetStoreActiveState(bool isActive)
     {
-        storeGUI.SetActive(!storeGUI.activeSelf);
+        storeGUI.SetActive(isActive);
 
         if (storeGUI.activeSelf)
         {
-            Cursor.lockState = CursorLockMode.None;
             FillPurchaseItemList();
             SwitchTab(tabIndex);
             totalCost = CalculateTotalCost();
@@ -57,7 +55,6 @@ public class StoreManager : MonoBehaviour
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
         }
@@ -170,7 +167,9 @@ public class StoreManager : MonoBehaviour
     private void PurchaseStock()
     {
         GameManager.Instance.Money -= totalCost;
-        ToggleStoreGUI();
+
+        // This is done via UI manager so the correct windows are opened and closed
+        UIManager.Instance.SetGUIState(UIType.Store, false);
 
         // Iterates over all items able to be bought
         for (int i = 0; i < allStoreItems.Count; i++)
