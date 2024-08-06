@@ -28,7 +28,7 @@ public class StoreManager : MonoBehaviour
     private List<int> purchaseItems = new List<int>();
 
     private void Awake()
-    { 
+    {
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -84,7 +84,8 @@ public class StoreManager : MonoBehaviour
         int storeIndex = 0;
 
         // Iterates over all items to see if it should display in current tab
-        allStoreItems.ForEach(placeableObject => {
+        allStoreItems.ForEach(placeableObject =>
+        {
             if (((int)placeableObject.type) == tabIndex)
             {
                 CreateGridItem(UIIndex, storeIndex, placeableObject);
@@ -124,15 +125,14 @@ public class StoreManager : MonoBehaviour
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
 
-        if (totalCost > GameManager.Instance.Money || totalCost <= 0)
+        if (totalCost > GameManager.Instance.Money)
         {
-            Debug.Log("buy button INvalid!!");
+            Debug.Log("too expenny");
             buyButtonImage.color = buyButtonInvalidColor;
-            if (totalCost > 0) totalCostText.color = Color.red;
+            totalCostText.color = Color.red;
         }
         else
         {
-            Debug.Log("buy button valid!!");
             buyButtonImage.color = buyButtonValidColor;
             totalCostText.color = Color.black;
         }
@@ -150,7 +150,8 @@ public class StoreManager : MonoBehaviour
     {
         purchaseItems.Clear();
 
-        allStoreItems.ForEach(item => {
+        allStoreItems.ForEach(item =>
+        {
             purchaseItems.Add(0);
         });
     }
@@ -174,7 +175,7 @@ public class StoreManager : MonoBehaviour
         if (GameManager.Instance.Money >= totalCost)
         {
             PurchaseStock();
-        } 
+        }
         else
         {
             StartCoroutine(DisplayTooExpensive());
