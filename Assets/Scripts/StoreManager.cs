@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
+using System;
+using Unity.VisualScripting;
 
 public class StoreManager : MonoBehaviour
 {
@@ -16,14 +19,18 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
     [SerializeField] private TextMeshProUGUI moneyText;
-    [SerializeField] private TextMeshProUGUI buyButtonText;
+    [SerializeField] private GameObject buyButton;
+    [SerializeField] private Color buyButtonValidColor;
+    [SerializeField] private Color buyButtonInvalidColor;
+    private TextMeshProUGUI buyButtonText;
+    private Image buyButtonImage;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     private List<int> purchaseItems = new List<int>();
 
     private void Awake()
-    { 
+    {
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -31,6 +38,9 @@ public class StoreManager : MonoBehaviour
         }
 
         Instance = this;
+
+        buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
+        buyButtonImage = buyButton.GetComponent<Image>();
     }
 
     private void Start()
@@ -50,6 +60,7 @@ public class StoreManager : MonoBehaviour
             totalCost = CalculateTotalCost();
             totalCostText.text = $"Total: ${totalCost}";
             UpdateMoneyText();
+            UpdateMoneyColors();
             buyButtonText.text = "Buy!";
             InputSystem.actions.FindAction("Place").Disable();
         }
@@ -57,6 +68,25 @@ public class StoreManager : MonoBehaviour
         {
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
+        }
+    }
+
+    private void UpdateMoneyColors()
+    {
+        if (totalCost == 0) // no items are selected in store
+        {
+            buyButtonImage.color = buyButtonInvalidColor;
+            totalCostText.color = Color.black;
+        }
+        else if (totalCost > GameManager.Instance.Money) // too expensive
+        {
+            buyButtonImage.color = buyButtonInvalidColor;
+            totalCostText.color = Color.red;
+        }
+        else // can afford selection :D
+        {
+            buyButtonImage.color = buyButtonValidColor;
+            totalCostText.color = Color.black;
         }
     }
 
@@ -71,7 +101,8 @@ public class StoreManager : MonoBehaviour
         int storeIndex = 0;
 
         // Iterates over all items to see if it should display in current tab
-        allStoreItems.ForEach(placeableObject => {
+        allStoreItems.ForEach(placeableObject =>
+        {
             if (((int)placeableObject.type) == tabIndex)
             {
                 CreateGridItem(UIIndex, storeIndex, placeableObject);
@@ -110,6 +141,8 @@ public class StoreManager : MonoBehaviour
 
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
+
+        UpdateMoneyColors();
     }
 
     // Changes the tab and resets the contents of the store
@@ -124,7 +157,8 @@ public class StoreManager : MonoBehaviour
     {
         purchaseItems.Clear();
 
-        allStoreItems.ForEach(item => {
+        allStoreItems.ForEach(item =>
+        {
             purchaseItems.Add(0);
         });
     }
@@ -148,7 +182,7 @@ public class StoreManager : MonoBehaviour
         if (GameManager.Instance.Money >= totalCost)
         {
             PurchaseStock();
-        } 
+        }
         else
         {
             StartCoroutine(DisplayTooExpensive());
