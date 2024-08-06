@@ -125,17 +125,22 @@ public class StoreManager : MonoBehaviour
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
 
-        if (totalCost > GameManager.Instance.Money)
+        if (totalCost == 0) // no items are selected in store
         {
-            Debug.Log("too expenny");
+            buyButtonImage.color = buyButtonInvalidColor;
+            totalCostText.color = Color.black;
+        }
+        else if (totalCost > GameManager.Instance.Money) // too expensive
+        {
             buyButtonImage.color = buyButtonInvalidColor;
             totalCostText.color = Color.red;
         }
-        else
+        else // can afford selection :D
         {
             buyButtonImage.color = buyButtonValidColor;
             totalCostText.color = Color.black;
         }
+
     }
 
     // Changes the tab and resets the contents of the store
