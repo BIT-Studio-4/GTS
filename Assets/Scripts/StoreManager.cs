@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using Unity.VisualScripting;
 
 public class StoreManager : MonoBehaviour
 {
@@ -61,15 +62,34 @@ public class StoreManager : MonoBehaviour
             totalCost = CalculateTotalCost();
             totalCostText.text = $"Total: ${totalCost}";
             UpdateMoneyText();
+            UpdateMoneyColors();
             buyButtonText.text = "Buy!";
             InputSystem.actions.FindAction("Place").Disable();
-            buyButtonImage.color = buyButtonInvalidColor;
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
+        }
+    }
+
+    private void UpdateMoneyColors()
+    {
+        if (totalCost == 0) // no items are selected in store
+        {
+            buyButtonImage.color = buyButtonInvalidColor;
+            totalCostText.color = Color.black;
+        }
+        else if (totalCost > GameManager.Instance.Money) // too expensive
+        {
+            buyButtonImage.color = buyButtonInvalidColor;
+            totalCostText.color = Color.red;
+        }
+        else // can afford selection :D
+        {
+            buyButtonImage.color = buyButtonValidColor;
+            totalCostText.color = Color.black;
         }
     }
 
@@ -125,22 +145,7 @@ public class StoreManager : MonoBehaviour
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
 
-        if (totalCost == 0) // no items are selected in store
-        {
-            buyButtonImage.color = buyButtonInvalidColor;
-            totalCostText.color = Color.black;
-        }
-        else if (totalCost > GameManager.Instance.Money) // too expensive
-        {
-            buyButtonImage.color = buyButtonInvalidColor;
-            totalCostText.color = Color.red;
-        }
-        else // can afford selection :D
-        {
-            buyButtonImage.color = buyButtonValidColor;
-            totalCostText.color = Color.black;
-        }
-
+        UpdateMoneyColors();
     }
 
     // Changes the tab and resets the contents of the store
