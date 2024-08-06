@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  crouchDepth: 0.701
+  crouchSpeed: 13.12
+  spawnpoint: {fileID: 0}
 --- !u!114 &6386847648168054992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +64,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxYaw: 90
-  lookSensitivity: 25.3
+  mouseLookSensitivity: 0.2
+  controllerLookSensitivity: 1498
   verticalModifier: 0.801
   lockCursor: 1
 --- !u!143 &4496438269360216504
@@ -123,7 +127,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.463, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: [{fileID: 3692416180384438132}]
+  m_Children:
+  - {fileID: 3692416180384438132}
   m_Father: {fileID: 6064358372453876376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &6208913853307529671

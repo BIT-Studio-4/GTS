@@ -8,8 +8,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerRotation : MonoBehaviour
 {
-    [SerializeField][Range(45, 90)] float maxYaw;  
-    [SerializeField][Range(0.01f, 1)] float lookSensitivity;
+    [SerializeField][Range(45, 90)] float maxYaw;
+    [SerializeField][Range(0.01f, 1)] float mouseLookSensitivity;
+    [SerializeField][Range(1, 10000)] float controllerLookSensitivity;
     [SerializeField][Range(0.5f, 1)] float verticalModifier;
     [SerializeField] bool lockCursor;
     private InputAction lookAction;
@@ -20,7 +21,7 @@ public class PlayerRotation : MonoBehaviour
     void Awake()
     {
         Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
-        
+
         cam = GetComponentInChildren<Camera>();
     }
 
@@ -34,9 +35,10 @@ public class PlayerRotation : MonoBehaviour
 
     void Update()
     {
-        Vector2 lookInput = lookAction.ReadValue<Vector2>() * lookSensitivity;
-        // only mutliply by deltaTime if not using delta input (mouse)
-        if (!inputIsDelta) lookInput *= Time.deltaTime;
+        Vector2 lookInput = lookAction.ReadValue<Vector2>();
+        // delta (mouse) input doesn't need deltaTime but controller does
+        if (inputIsDelta) lookInput *= mouseLookSensitivity;
+        else lookInput *= controllerLookSensitivity * Time.deltaTime;
 
         // rotate character horizontally (around the Y axis)
         transform.Rotate(Vector3.up * lookInput.x);
