@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,6 +36,9 @@ public class PlayerRotation : MonoBehaviour
 
     void Update()
     {
+        // stop player rotating when in menu
+        if (UIManager.Instance.IsGUIOpen) return;
+
         Vector2 lookInput = lookAction.ReadValue<Vector2>();
         // delta (mouse) input doesn't need deltaTime but controller does
         if (inputIsDelta) lookInput *= mouseLookSensitivity;
