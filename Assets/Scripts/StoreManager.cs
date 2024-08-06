@@ -39,7 +39,6 @@ public class StoreManager : MonoBehaviour
 
         buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
         buyButtonImage = buyButton.GetComponent<Image>();
-        buyButtonImage.color = buyButtonInvalidColor;
     }
 
     private void Start()
@@ -64,6 +63,7 @@ public class StoreManager : MonoBehaviour
             UpdateMoneyText();
             buyButtonText.text = "Buy!";
             InputSystem.actions.FindAction("Place").Disable();
+            buyButtonImage.color = buyButtonInvalidColor;
         }
         else
         {
