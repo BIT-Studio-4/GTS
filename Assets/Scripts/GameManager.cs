@@ -10,16 +10,16 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent OnMoneyChange = new UnityEvent();
 
-    [SerializeField] 
+    [SerializeField]
     private string apiUrl;
 
     [SerializeField]
     private string username;
 
     private User user;
-    public User User { 
-        get => user; 
-        set 
+    public User User {
+        get => user;
+        set
         {
             user = value;
         }
@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
             OnMoneyChange?.Invoke();
 
             // can add more stuff here, eg updating UI etc later on
-            if (user != null) 
-            { 
+            if (user != null)
+            {
                 user.Money = money;
             }
         }
@@ -62,7 +62,9 @@ public class GameManager : MonoBehaviour
     {
         GetUser();
 
-        yield return new WaitUntil(() => User != null);
+        // TEMPORARY HOTFIX~
+        yield return null;
+        // yield return new WaitUntil(() => User != null);
 
         Money = startingMoney;
     }
