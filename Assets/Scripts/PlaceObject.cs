@@ -29,6 +29,22 @@ public class PlaceObject : MonoBehaviour
         if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10)) // hard coded interaction distance (10)
             return;
 
+        if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
+        {
+            Debug.Log("Can't place object on non-flat surface");
+            return;
+        }
+
+        // If the held object is a Stock item, restrict placement to shelves only
+        if (InventoryManager.Instance.HeldObject.type == PlacementType.Stock)
+        {
+            if (!hit.collider.CompareTag("Shelf"))
+            {
+                Debug.Log("Stock items can only be placed on shelves");
+                return;
+            }
+        }
+
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
         GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, hit.point, Quaternion.identity, placedObjects.transform);

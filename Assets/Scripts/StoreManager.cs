@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
+using System;
+using Unity.VisualScripting;
 
 public class StoreManager : MonoBehaviour
 {
@@ -11,18 +14,23 @@ public class StoreManager : MonoBehaviour
     // The list of all items that are purchasable
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
+    public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
     [SerializeField] private GameObject storeGrid;
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
     [SerializeField] private TextMeshProUGUI moneyText;
-    [SerializeField] private TextMeshProUGUI buyButtonText;
+    [SerializeField] private GameObject buyButton;
+    [SerializeField] private Color buyButtonValidColor;
+    [SerializeField] private Color buyButtonInvalidColor;
+    private TextMeshProUGUI buyButtonText;
+    private Image buyButtonImage;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     private List<int> purchaseItems = new List<int>();
 
     private void Awake()
-    { 
+    {
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -30,36 +38,55 @@ public class StoreManager : MonoBehaviour
         }
 
         Instance = this;
+
+        buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
+        buyButtonImage = buyButton.GetComponent<Image>();
     }
 
     private void Start()
     {
-        storeGUI.SetActive(false);
-        InputSystem.actions.FindAction("ToggleStore").performed += ctx => ToggleStoreGUI();
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
     }
 
     // This toggles the state of the Store GUI (open or closed)
-    private void ToggleStoreGUI()
+    public void SetStoreActiveState(bool isActive)
     {
-        storeGUI.SetActive(!storeGUI.activeSelf);
+        storeGUI.SetActive(isActive);
 
         if (storeGUI.activeSelf)
         {
-            Cursor.lockState = CursorLockMode.None;
             FillPurchaseItemList();
             SwitchTab(tabIndex);
             totalCost = CalculateTotalCost();
             totalCostText.text = $"Total: ${totalCost}";
             UpdateMoneyText();
+            UpdateMoneyColors();
             buyButtonText.text = "Buy!";
             InputSystem.actions.FindAction("Place").Disable();
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
+        }
+    }
+
+    private void UpdateMoneyColors()
+    {
+        if (totalCost == 0) // no items are selected in store
+        {
+            buyButtonImage.color = buyButtonInvalidColor;
+            totalCostText.color = Color.black;
+        }
+        else if (totalCost > GameManager.Instance.Money) // too expensive
+        {
+            buyButtonImage.color = buyButtonInvalidColor;
+            totalCostText.color = Color.red;
+        }
+        else // can afford selection :D
+        {
+            buyButtonImage.color = buyButtonValidColor;
+            totalCostText.color = Color.black;
         }
     }
 
@@ -74,7 +101,8 @@ public class StoreManager : MonoBehaviour
         int storeIndex = 0;
 
         // Iterates over all items to see if it should display in current tab
-        allStoreItems.ForEach(placeableObject => {
+        allStoreItems.ForEach(placeableObject =>
+        {
             if (((int)placeableObject.type) == tabIndex)
             {
                 CreateGridItem(UIIndex, storeIndex, placeableObject);
@@ -113,6 +141,8 @@ public class StoreManager : MonoBehaviour
 
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
+
+        UpdateMoneyColors();
     }
 
     // Changes the tab and resets the contents of the store
@@ -127,7 +157,8 @@ public class StoreManager : MonoBehaviour
     {
         purchaseItems.Clear();
 
-        allStoreItems.ForEach(item => {
+        allStoreItems.ForEach(item =>
+        {
             purchaseItems.Add(0);
         });
     }
@@ -151,7 +182,7 @@ public class StoreManager : MonoBehaviour
         if (GameManager.Instance.Money >= totalCost)
         {
             PurchaseStock();
-        } 
+        }
         else
         {
             StartCoroutine(DisplayTooExpensive());
@@ -170,7 +201,9 @@ public class StoreManager : MonoBehaviour
     private void PurchaseStock()
     {
         GameManager.Instance.Money -= totalCost;
-        ToggleStoreGUI();
+
+        // This is done via UI manager so the correct windows are opened and closed
+        UIManager.Instance.SetGUIState(UIType.Store, false);
 
         // Iterates over all items able to be bought
         for (int i = 0; i < allStoreItems.Count; i++)
