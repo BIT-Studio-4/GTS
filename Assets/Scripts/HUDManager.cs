@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +13,9 @@ public class HUDManager : MonoBehaviour
     private VisualElement hud;
     private VisualElement moneyContainer;
     private Label moneyDisplay;
+    private VisualElement errorPopup;
+    private Label errorMessage;
+
 
     void Awake()
     {
@@ -24,6 +28,8 @@ public class HUDManager : MonoBehaviour
         //hud elements selecting
         moneyContainer = hud.Q<VisualElement>("moneyContainer");
         moneyDisplay = moneyContainer.Q<Label>("moneyDisplay");
+        errorPopup = hud.Q<VisualElement>("errorPopup");
+        errorMessage = errorMessage.Q<Label>("errorText");
     }
 
     private void Start()
@@ -40,6 +46,7 @@ public class HUDManager : MonoBehaviour
 
     //method to popup a message when an error occurs
     private void ErrorPopup(string message){
-        
+        errorMessage.text = message;
+        errorPopup.style.display = DisplayStyle.Flex;
     }
 }
