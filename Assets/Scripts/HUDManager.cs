@@ -37,4 +37,9 @@ public class HUDManager : MonoBehaviour
     {
         moneyDisplay.text = $"${GameManager.Instance.Money}";
     }
+
+    //method to popup a message when an error occurs
+    private void ErrorPopup(string message){
+        
+    }
 }
