@@ -15,8 +15,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private RaycastHit hit;
     public RaycastHit Hit { get => hit; }
-
-    private bool raycastHasHit;
+    public bool raycastHasHit { get; private set; }
     private InputAction interactAction;
 
     private void Start()
