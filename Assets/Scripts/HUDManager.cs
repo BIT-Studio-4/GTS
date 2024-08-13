@@ -15,7 +15,7 @@ public class HUDManager : MonoBehaviour
     private Label moneyDisplay;
     private VisualElement errorPopup;
     private Label errorMessage;
-
+    [SerializeField] private PlaceObject placement;
 
     void Awake()
     {
@@ -36,6 +36,8 @@ public class HUDManager : MonoBehaviour
     {
         //event listener to change display
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
+        placement.incorrectPlacement.AddListener(ErrorPopup);
+
     }
 
     //method to update money when changed
@@ -48,5 +50,6 @@ public class HUDManager : MonoBehaviour
     private void ErrorPopup(string message){
         errorMessage.text = message;
         errorPopup.style.display = DisplayStyle.Flex;
+        Debug.Log(message);
     }
 }
