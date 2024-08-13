@@ -64,8 +64,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxYaw: 90
-  mouseLookSensitivity: 0.2
-  controllerLookSensitivity: 1498
+  mouseLookSensitivity: 0.15
+  controllerLookSensitivity: 300
   verticalModifier: 0.801
   lockCursor: 1
 --- !u!143 &4496438269360216504
@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 4635837565340512232}
   - component: {fileID: 2908576040736156004}
   - component: {fileID: 7439313883792136263}
+  - component: {fileID: 893337788071560415}
   m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -267,6 +268,18 @@ MonoBehaviour:
   - {fileID: 5527126596583947887, guid: a7338e75769c78841b0306eaa2a6b933, type: 3}
   - {fileID: 1729293619525604392, guid: ec53c5bf8b1667c46b232405d4c61293, type: 3}
   - {fileID: 8947323300707565331, guid: c2cf5ef4ef98e534f88958120472e1b8, type: 3}
+--- !u!114 &893337788071560415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3103663510848858061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8798aadcf3bb23469cda1d575ea4439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3226304405040356737
 GameObject:
   m_ObjectHideFlags: 0

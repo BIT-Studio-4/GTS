@@ -2561,26 +2561,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6386847648168054992, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: mouseLookSensitivity
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6386847648168054992, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: controllerLookSensitivity
-      value: 300
-      objectReference: {fileID: 0}
     - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: spawnpoint
       value: 
       objectReference: {fileID: 1876903003}
-    - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: crouchDepth
-      value: 0.701
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
