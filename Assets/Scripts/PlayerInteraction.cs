@@ -12,6 +12,10 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactionTextDescription;
     [SerializeField] private TextMeshProUGUI interactionTextButton;
 
+    private RaycastHit hit;
+    public RaycastHit Hit { get => hit; }
+
+    private bool raycastHasHit;
     private InputAction interactAction;
 
     private void Start()
@@ -20,13 +24,16 @@ public class PlayerInteraction : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
     }
 
+    void Update()
+    {
+        raycastHasHit = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactionDistance);
+    }
+
     // Draws a raycast to whats in front of it and updates the UI depending on what it hits
     void FixedUpdate()
     {
-        RaycastHit hit;
-
         // Sends a raycast and stores it in the hit variable
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactionDistance))
+        if (raycastHasHit)
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
 
