@@ -28,9 +28,15 @@ public class HTTPRequests
     {
         // Create a new POST request.
         // Similar to the 'options' parameter of a javascript request.
-        UnityWebRequest http = new UnityWebRequest(url);
+        UnityWebRequest http = new(url);
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
+
+        UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson(data)));
+        uploadHandler.contentType = "application/json";
+        http.uploadHandler = uploadHandler;
+        http.downloadHandler = new DownloadHandlerBuffer();
+
         if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}"); // If a token exists, set it here. This allows the player access to the /api area of our API.
 
         return await MakeHttpRequest<T>(http);
@@ -78,14 +84,15 @@ public class HTTPRequests
 
     private static string GetJson(Dictionary<string, string> data)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new();
         sb.Append("{");
 
         foreach (KeyValuePair<string, string> kvm in data)
         {
-            sb.Append($"{kvm.Key}:{kvm.Value},");
+            sb.Append($"\"{kvm.Key}\":\"{kvm.Value}\",");
         }
 
+        sb.Remove(sb.Length - 1, 1);
         sb.Append("}");
 
         return sb.ToString();
