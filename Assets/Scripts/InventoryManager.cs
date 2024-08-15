@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
+using System;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -35,8 +33,10 @@ public class InventoryManager : MonoBehaviour
             heldObject = value;
             if (heldObject == null)
                 ClearHandItem();
+            OnHeldObjectChange?.Invoke(heldObject);
         }
     }
+    public Action<PlaceableObject> OnHeldObjectChange;
     private int tabIndex;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     // List of items currently displayed in GUI
