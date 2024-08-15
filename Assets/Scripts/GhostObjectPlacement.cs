@@ -16,7 +16,7 @@ public class GhostObjectPlacement : MonoBehaviour
     {
         playerInteraction = GetComponent<PlayerInteraction>();
         meshFilter = ghostObject.GetComponent<MeshFilter>();
-        animator = GetComponent<Animator>();
+        animator = ghostObject.GetComponent<Animator>();
     }
 
     void Start()
@@ -32,6 +32,7 @@ public class GhostObjectPlacement : MonoBehaviour
         if (!playerInteraction.raycastHasHit || InventoryManager.Instance.HeldObject == null)
         {
             ghostObject.SetActive(false);
+            Debug.Log("no raycast or held object");
             return;
         }
 
@@ -42,6 +43,8 @@ public class GhostObjectPlacement : MonoBehaviour
         rotation.x = 0;
         rotation.z = 0;
         ghostObject.transform.rotation = Quaternion.Euler(rotation);
+        animator.SetBool("canBePlaced", InventoryManager.Instance.HeldObject.canBePlaced);
+        Debug.Log($"can be placed: {InventoryManager.Instance.HeldObject.canBePlaced}");
     }
 
     void HandleObjectChanged(PlaceableObject heldObject)
