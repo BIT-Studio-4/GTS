@@ -18,22 +18,8 @@ public class User
         {
             money = value;
 
-            Debug.Log($"{name}: {money:c}");
-
             // Update the API with the new money value;
         }
     }
-    private string token;
-    public string Token
-    {
-        get => token;
-        set
-        {
-            token = value;
-
-            Debug.Log($"{token:c}");
-
-            // Update the API with the new money value;
-        }
-    }
+    public string token;
 }
