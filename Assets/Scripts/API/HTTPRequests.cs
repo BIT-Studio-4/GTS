@@ -20,6 +20,17 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
+    public static async Task<T> Post<T>(string url, WWWForm body)
+    {
+        // Create a new GET request.
+        // Similar to the 'options' parameter of a javascript request.
+        UnityWebRequest http = UnityWebRequest.Post(url, body);
+        http.method = "POST";
+        http.SetRequestHeader("Content-Type", "application/json");
+
+        return await MakeHttpRequest<T>(http);
+    }
+
     private static async Task<T> MakeHttpRequest<T>(UnityWebRequest http)
     {
         // Make the request to the API.
