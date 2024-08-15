@@ -42,6 +42,24 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
+    public static async Task<T> Put<T>(string url, Dictionary<string, string> data, string token = "")
+    {
+        // Create a new POST request.
+        // Similar to the 'options' parameter of a javascript request.
+        UnityWebRequest http = new(url);
+        http.method = "PUT";
+        http.SetRequestHeader("Content-Type", "application/json");
+
+        UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson(data)));
+        uploadHandler.contentType = "application/json";
+        http.uploadHandler = uploadHandler;
+        http.downloadHandler = new DownloadHandlerBuffer();
+
+        if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}"); // If a token exists, set it here. This allows the player access to the /api area of our API.
+
+        return await MakeHttpRequest<T>(http);
+    }
+
     // All requests will can use this, may need updating in future.
     // This is the basic error and data handling of the request, and will return the desired type that the relevant request needs.
     private static async Task<T> MakeHttpRequest<T>(UnityWebRequest http)
