@@ -16,23 +16,25 @@ public class HTTPRequests
         UnityWebRequest http = UnityWebRequest.Get(url);
         http.method = "GET";
         http.SetRequestHeader("Content-Type", "application/json");
-        if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}");
+        if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}"); // If a token exists, set it here. This allows the player access to the /api area of our API.
 
         return await MakeHttpRequest<T>(http);
     }
 
     public static async Task<T> Post<T>(string url, WWWForm body, string token = "")
     {
-        // Create a new GET request.
+        // Create a new POST request.
         // Similar to the 'options' parameter of a javascript request.
         UnityWebRequest http = UnityWebRequest.Post(url, body);
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
-        if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}");
+        if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}"); // If a token exists, set it here. This allows the player access to the /api area of our API.
 
         return await MakeHttpRequest<T>(http);
     }
 
+    // All requests will can use this, may need updating in future.
+    // This is the basic error and data handling of the request, and will return the desired type that the relevant request needs.
     private static async Task<T> MakeHttpRequest<T>(UnityWebRequest http)
     {
         // Make the request to the API.
