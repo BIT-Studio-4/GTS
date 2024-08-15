@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudObject: {fileID: 2118508038}
+  popupDelay: 3
   placement: {fileID: 820156064}
 --- !u!4 &23548010
 Transform:

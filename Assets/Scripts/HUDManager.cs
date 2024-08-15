@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -15,6 +16,9 @@ public class HUDManager : MonoBehaviour
     private Label moneyDisplay;
     private VisualElement errorPopup;
     private Label errorMessage;
+    private Boolean errorPopupUp;
+    private float popupTime;
+    [SerializeField] private float popupDelay;
     [SerializeField] private PlaceObject placement;
 
     void Awake()
@@ -37,7 +41,17 @@ public class HUDManager : MonoBehaviour
         //event listener to change display
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
         placement.incorrectPlacement.AddListener(ErrorPopup);
+        errorPopupUp = false;
 
+    }
+
+    private void Update()
+    {
+        if (errorPopupUp == true && Time.time > popupTime + popupDelay)
+        {
+            errorPopup.style.display = DisplayStyle.None;
+            errorPopupUp = false;
+        }
     }
 
     //method to update money when changed
@@ -50,6 +64,7 @@ public class HUDManager : MonoBehaviour
     private void ErrorPopup(string message){
         errorMessage.text = message;
         errorPopup.style.display = DisplayStyle.Flex;
-        Debug.Log(message);
+        errorPopupUp = true;
+        popupTime = Time.time;
     }
 }
