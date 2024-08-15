@@ -75,4 +75,19 @@ public class HTTPRequests
             return default; // Essentially returning null but ensuring that non-nullable types still work.
         }
     }
+
+    private static string GetJson(Dictionary<string, string> data)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append("{");
+
+        foreach (KeyValuePair<string, string> kvm in data)
+        {
+            sb.Append($"{kvm.Key}:{kvm.Value},");
+        }
+
+        sb.Append("}");
+
+        return sb.ToString();
+    }
 }
