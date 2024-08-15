@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - staging
+      - unity-build-automation
 
 jobs:
   buildForAllSupportedPlatforms:
