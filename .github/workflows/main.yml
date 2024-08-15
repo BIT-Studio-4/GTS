@@ -1,6 +1,10 @@
 name: Build project
 
-on: [push] # , pull_request if a pull request is what we want
+on: 
+  push: 
+    branches:
+      - main
+      - staging
 
 jobs:
   buildForAllSupportedPlatforms:
