@@ -9,24 +9,26 @@ using UnityEngine.Networking;
 
 public class HTTPRequests
 {
-    public static async Task<T> Get<T>(string url)
+    public static async Task<T> Get<T>(string url, string token = "")
     {
         // Create a new GET request.
         // Similar to the 'options' parameter of a javascript request.
         UnityWebRequest http = UnityWebRequest.Get(url);
         http.method = "GET";
         http.SetRequestHeader("Content-Type", "application/json");
+        if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}");
 
         return await MakeHttpRequest<T>(http);
     }
 
-    public static async Task<T> Post<T>(string url, WWWForm body)
+    public static async Task<T> Post<T>(string url, WWWForm body, string token = "")
     {
         // Create a new GET request.
         // Similar to the 'options' parameter of a javascript request.
         UnityWebRequest http = UnityWebRequest.Post(url, body);
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
+        if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}");
 
         return await MakeHttpRequest<T>(http);
     }
