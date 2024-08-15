@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private string apiUrl;
+    public string ApiUrl { get; set; }
     [SerializeField]
     private string username;
     [SerializeField]
