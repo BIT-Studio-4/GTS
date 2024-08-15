@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +19,11 @@ public class User
         {
             money = value;
 
+            //Dictionary<string, string> data = new()
+            //{
+            //    { "money", money.ToString() },
+            //};
+            //HTTPRequests.Put<User>($"{GameManager.Instance.ApiUrl}/api/users/{id}", data, token);
             // Update the API with the new money value;
         }
     }
