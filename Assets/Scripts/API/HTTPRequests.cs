@@ -17,13 +17,18 @@ public class HTTPRequests
         http.method = "GET";
         http.SetRequestHeader("Content-Type", "application/json");
 
+        return await MakeHttpRequest<T>(http);
+    }
+
+    private static async Task<T> MakeHttpRequest<T>(UnityWebRequest http)
+    {
         // Make the request to the API.
         // Similar to running 'fetch(url, options)'.
         UnityWebRequestAsyncOperation req = http.SendWebRequest();
 
         // Wait until request is finished.
         // 'Task.Yield()' waits until the condition is true to continue without slowing down other processes.
-        while (!req.isDone) await Task.Yield(); 
+        while (!req.isDone) await Task.Yield();
 
         string response = http.downloadHandler.text;
 
