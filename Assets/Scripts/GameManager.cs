@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
     private async void LoginUser()
     {
-        Dictionary<string, string> data = new Dictionary<string, string>() {
+        Dictionary<string, string> data = new() {
             { "name", username },
             { "password", password },
         };
