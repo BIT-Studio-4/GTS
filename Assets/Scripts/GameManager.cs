@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,9 +12,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private string apiUrl;
-
     [SerializeField]
     private string username;
+    [SerializeField]
+    private string password;
+    [SerializeField]
+    private string token;
 
     private User user;
     public User User {
@@ -59,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Initialize()
     {
-        GetUser();
+        LoginUser();
 
         // TEMPORARY HOTFIX~
         yield return null;
@@ -68,8 +72,13 @@ public class GameManager : MonoBehaviour
         Money = startingMoney;
     }
 
-    private async void GetUser()
+    private async void LoginUser()
     {
-        User = await HTTPRequests.Get<User>($"{apiUrl}/users/{username}");
+        Dictionary<string, string> data = new Dictionary<string, string>() {
+            { "name", username },
+            { "password", password },
+        };
+
+        User = await HTTPRequests.Post<User>($"{apiUrl}/auth/login", data);
     }
 }
