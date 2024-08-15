@@ -10,7 +10,6 @@ public class PlaceObject : MonoBehaviour
 
     private GameObject placedObjects;
     public UnityEvent<string> incorrectPlacement = new UnityEvent<string>();
-
     void Awake()
     {
         // empty parent to keep all instantiated objects hidden in hierarchy
@@ -60,3 +59,4 @@ public class PlaceObject : MonoBehaviour
         InventoryManager.Instance.ConsumePlacedItem();
     }
 }
+

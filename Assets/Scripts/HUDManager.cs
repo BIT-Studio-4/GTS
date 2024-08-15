@@ -29,7 +29,7 @@ public class HUDManager : MonoBehaviour
         moneyContainer = hud.Q<VisualElement>("moneyContainer");
         moneyDisplay = moneyContainer.Q<Label>("moneyDisplay");
         errorPopup = hud.Q<VisualElement>("errorPopup");
-        errorMessage = errorMessage.Q<Label>("errorText");
+        errorMessage = errorPopup.Q<Label>("errorText");
     }
 
     private void Start()

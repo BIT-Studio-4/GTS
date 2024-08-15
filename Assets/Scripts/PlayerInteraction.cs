@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 /// <summary>
 /// PlayerInteraction detects what the player is looking at and displays it to the player via the UI.
