@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -21,11 +24,11 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
-    public static async Task<T> Post<T>(string url, WWWForm body, string token = "")
+    public static async Task<T> Post<T>(string url, Dictionary<string, string> data, string token = "")
     {
         // Create a new POST request.
         // Similar to the 'options' parameter of a javascript request.
-        UnityWebRequest http = UnityWebRequest.Post(url, body);
+        UnityWebRequest http = new UnityWebRequest(url);
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
         if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}"); // If a token exists, set it here. This allows the player access to the /api area of our API.
