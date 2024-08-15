@@ -20,37 +20,28 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ghost Object
+  m_Name: Bottle Lid
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_ModifiedSerializedProperties: 16
-  m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
-  - _SURFACE_TYPE_TRANSPARENT
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: Transparent
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
-  - DepthOnly
-  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats:
-    - _Blend: 0
-    - _DstBlend: 10
-    - _DstBlendAlpha: 10
-    - _Surface: 1
-    - _ZWrite: 0
+    m_Floats: []
     m_Colors:
-    - _BaseColor: {r: 0.5518868, g: 0.9251201, b: 1, a: 0.14901961}
-    - _Color: {r: 0.5518868, g: 0.9251201, b: 1, a: 0.14901961}
+    - _BaseColor: {r: 0.85490197, g: 0.49803922, b: 0.49803922, a: 1}
+    - _Color: {r: 0.85490197, g: 0.49803913, b: 0.49803913, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

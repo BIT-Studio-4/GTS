@@ -5,14 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInteraction))]
 public class GhostObjectPlacement : MonoBehaviour
 {
-    private PlayerInteraction playerInteraction;
-    private GameObject ghostObject;
     [SerializeField] private Material ghostMaterial;
-    [SerializeField] private Transform ghostObjectParent;
+    [SerializeField] private GameObject ghostObject;
+
+    private PlayerInteraction playerInteraction;
+    private MeshFilter meshFilter;
+    private Animator animator;
 
     void Awake()
     {
         playerInteraction = GetComponent<PlayerInteraction>();
+        meshFilter = ghostObject.GetComponent<MeshFilter>();
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -44,25 +48,28 @@ public class GhostObjectPlacement : MonoBehaviour
     {
         if (heldObject == null)
         {
-            Destroy(ghostObject);
+            ghostObject.SetActive(false);
             return;
         }
 
-        ghostObject = Instantiate(heldObject.prefab, ghostObjectParent);
-        ghostObject.name = $"Ghost {ghostObject.name}";
-        YassifyGhostObject();
+        GetMeshFromHeldObject();
+        ghostObject.SetActive(true);
     }
 
-    void YassifyGhostObject()
+    void GetMeshFromHeldObject()
     {
-        Collider[] colliders = ghostObject.GetComponentsInChildren<Collider>();
-        Debug.Log($"{colliders}: {colliders.Length}");
-        MeshRenderer[] meshRenderers = ghostObject.GetComponentsInChildren<MeshRenderer>();
-        Debug.Log($"{meshRenderers}: {meshRenderers.Length}");
-
-        foreach (Collider collider in colliders) collider.enabled = false;
-        foreach (MeshRenderer meshRenderer in meshRenderers)
-            foreach (Material material in meshRenderer.materials)
-                material.CopyPropertiesFromMaterial(ghostMaterial);
+        // code snippet from https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
+        // combine all submeshes into one
+        MeshFilter[] meshFilters = InventoryManager.Instance.HeldObject.prefab.GetComponentsInChildren<MeshFilter>();
+        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+        for (int i = 0; i < meshFilters.Length; i++)
+        {
+            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].mesh.SetTriangles(combine[i].mesh.triangles, 0);
+            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+        }
+        Mesh mesh = new Mesh();
+        mesh.CombineMeshes(combine);
+        meshFilter.sharedMesh = mesh;
     }
 }
