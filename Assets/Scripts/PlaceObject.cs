@@ -28,13 +28,13 @@ public class PlaceObject : MonoBehaviour
         if (InventoryManager.Instance.HeldObject == null) return;
 
         if (!playerInteraction.raycastHasHit) return;
-
         hit = playerInteraction.Hit;
+
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
             if (placeAction.WasPressedThisFrame())
                 Debug.Log("Can't place object on non-flat surface");
-            InventoryManager.Instance.HeldObject.canBePlaced = false;
+            InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
             return;
         }
 
@@ -45,18 +45,18 @@ public class PlaceObject : MonoBehaviour
             {
                 if (placeAction.WasPressedThisFrame())
                     Debug.Log("Stock items can only be placed on shelves");
-                InventoryManager.Instance.HeldObject.canBePlaced = false;
+                InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
                 return;
             }
         }
-
-        InventoryManager.Instance.HeldObject.canBePlaced = true;
+        
+        InventoryManager.Instance.HeldObject.canBePlacedAtHit = true;
     }
 
     void InstantiateObject(InputAction.CallbackContext ctx)
     {
         if (InventoryManager.Instance.HeldObject == null) return;
-        if (!InventoryManager.Instance.HeldObject.canBePlaced) return;
+        if (!InventoryManager.Instance.HeldObject.canBePlacedAtHit) return;
 
         Debug.Log(InventoryManager.Instance.HeldObject);
 

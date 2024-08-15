@@ -18,7 +18,7 @@ public class PlaceableObject
     public GameObject prefab;
     public PlacementType type;
     public int count;
-    public bool canBePlaced;
+    public bool canBePlacedAtHit;
 
     public PlaceableObject(string name, GameObject prefab, PlacementType type, int count = 0)
     {
@@ -26,6 +26,6 @@ public class PlaceableObject
         this.prefab = prefab;
         this.type = type;
         this.count = count;
-        canBePlaced = true;
+        canBePlacedAtHit = true;
     }
 }
