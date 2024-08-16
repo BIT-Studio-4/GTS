@@ -17,6 +17,7 @@ public class PlaceableObject
     public GameObject prefab;
     public PlacementType type;
     public int count;
+    public float salePrice; //added field for sale price
 
     public PlaceableObject(string name, GameObject prefab, PlacementType type, int count = 0)
     {

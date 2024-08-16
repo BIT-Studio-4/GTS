@@ -115,6 +115,18 @@ public class InventoryManager : MonoBehaviour
         gridSlot.Button.onClick.AddListener(() => StockButtonClick(index));
         gridSlot.Text.text = placeableObject.name;
         gridSlot.CountText.text = $"{placeableObject.count}x";
+
+        if (placeableObject.prefab.TryGetComponent<RandomSell>(out RandomSell randomSell))
+        {
+            // If the component exists, set the sale price
+            float salePrice = randomSell.moneyOnSell;
+            gridSlot.SalePriceText.text = $"${salePrice:F2}";
+        }
+        else
+        {
+            // If the component does not exist, set the text to empty or a desired message
+            gridSlot.SalePriceText.text = ""; 
+        }
     }
 
     // Method that is called when an item button is clicked
