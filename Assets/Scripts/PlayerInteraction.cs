@@ -37,6 +37,12 @@ public class PlayerInteraction : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
 
+            if (hit.transform == null)
+            {
+                Debug.Log("it WAS null!!!!!!!!!");
+                return;
+            }
+
             InteractableObject interactableObject = hit.transform.GetComponent<InteractableObject>();
 
             // Checks if the hit object has the InteractableObject script on it to update the text
