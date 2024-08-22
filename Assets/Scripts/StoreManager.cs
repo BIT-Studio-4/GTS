@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
-using System;
-using Unity.VisualScripting;
 
 public class StoreManager : MonoBehaviour
 {
