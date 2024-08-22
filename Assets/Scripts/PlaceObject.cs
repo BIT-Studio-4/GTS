@@ -45,9 +45,8 @@ public class PlaceObject : MonoBehaviour
             if (!hit.collider.CompareTag("Shelf"))
             {
                 if (placeAction.WasPressedThisFrame())
-                    Debug.Log("Stock items can only be placed on shelves");
+                    incorrectPlacement.Invoke("Stock items can only be placed on shelves");
                 InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
-                incorrectPlacement.Invoke("Stock items can only be placed on shelves");
                 return;
             }
         }
