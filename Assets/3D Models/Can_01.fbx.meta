@@ -3,7 +3,17 @@ guid: 03bc099a9edb8d040ac0dc12fb480c87
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Label
+    second: {fileID: 2100000, guid: afaccd729c092ca4488fb173354bce26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 807dcb83943284f4cb337855d48b1db4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -30,7 +40,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
