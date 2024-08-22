@@ -31,17 +31,6 @@ public class PlaceObject : MonoBehaviour
 
         if (!playerInteraction.raycastHasHit) return;
         hit = playerInteraction.Hit;
-        placeAction = InputSystem.actions.FindAction("Place");
-        placeAction.performed += ctx => InstantiateObject(ctx);
-        playerInteraction = GetComponent<PlayerInteraction>();
-    }
-
-    private void Update()
-    {
-        if (InventoryManager.Instance.HeldObject == null) return;
-
-        if (!playerInteraction.raycastHasHit) return;
-        hit = playerInteraction.Hit;
 
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
