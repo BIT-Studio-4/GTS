@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +14,12 @@ public class HUDManager : MonoBehaviour
     private VisualElement hud;
     private VisualElement moneyContainer;
     private Label moneyDisplay;
+    private VisualElement errorPopup;
+    private Label errorMessage;
+    private Boolean errorPopupUp;
+    private float popupTime;
+    [SerializeField] private float popupDelay;
+    [SerializeField] private PlaceObject placement;
 
     void Awake()
     {
@@ -24,17 +32,39 @@ public class HUDManager : MonoBehaviour
         //hud elements selecting
         moneyContainer = hud.Q<VisualElement>("moneyContainer");
         moneyDisplay = moneyContainer.Q<Label>("moneyDisplay");
+        errorPopup = hud.Q<VisualElement>("errorPopup");
+        errorMessage = errorPopup.Q<Label>("errorText");
     }
 
     private void Start()
     {
         //event listener to change display
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
+        placement.incorrectPlacement.AddListener(ErrorPopup);
+        errorPopupUp = false;
+
+    }
+
+    private void Update()
+    {
+        if (errorPopupUp == true && Time.time > popupTime + popupDelay)
+        {
+            errorPopup.style.display = DisplayStyle.None;
+            errorPopupUp = false;
+        }
     }
 
     //method to update money when changed
     private void MoneyChange()
     {
         moneyDisplay.text = $"${GameManager.Instance.Money}";
+    }
+
+    //method to popup a message when an error occurs
+    private void ErrorPopup(string message){
+        errorMessage.text = message;
+        errorPopup.style.display = DisplayStyle.Flex;
+        errorPopupUp = true;
+        popupTime = Time.time;
     }
 }

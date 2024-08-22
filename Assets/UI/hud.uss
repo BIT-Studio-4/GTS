@@ -17,3 +17,11 @@
     bottom: 0;
     font-size: 30px;
 }
+
+.error-popup{
+    position:absolute;
+    left: 0;
+    font-size: 30px;
+    bottom: 20%;
+    display: none;
+}
