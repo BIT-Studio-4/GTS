@@ -35,7 +35,7 @@ This repo exists so the team can make a game for our studies
 
 5. Enjoy our game and please leave feedback through the [Feedback](#feedback) section below
 <br/><br/><br/>
-
+ 
 # Feedback
 One of the most important parts of developing a game is getting feedback from exterior sources. <br/>
 If you have played our game and want to let us know how it went, please fill in this `[form](link to google form)`
