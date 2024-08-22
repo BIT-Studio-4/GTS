@@ -10,15 +10,27 @@ public class PlaceObject : MonoBehaviour
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
 
     private GameObject placedObjects;
-    public UnityEvent<string> incorrectPlacement = new UnityEvent<string>();    private PlayerInteraction playerInteraction;
+    public UnityEvent<string> incorrectPlacement = new UnityEvent<string>();
     private RaycastHit hit;
     private InputAction placeAction;
+    private PlayerInteraction playerInteraction;
 
     void Awake()
     {
         // empty parent to keep all instantiated objects hidden in hierarchy
         placedObjects = new GameObject("Placed Objects");
         // add listener to place input action
+        placeAction = InputSystem.actions.FindAction("Place");
+        placeAction.performed += ctx => InstantiateObject(ctx);
+        playerInteraction = GetComponent<PlayerInteraction>();
+    }
+
+    private void Update()
+    {
+        if (InventoryManager.Instance.HeldObject == null) return;
+
+        if (!playerInteraction.raycastHasHit) return;
+        hit = playerInteraction.Hit;
         placeAction = InputSystem.actions.FindAction("Place");
         placeAction.performed += ctx => InstantiateObject(ctx);
         playerInteraction = GetComponent<PlayerInteraction>();
