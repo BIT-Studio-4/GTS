@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
+using System;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -35,8 +33,10 @@ public class InventoryManager : MonoBehaviour
             heldObject = value;
             if (heldObject == null)
                 ClearHandItem();
+            OnHeldObjectChange?.Invoke(heldObject);
         }
     }
+    public Action<PlaceableObject> OnHeldObjectChange;
     private int tabIndex;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     // List of items currently displayed in GUI
@@ -115,6 +115,18 @@ public class InventoryManager : MonoBehaviour
         gridSlot.Button.onClick.AddListener(() => StockButtonClick(index));
         gridSlot.Text.text = placeableObject.name;
         gridSlot.CountText.text = $"{placeableObject.count}x";
+
+        if (placeableObject.prefab.TryGetComponent<RandomSell>(out RandomSell randomSell))
+        {
+            // If the component exists, set the sale price
+            float salePrice = randomSell.moneyOnSell;
+            gridSlot.SalePriceText.text = $"${salePrice:F2}";
+        }
+        else
+        {
+            // If the component does not exist, set the text to empty or a desired message
+            gridSlot.SalePriceText.text = ""; 
+        }
     }
 
     // Method that is called when an item button is clicked

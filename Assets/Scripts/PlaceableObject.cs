@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // An enum to determine if a placeable object is a structure (e.g a shelf) or a stock item (e.g a can)
@@ -17,6 +15,8 @@ public class PlaceableObject
     public GameObject prefab;
     public PlacementType type;
     public int count;
+    public bool canBePlacedAtHit;
+    public float salePrice; //added field for sale price
 
     public PlaceableObject(string name, GameObject prefab, PlacementType type, int count = 0)
     {
@@ -24,5 +24,6 @@ public class PlaceableObject
         this.prefab = prefab;
         this.type = type;
         this.count = count;
+        canBePlacedAtHit = true;
     }
 }

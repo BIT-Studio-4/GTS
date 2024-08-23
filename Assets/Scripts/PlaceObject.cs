@@ -1,37 +1,41 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInteraction))]
 public class PlaceObject : MonoBehaviour
 {
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
 
     private GameObject placedObjects;
+    public UnityEvent<string> incorrectPlacement = new UnityEvent<string>();
+    private RaycastHit hit;
+    private InputAction placeAction;
+    private PlayerInteraction playerInteraction;
 
     void Awake()
     {
         // empty parent to keep all instantiated objects hidden in hierarchy
         placedObjects = new GameObject("Placed Objects");
         // add listener to place input action
-        InputSystem.actions.FindAction("Place").performed += ctx => InstantiateObject(ctx);
+        placeAction = InputSystem.actions.FindAction("Place");
+        placeAction.performed += ctx => InstantiateObject(ctx);
+        playerInteraction = GetComponent<PlayerInteraction>();
     }
 
-    void InstantiateObject(InputAction.CallbackContext ctx)
+    private void Update()
     {
-        Debug.Log(InventoryManager.Instance.HeldObject);
+        if (InventoryManager.Instance.HeldObject == null) return;
 
-        if (InventoryManager.Instance.HeldObject == null)
-            return;
-
-        RaycastHit hit;
-
-        if (!Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10)) // hard coded interaction distance (10)
-            return;
+        if (!playerInteraction.raycastHasHit) return;
+        hit = playerInteraction.Hit;
 
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
-            Debug.Log("Can't place object on non-flat surface");
+            if (placeAction.WasPressedThisFrame())
+                Debug.Log("Can't place object on non-flat surface");
+            InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
             return;
         }
 
@@ -40,10 +44,22 @@ public class PlaceObject : MonoBehaviour
         {
             if (!hit.collider.CompareTag("Shelf"))
             {
-                Debug.Log("Stock items can only be placed on shelves");
+                if (placeAction.WasPressedThisFrame())
+                    incorrectPlacement.Invoke("Stock items can only be placed on shelves");
+                InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
                 return;
             }
         }
+
+        InventoryManager.Instance.HeldObject.canBePlacedAtHit = true;
+    }
+
+    void InstantiateObject(InputAction.CallbackContext ctx)
+    {
+        if (InventoryManager.Instance.HeldObject == null) return;
+        if (!InventoryManager.Instance.HeldObject.canBePlacedAtHit) return;
+
+        Debug.Log(InventoryManager.Instance.HeldObject);
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects

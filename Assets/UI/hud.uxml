@@ -5,6 +5,9 @@
     </ui:VisualElement>
     <ui:VisualElement name="controlHints" class="hud-container control-display" style="flex-grow: 1;">
         <ui:Label text="Shop: Q" name="shopControl" />
-        <ui:Label text="Inventory: Tab" name="inventoryControl"  />
+        <ui:Label text="Inventory: Tab" name="inventoryControl" />
+    </ui:VisualElement>
+    <ui:VisualElement name="errorPopup" class="hud-container error-popup" style="flex-grow: 1;">
+        <ui:Label text="Label" name="errorText" />
     </ui:VisualElement>
 </ui:UXML>
