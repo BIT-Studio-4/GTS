@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
@@ -24,7 +25,7 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
-    public static async Task<T> Post<T>(string url, Dictionary<string, string> data, string token = "")
+    public static async Task<T> Post<T, D>(string url, D data, string token = "")
     {
         // Create a new POST request.
         // Similar to the 'options' parameter of a javascript request.
@@ -32,7 +33,7 @@ public class HTTPRequests
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
 
-        UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson(data)));
+        UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson<D>(data)));
         uploadHandler.contentType = "application/json";
         http.uploadHandler = uploadHandler;
         http.downloadHandler = new DownloadHandlerBuffer();
@@ -100,16 +101,32 @@ public class HTTPRequests
         }
     }
 
-    private static string GetJson(Dictionary<string, string> data)
+    private static string GetJson<T>(T data)
     {
         StringBuilder sb = new();
         sb.Append("{");
 
-        foreach (KeyValuePair<string, string> kvm in data)
+        // Gets the public fields and properties from any object, even if it's unknown.
+        FieldInfo[] fields = data.GetType().GetFields();
+        PropertyInfo[] props = data.GetType().GetProperties();
+        foreach (FieldInfo field in fields)
         {
-            sb.Append($"\"{kvm.Key}\":\"{kvm.Value}\",");
+            // Gets the value and the name of the field and appends it to the StringBuilder object.
+            var value = field.GetValue(data);
+            string jsonValue = value.GetType() == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+
+            sb.Append($"\"{field.Name}\":{jsonValue},");
+        }
+        foreach (PropertyInfo prop in props)
+        {
+            // Gets the value and the name of the property and appends it to the StringBuilder object.
+            var value = prop.GetValue(data);
+            string jsonValue = value.GetType() == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+
+            sb.Append($"\"{prop.Name.ToLower()}\":{jsonValue},");
         }
 
+        // Removes the final comma from the new string and closes the bracket to end the JSON object creation.
         sb.Remove(sb.Length - 1, 1);
         sb.Append("}");
 
