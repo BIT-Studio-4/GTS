@@ -28,6 +28,7 @@ public class StockManager : MonoBehaviour
     private void Start()
     {
         itemPlaced.AddListener(OnItemPlaced);
+        itemPickedByCustomer.AddListener(OnItemPicked);
         itemSold.AddListener(OnItemSold);
     }
 
@@ -57,5 +58,10 @@ public class StockManager : MonoBehaviour
     private void OnItemSold(SellItem item)
     {
         customerPickedItems.Remove(item);
+    }
+
+    public SellItem GetRandomItemForSale()
+    {
+        return itemsToSell[Random.Range(0, itemsToSell.Count)];
     }
 }
