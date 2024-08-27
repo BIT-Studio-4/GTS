@@ -309,7 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 4
   handTransform: {fileID: 3229573020502574748}
-  displayText: {fileID: 0}
+  displayText: {fileID: 5783689282872572616}
   waypoints: []
   targetItem: {fileID: 0}
 --- !u!1 &8572610691087045508

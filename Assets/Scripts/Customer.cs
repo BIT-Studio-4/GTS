@@ -7,7 +7,7 @@ public class Customer : MonoBehaviour
 {
     [SerializeField] private float walkSpeed;
     [SerializeField] private Transform handTransform;
-    [SerializeField] private TextMeshProUGUI displayText;
+    [SerializeField] private TextMeshPro displayText;
 
     [HideInInspector] public List<Transform> waypoints;
     [HideInInspector] public SellItem targetItem;

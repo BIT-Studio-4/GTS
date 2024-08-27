@@ -3128,7 +3128,7 @@ MonoBehaviour:
     - {fileID: 1371090211}
   minSpawnCooldown: 1
   maxSpawnCooldown: 6
-  baseChanceOfEnter: 0.5
+  baseChanceOfEnter: 0.75
   entranceNode: {fileID: 748191730}
 --- !u!1 &989199892
 GameObject:
