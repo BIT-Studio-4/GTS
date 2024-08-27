@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class RandomSell : MonoBehaviour
+public class SellItem : MonoBehaviour
 {
     //these will be set by "PlaceObject" script when object spawns
     public float avgSellTimeSecs, varianceSellTimeSecs;

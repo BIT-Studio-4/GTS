@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class SellItemEvent : UnityEvent<SellItem> { }
+
+public class StockManager : MonoBehaviour
+{
+    public static StockManager Instance;
+    public List<SellItem> itemsToSell;
+    public List<SellItem> customerPickedItems;
+
+    public SellItemEvent itemPlaced = new SellItemEvent();
+    public SellItemEvent itemPickedByCustomer = new SellItemEvent();
+    public SellItemEvent itemSold = new SellItemEvent();
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("Already another instance of StockManager!!");
+            return;
+        }
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        itemPlaced.AddListener(OnItemPlaced);
+        itemSold.AddListener(OnItemSold);
+    }
+
+    /// <summary>
+    /// This is called when an item is placed
+    /// </summary>
+    /// <param name="item"></param>
+    private void OnItemPlaced(SellItem item)
+    {
+        itemsToSell.Add(item);
+    }
+
+    /// <summary>
+    /// This is called when a customer picks an item to purchase
+    /// </summary>
+    /// <param name="item"></param>
+    private void OnItemPicked(SellItem item)
+    {
+        itemsToSell.Remove(item);
+        customerPickedItems.Add(item);
+    }
+
+    /// <summary>
+    /// This is called when a customer has purchased an item
+    /// </summary>
+    /// <param name="item"></param>
+    private void OnItemSold(SellItem item)
+    {
+        customerPickedItems.Remove(item);
+    }
+}

@@ -4,7 +4,7 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     [SerializeField] private GameObject customerPrefab;
-    [SerializeField] List<Transform> waypoints;
+    [SerializeField] List<List<Transform>> waypoints;
 
     private List<GameObject> customers;
     public List<GameObject> Customers 
@@ -24,11 +24,11 @@ public class CustomerManager : MonoBehaviour
         Instance = this;
     }
 
-    public void SpawnCustomer(RandomSell targetItem)
+    public void SpawnCustomer(SellItem targetItem)
     {
-        Customer customer = Instantiate(customerPrefab, waypoints[0]).GetComponent<Customer>();
-        customer.targetItem = targetItem;
+        //Customer customer = Instantiate(customerPrefab, waypoints[0]).GetComponent<Customer>();
+        //customer.targetItem = targetItem;
         // send duplicate of waypoints list, otherwise customer fiddles with list and breaks everything
-        customer.waypoints = new(waypoints); 
+        //customer.waypoints = new(waypoints); 
     }
 }

@@ -8,7 +8,7 @@ public class Customer : MonoBehaviour
     [SerializeField] private Transform handTransform;
 
     [HideInInspector] public List<Transform> waypoints;
-    [HideInInspector] public RandomSell targetItem;
+    [HideInInspector] public SellItem targetItem;
     private Vector3 targetPosition;
     private Vector3 moveVector;
     private bool atEndWaypoint;
