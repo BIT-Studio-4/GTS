@@ -8,16 +8,20 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField][Range(0.1f,2)] private float crouchDepth;
-    [SerializeField][Range(0.1f,20)] private float crouchSpeed;
+    [SerializeField][Range(0.1f, 2)] private float crouchDepth;
+    [SerializeField][Range(0.1f, 20)] private float crouchSpeed;
     [SerializeField] private Transform spawnpoint;
 
     private CharacterController cc;
     private InputAction moveAction;
+    private InputAction sprintAction;
+    private InputAction jumpAction;
     private Vector3 moveVector;
     private float standHeight;
     private float cameraTargetHeight;
     private Camera cam;
+    private bool isSprinting;
+    private bool isJumping;
 
     void Awake()
     {
@@ -30,10 +34,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // returns Vector2 where x = left/right & y = up/down, on controller/keyboard
+        // moveAction returns Vector2 where x = left/right & y = up/down, on controller/keyboard
         moveAction = InputSystem.actions.FindAction("Move");
+        sprintAction = InputSystem.actions.FindAction("Sprint");
         // add listener to crouch event
         InputSystem.actions.FindAction("Crouch").performed += ctx => HandleCrouchInput();
+        InputSystem.actions.FindAction("Jump").performed += ctx => isJumping = true;
         // start at spawnpoint, + half of player height because its pivot is in the center
         spawnpoint.position += Vector3.up * cc.height / 2;
         transform.position = spawnpoint.position;
@@ -51,10 +57,15 @@ public class PlayerMovement : MonoBehaviour
             + new Vector3(0, moveVector.y, 0);  // keep Y value the same as last frame
 
         if (cc.isGrounded)
+        {
             moveVector.y = 0;
+            if (isJumping) moveVector.y = 5;
+            isJumping = false;
+        }
         else
             // add gravity acceleration~ multiplying by deltaTime twice is NOT a mistake!!
             moveVector += Physics.gravity * Time.deltaTime;
+
 
         cc.Move(moveVector * Time.deltaTime);
 
