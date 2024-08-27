@@ -802,8 +802,10 @@ MonoBehaviour:
   OnMoneyChange:
     m_PersistentCalls:
       m_Calls: []
-  apiUrl: https://gts-api-p9ar.onrender.com/api
-  username: dave
+  apiUrl: https://gts-api-p9ar.onrender.com
+  username: ashures
+  password: TestPassword12!
+  token: 
   startingMoney: 70
 --- !u!4 &220861225
 Transform:
