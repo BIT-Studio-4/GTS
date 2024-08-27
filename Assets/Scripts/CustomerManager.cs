@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -8,12 +9,16 @@ public class CustomerManager : MonoBehaviour
     {
         public List<Transform> nodes;
     }
+    
+    public static CustomerManager Instance;
 
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private List<Path> paths;
+    [SerializeField] private float minSpawnCooldown;
+    [SerializeField] private float maxSpawnCooldown;
     [SerializeField, Range(0f, 1f)] private float baseChanceOfEnter;
-    public float BaseChanceOfEnter { get => baseChanceOfEnter; }
     [SerializeField] private Transform entranceNode;
+    public float BaseChanceOfEnter { get => baseChanceOfEnter; }
     public Transform EntranceNode { get => entranceNode; }
 
     private List<GameObject> customers;
@@ -22,8 +27,19 @@ public class CustomerManager : MonoBehaviour
         get => customers;
         set => customers = value;
     }
+    private Coroutine customerSpawningLoop;
+    private bool spawnCustomers = true;
+    public bool SpawnCustomers 
+    { 
+        get => spawnCustomers;
+        set  
+        {
+            spawnCustomers = value;
+            if (spawnCustomers) customerSpawningLoop = StartCoroutine(SpawnCustomerLoop());
+            else StopCoroutine(customerSpawningLoop);
+        }
 
-    public static CustomerManager Instance;
+    }
 
     void Awake()
     {
@@ -34,10 +50,16 @@ public class CustomerManager : MonoBehaviour
         Instance = this;
     }
 
-    private void FixedUpdate()
+    private void Start()
     {
-        if (Random.Range(0, 250) == 0)
+        SpawnCustomers = true;
+    }
+
+    private IEnumerator SpawnCustomerLoop()
+    {
+        while (true)
         {
+            yield return new WaitForSeconds(Random.Range(minSpawnCooldown, maxSpawnCooldown));
             SpawnCustomer();
         }
     }

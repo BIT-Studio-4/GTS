@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
     [SerializeField] private float walkSpeed;
     [SerializeField] private Transform handTransform;
+    [SerializeField] private TextMeshProUGUI displayText;
 
     [HideInInspector] public List<Transform> waypoints;
     [HideInInspector] public SellItem targetItem;
@@ -25,6 +27,7 @@ public class Customer : MonoBehaviour
         // If going to buy something
         if (ShouldPickupItem(targetItem))
         {
+            displayText.text = "customer";
             StockManager.Instance.itemPickedByCustomer.Invoke(targetItem);
             // Walk to entrance then the item to purchase
             waypoints.Clear();
