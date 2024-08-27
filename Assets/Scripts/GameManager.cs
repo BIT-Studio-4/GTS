@@ -75,11 +75,12 @@ public class GameManager : MonoBehaviour
 
     private async void LoginUser()
     {
-        Dictionary<string, string> data = new() {
-            { "name", username },
-            { "password", password },
+        UserLogin login = new()
+        {
+            name = username,
+            password = password,
         };
 
-        User = await HTTPRequests.Post<User>($"{apiUrl}/auth/login", data);
+        User = await HTTPRequests.Post<User, UserLogin>($"{apiUrl}/auth/login", login);
     }
 }
