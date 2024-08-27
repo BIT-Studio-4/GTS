@@ -3,8 +3,14 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class Path
+    {
+        public List<Transform> nodes;
+    }
+
     [SerializeField] private GameObject customerPrefab;
-    [SerializeField] List<List<Transform>> waypoints;
+    [SerializeField] List<Path> paths;
 
     private List<GameObject> customers;
     public List<GameObject> Customers 

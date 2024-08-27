@@ -8,12 +8,12 @@ public class SellItemEvent : UnityEvent<SellItem> { }
 public class StockManager : MonoBehaviour
 {
     public static StockManager Instance;
-    public List<SellItem> itemsToSell;
-    public List<SellItem> customerPickedItems;
+    [HideInInspector] public List<SellItem> itemsToSell;
+    [HideInInspector] public List<SellItem> customerPickedItems;
 
-    public SellItemEvent itemPlaced = new SellItemEvent();
-    public SellItemEvent itemPickedByCustomer = new SellItemEvent();
-    public SellItemEvent itemSold = new SellItemEvent();
+    [HideInInspector] public SellItemEvent itemPlaced = new SellItemEvent();
+    [HideInInspector] public SellItemEvent itemPickedByCustomer = new SellItemEvent();
+    [HideInInspector] public SellItemEvent itemSold = new SellItemEvent();
 
     private void Awake()
     {
