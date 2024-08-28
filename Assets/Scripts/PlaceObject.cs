@@ -33,7 +33,6 @@ public class PlaceObject : MonoBehaviour
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
             if (placeAction.WasPressedThisFrame())
-                Debug.Log("Can't place object on non-flat surface");
                 HUDManager.Instance.ErrorPopup("Can't place object on non-flat surface");
             InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
             return;
