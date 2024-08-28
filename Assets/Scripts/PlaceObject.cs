@@ -34,6 +34,7 @@ public class PlaceObject : MonoBehaviour
         {
             if (placeAction.WasPressedThisFrame())
                 Debug.Log("Can't place object on non-flat surface");
+                HUDManager.Instance.ErrorPopup("Can't place object on non-flat surface");
             InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
             return;
         }
