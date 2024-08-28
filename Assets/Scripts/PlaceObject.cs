@@ -9,7 +9,6 @@ public class PlaceObject : MonoBehaviour
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
 
     private GameObject placedObjects;
-    public UnityEvent<string> incorrectPlacement = new UnityEvent<string>();
     private RaycastHit hit;
     private InputAction placeAction;
     private PlayerInteraction playerInteraction;
@@ -45,7 +44,7 @@ public class PlaceObject : MonoBehaviour
             if (!hit.collider.CompareTag("Shelf"))
             {
                 if (placeAction.WasPressedThisFrame())
-                    incorrectPlacement.Invoke("Stock items can only be placed on shelves");
+                    HUDManager.Instance.ErrorPopup("Stock items can only be placed on shelves");
                 InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
                 return;
             }
