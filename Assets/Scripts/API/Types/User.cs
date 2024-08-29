@@ -15,17 +15,7 @@ public class User
     public double Money
     {
         get => money;
-        set
-        {
-            money = value;
-
-            //Dictionary<string, string> data = new()
-            //{
-            //    { "money", money.ToString() },
-            //};
-            //HTTPRequests.Put<User>($"{GameManager.Instance.ApiUrl}/api/users/{id}", data, token);
-            // Update the API with the new money value;
-        }
+        set => money = value;
     }
     public string token;
 }
