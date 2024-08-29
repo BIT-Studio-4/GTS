@@ -11,14 +11,11 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnMoneyChange = new UnityEvent();
 
     [SerializeField]
-    private string apiUrl;
-    public string ApiUrl { get; set; }
-    [SerializeField]
     private string username;
     [SerializeField]
     private string password;
-    [SerializeField]
     private string token;
+    public string Token { get => token; set => token = value; }
 
     private User user;
     public User User {
@@ -67,8 +64,8 @@ public class GameManager : MonoBehaviour
         LoginUser();
 
         // TEMPORARY HOTFIX~
-        yield return null;
-        // yield return new WaitUntil(() => User != null);
+        //yield return null;
+        yield return new WaitUntil(() => User != null);
 
         Money = startingMoney;
     }
@@ -81,6 +78,7 @@ public class GameManager : MonoBehaviour
             password = password,
         };
 
-        User = await HTTPRequests.Post<User, UserLogin>($"{apiUrl}/auth/login", login);
+        User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
+        Token = User.token;
     }
 }
