@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// Allows user login info to be sent correctly to API.

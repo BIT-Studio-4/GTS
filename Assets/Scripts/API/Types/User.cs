@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// Allows user info from a JSON response to be stored in a type safe and specific instance.
