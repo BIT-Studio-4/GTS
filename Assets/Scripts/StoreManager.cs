@@ -182,11 +182,11 @@ public class StoreManager : MonoBehaviour
     {
         if (GameManager.Instance.Money < totalCost)
         {
-            StartCoroutine(DisplayErrorMessage("Too Expensive!"));
+            StartCoroutine(DisplayErrorMessage("Too expensive!"));
         }
         else if (WillSoftlock())
         {
-            StartCoroutine(DisplayErrorMessage("Womp Womp"));
+            StartCoroutine(DisplayErrorMessage("You need some stock!"));
         }
         else
         {
