@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float walkSpeed;
+    [SerializeField][Range(1, 2)] private float sprintMultiplier;
     [SerializeField][Range(0.1f, 2)] private float crouchDepth;
     [SerializeField][Range(0.1f, 20)] private float crouchSpeed;
     [SerializeField] private Transform spawnpoint;
@@ -40,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
         // add listener to crouch event
         InputSystem.actions.FindAction("Crouch").performed += ctx => HandleCrouchInput();
         InputSystem.actions.FindAction("Jump").performed += ctx => isJumping = true;
+        InputSystem.actions.FindAction("Sprint").started += ctx => isSprinting = true;
+        InputSystem.actions.FindAction("Sprint").canceled += ctx => isSprinting = false;
         // start at spawnpoint, + half of player height because its pivot is in the center
         spawnpoint.position += Vector3.up * cc.height / 2;
         transform.position = spawnpoint.position;
@@ -47,6 +50,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        float moveSpeed = walkSpeed;
+        if (isSprinting) moveSpeed *= sprintMultiplier;
+        
         // handle walking movement (horizontal) ~ and prevent walking when in menu
         Vector2 moveInput = UIManager.Instance.IsGUIOpen ? Vector2.zero : moveAction.ReadValue<Vector2>() * moveSpeed;
         Vector2.ClampMagnitude(moveInput, moveSpeed);
@@ -65,7 +71,6 @@ public class PlayerMovement : MonoBehaviour
         else
             // add gravity acceleration~ multiplying by deltaTime twice is NOT a mistake!!
             moveVector += Physics.gravity * Time.deltaTime;
-
 
         cc.Move(moveVector * Time.deltaTime);
 
