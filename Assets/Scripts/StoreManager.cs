@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
+using System;
 
 public class StoreManager : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject buyButton;
     [SerializeField] private Color buyButtonValidColor;
     [SerializeField] private Color buyButtonInvalidColor;
+    [SerializeField] private int structureLeftoverMoneyCount;
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImage;
     private int tabIndex = 0;
@@ -174,23 +177,56 @@ public class StoreManager : MonoBehaviour
         return totalCost;
     }
 
-    // Tries to purchase stock if the player can afford it
+    // Tries to purchase stock if the player can afford it and it won't softlock themselves
     public void TryPurchaseStock()
     {
-        if (GameManager.Instance.Money >= totalCost)
+        if (GameManager.Instance.Money < totalCost)
         {
-            PurchaseStock();
+            StartCoroutine(DisplayErrorMessage("Too Expensive!"));
+        }
+        else if (WillSoftlock())
+        {
+            StartCoroutine(DisplayErrorMessage("Womp Womp"));
         }
         else
         {
-            StartCoroutine(DisplayTooExpensive());
+            PurchaseStock();
         }
     }
 
-    // Displays too expensive text if the user cannot afford the items
-    private IEnumerator DisplayTooExpensive()
+    private bool WillSoftlock()
     {
-        buyButtonText.text = "Too Expensive!";
+        // Checks if they have leftover money at the end
+        if (GameManager.Instance.Money - totalCost >= structureLeftoverMoneyCount) return false;
+
+        // Checks if there are any items placed in the shop
+        if (StockManager.Instance.itemsToSell.Count > 0 || StockManager.Instance.customerPickedItems.Count > 0) return false;
+
+        // Checks if there are any items in the player inventory
+        List<PlaceableObject> inventoryItems = InventoryManager.Instance.InventoryPlaceableObjects.Where(placeableObject => placeableObject.type == PlacementType.Stock).ToList();
+        if (inventoryItems.Count > 0) return false;
+
+        // Makes a list of all stock items inside of cart
+        List<StoreItemSO> stockItemsInCart = new List<StoreItemSO>();
+        for (int i = 0; i < allStoreItems.Count; i++)
+        {
+            // Count of how many of that an item there is
+            if (purchaseItems[i] > 0 && allStoreItems[i].type == PlacementType.Stock)
+            {
+                stockItemsInCart.Add(allStoreItems[i]);
+            }
+        }
+        
+        // Checks if there is stock in cart
+        if (stockItemsInCart.Count > 0) return false;
+
+        return true;
+    }
+
+    // Displays too expensive text if the user cannot afford the items
+    private IEnumerator DisplayErrorMessage(string message)
+    {
+        buyButtonText.text = message;
         yield return new WaitForSeconds(2);
         buyButtonText.text = "Buy!";
     }

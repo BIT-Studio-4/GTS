@@ -1499,6 +1499,7 @@ MonoBehaviour:
   buyButton: {fileID: 889053396}
   buyButtonValidColor: {r: 0.3372549, g: 0.8, b: 0.16078432, a: 1}
   buyButtonInvalidColor: {r: 0.63127446, g: 0.6950688, b: 0.7735849, a: 1}
+  structureLeftoverMoneyCount: 5
 --- !u!4 &586006309
 Transform:
   m_ObjectHideFlags: 0
