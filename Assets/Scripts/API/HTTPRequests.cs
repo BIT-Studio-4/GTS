@@ -33,7 +33,7 @@ public class HTTPRequests
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
 
-        UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson<D>(data)));
+        UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson(data)));
         uploadHandler.contentType = "application/json";
         http.uploadHandler = uploadHandler;
         http.downloadHandler = new DownloadHandlerBuffer();
@@ -43,7 +43,7 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
-    public static async Task<T> Put<T>(string url, Dictionary<string, string> data, string token = "")
+    public static async Task<T> Put<T, D>(string url, D data, string token = "")
     {
         // Create a new POST request.
         // Similar to the 'options' parameter of a javascript request.
