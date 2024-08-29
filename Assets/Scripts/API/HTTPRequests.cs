@@ -111,6 +111,11 @@ public class HTTPRequests
         PropertyInfo[] props = data.GetType().GetProperties();
         foreach (FieldInfo field in fields)
         {
+
+            // --- [!] TEMPORARY FIX [!] --- \\
+            if (field.Name == "token") continue;
+            // ----------------------------- \\
+
             // Gets the value and the name of the field and appends it to the StringBuilder object.
             var value = field.GetValue(data);
             string jsonValue = value.GetType() == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
