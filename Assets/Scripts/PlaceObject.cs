@@ -51,6 +51,19 @@ public class PlaceObject : MonoBehaviour
             }
         }
 
+        // If the held object is a Shelf item, restrict placement to "Floor" tag only
+        if (InventoryManager.Instance.HeldObject.type == PlacementType.Structure)
+        {
+            if (!hit.collider.CompareTag("Floor"))
+            {
+                if (placeAction.WasPressedThisFrame())
+                    incorrectPlacement.Invoke("Shelves can only be placed on the floor");
+
+                InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
+                return;
+            }
+        }
+
         InventoryManager.Instance.HeldObject.canBePlacedAtHit = true;
     }
 
