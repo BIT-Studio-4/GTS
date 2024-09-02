@@ -7,8 +7,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float walkSpeed;
+    [SerializeField] private float moveSpeed;
     [SerializeField][Range(1, 2)] private float sprintMultiplier;
+    [SerializeField][Range(1, 10)] private float jumpForce;
+    [SerializeField][Range(0, 1)] private float jumpBufferTime; // used when jump is pressed before touching the ground
     [SerializeField][Range(0.1f, 2)] private float crouchDepth;
     [SerializeField][Range(0.1f, 20)] private float crouchSpeed;
     [SerializeField] private Transform spawnpoint;
@@ -16,13 +18,11 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController cc;
     private InputAction moveAction;
     private InputAction sprintAction;
-    private InputAction jumpAction;
     private Vector3 moveVector;
     private float standHeight;
     private float cameraTargetHeight;
     private Camera cam;
-    private bool isSprinting;
-    private bool isJumping;
+    private float jumpLastPressedTime;
 
     void Awake()
     {
@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
         standHeight = cam.transform.localPosition.y;
         cameraTargetHeight = standHeight;
+        jumpLastPressedTime = Mathf.NegativeInfinity;
     }
 
     void Start()
@@ -40,9 +41,7 @@ public class PlayerMovement : MonoBehaviour
         sprintAction = InputSystem.actions.FindAction("Sprint");
         // add listener to crouch event
         InputSystem.actions.FindAction("Crouch").performed += ctx => HandleCrouchInput();
-        InputSystem.actions.FindAction("Jump").performed += ctx => isJumping = true;
-        InputSystem.actions.FindAction("Sprint").started += ctx => isSprinting = true;
-        InputSystem.actions.FindAction("Sprint").canceled += ctx => isSprinting = false;
+        InputSystem.actions.FindAction("Jump").performed += ctx => jumpLastPressedTime = Time.time;
         // start at spawnpoint, + half of player height because its pivot is in the center
         spawnpoint.position += Vector3.up * cc.height / 2;
         transform.position = spawnpoint.position;
@@ -50,9 +49,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float moveSpeed = walkSpeed;
-        if (isSprinting) moveSpeed *= sprintMultiplier;
-        
         // handle walking movement (horizontal) ~ and prevent walking when in menu
         Vector2 moveInput = UIManager.Instance.IsGUIOpen ? Vector2.zero : moveAction.ReadValue<Vector2>() * moveSpeed;
         Vector2.ClampMagnitude(moveInput, moveSpeed);
@@ -62,11 +58,13 @@ public class PlayerMovement : MonoBehaviour
         moveVector = transform.forward * moveInput.y + transform.right * moveInput.x
             + new Vector3(0, moveVector.y, 0);  // keep Y value the same as last frame
 
+        Sprint();
+
         if (cc.isGrounded)
         {
             moveVector.y = 0;
-            if (isJumping) moveVector.y = 5;
-            isJumping = false;
+            if (Time.time <= jumpLastPressedTime + jumpBufferTime)
+                Jump();
         }
         else
             // add gravity acceleration~ multiplying by deltaTime twice is NOT a mistake!!
@@ -84,6 +82,19 @@ public class PlayerMovement : MonoBehaviour
         // respawn if player has fallen out of bounds
         if (transform.position.y < -1)
             transform.position = spawnpoint.position + Vector3.up * cc.height / 2;
+    }
+
+    void Sprint()
+    {
+        if (!sprintAction.inProgress) return;
+        moveVector.x *= 2;
+        moveVector.z *= 2;
+    }
+
+    void Jump()
+    {
+        moveVector.y = jumpForce;
+        jumpLastPressedTime = Mathf.NegativeInfinity;
     }
 
     void HandleCrouchInput()
