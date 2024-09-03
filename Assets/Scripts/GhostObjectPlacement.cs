@@ -30,7 +30,6 @@ public class GhostObjectPlacement : MonoBehaviour
         if (!playerInteraction.raycastHasHit || InventoryManager.Instance.HeldObject == null)
         {
             ghostObject.SetActive(false);
-            Debug.Log("no raycast or held object");
             return;
         }
 
@@ -42,7 +41,6 @@ public class GhostObjectPlacement : MonoBehaviour
         rotation.z = 0;
         ghostObject.transform.rotation = Quaternion.Euler(rotation);
         animator.SetBool("canBePlaced", InventoryManager.Instance.HeldObject.canBePlacedAtHit);
-        Debug.Log($"can be placed: {InventoryManager.Instance.HeldObject.canBePlacedAtHit}");
     }
 
     void HandleObjectChanged(PlaceableObject heldObject)
