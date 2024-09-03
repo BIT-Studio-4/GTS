@@ -89,7 +89,7 @@ public class HTTPRequests
             Data<T> data = JsonUtility.FromJson<Data<T>>(response); // Converts the JSON to the 'T' type provided whenever the method is called.
             T result = data.data;
 
-            Debug.Log(http.downloadHandler.text);
+            // Debug.Log(http.downloadHandler.text);
 
             return result;
         }
