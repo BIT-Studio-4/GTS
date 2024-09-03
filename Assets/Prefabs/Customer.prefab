@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 8589160152332003513}
   - component: {fileID: 5783689282872572616}
   m_Layer: 3
-  m_Name: Text (TMP)
+  m_Name: Display Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: customer
+  m_text: pedestrian
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -309,6 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 4
   handTransform: {fileID: 3229573020502574748}
+  displayText: {fileID: 5783689282872572616}
   waypoints: []
   targetItem: {fileID: 0}
 --- !u!1 &8572610691087045508

@@ -64,11 +64,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 92670362388832611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 678dc432228b3484c9d8d514294aadff, type: 3}
+  m_Script: {fileID: 11500000, guid: 60c17cc38c4a030438eb10744d7febf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  avgSellTimeSecs: 10
-  varianceSellTimeSecs: 2
   moneyOnSell: 3
 --- !u!1001 &3175411093793283463
 PrefabInstance:
