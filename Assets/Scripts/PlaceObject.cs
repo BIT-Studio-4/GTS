@@ -56,7 +56,7 @@ public class PlaceObject : MonoBehaviour
             if (!hit.collider.CompareTag("Floor"))
             {
                 if (placeAction.WasPressedThisFrame())
-                    incorrectPlacement.Invoke("Shelves can only be placed on the floor");
+                    HUDManager.Instance.ErrorPopup("Shelves can only be placed on the floor");
 
                 InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
                 return;
