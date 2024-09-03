@@ -45,7 +45,7 @@ public class HTTPRequests
 
     public static async Task<T> Put<T, D>(string url, D data, string token = "")
     {
-        // Create a new POST request.
+        // Create a new PUT request.
         // Similar to the 'options' parameter of a javascript request.
         UnityWebRequest http = new(url);
         http.method = "PUT";
@@ -61,7 +61,7 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
-    // All requests will can use this, may need updating in future.
+    // All requests will use this, may need updating in future when more requests are needed.
     // This is the basic error and data handling of the request, and will return the desired type that the relevant request needs.
     private static async Task<T> MakeHttpRequest<T>(UnityWebRequest http)
     {
