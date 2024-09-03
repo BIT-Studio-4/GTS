@@ -802,8 +802,8 @@ MonoBehaviour:
   OnMoneyChange:
     m_PersistentCalls:
       m_Calls: []
-  apiUrl: https://gts-api-p9ar.onrender.com/api
-  username: dave
+  username: ashures
+  password: TestPassword12!
   startingMoney: 70
 --- !u!4 &220861225
 Transform:
@@ -2184,11 +2184,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -70}
   m_LocalScale: {x: 6, y: 0.25, z: 200}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1465699528}
-  - {fileID: 104891654}
-  - {fileID: 883798867}
-  - {fileID: 1442636861}
+  m_Children: [{fileID: 1465699528}, {fileID: 104891654}, {fileID: 883798867}, {fileID: 1442636861}]
   m_Father: {fileID: 1435044077}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &752582717
@@ -4621,6 +4617,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436294303}
   m_CullTransparentMesh: 1
+--- !u!1 &1475312998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1475313000}
+  - component: {fileID: 1475312999}
+  m_Layer: 0
+  m_Name: ApiManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1475312999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475312998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc45109f8345ac45a9622ee25b7e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiUrl: https://gts-api-g852.onrender.com
+--- !u!4 &1475313000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475312998}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.15, y: 7.34, z: -26.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1442636860
 GameObject:
   m_ObjectHideFlags: 0
@@ -6474,8 +6515,7 @@ Transform:
   m_LocalPosition: {x: -36, y: 0.1, z: -58}
   m_LocalScale: {x: 4.5, y: 1, z: 1.5}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 167680957}
+  m_Children: [{fileID: 167680957}]
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2040886679
@@ -6582,11 +6622,7 @@ Transform:
   m_LocalPosition: {x: -63, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 0.25, z: 200}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 318095798}
-  - {fileID: 278857231}
-  - {fileID: 1240537922}
-  - {fileID: 2074008843}
+  m_Children: [{fileID: 318095798}, {fileID: 278857231}, {fileID: 1240537922}, {fileID: 2074008843}]
   m_Father: {fileID: 1435044077}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2051291603
@@ -6920,6 +6956,7 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1305344629}
   - {fileID: 220861225}
+  - {fileID: 1475313000}
   - {fileID: 775283612}
   - {fileID: 586006309}
   - {fileID: 1390626459}
