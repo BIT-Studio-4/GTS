@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 /// <summary>
 /// Allows user info from a JSON response to be stored in a type safe and specific instance.
@@ -18,9 +17,8 @@ public class User
         {
             money = value;
 
-            Debug.Log($"{name}: {money:c}");
-
-            // Update the API with the new money value;
+            ApiManager.Instance.UpdateUser($"{ApiManager.Instance.ApiUrl}/api/users/{id}", this);
         }
     }
+    public string token;
 }

@@ -36,7 +36,6 @@ public class HUDManager : MonoBehaviour
     {
         //event listener to change display
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
-        placement.incorrectPlacement.AddListener(ErrorPopup);
         errorPopupUp = false;
 
     }
@@ -57,7 +56,7 @@ public class HUDManager : MonoBehaviour
     }
 
     //method to popup a message when an error occurs
-    private void ErrorPopup(string message){
+    public void ErrorPopup(string message){
         errorMessage.text = message;
         errorPopup.style.display = DisplayStyle.Flex;
         errorPopupUp = true;

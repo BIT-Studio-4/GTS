@@ -9,7 +9,6 @@ public class PlaceObject : MonoBehaviour
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
 
     private GameObject placedObjects;
-    public UnityEvent<string> incorrectPlacement = new UnityEvent<string>();
     private RaycastHit hit;
     private InputAction placeAction;
     private PlayerInteraction playerInteraction;
@@ -34,7 +33,7 @@ public class PlaceObject : MonoBehaviour
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
             if (placeAction.WasPressedThisFrame())
-                Debug.Log("Can't place object on non-flat surface");
+                HUDManager.Instance.ErrorPopup("Can't place object on non-flat surface");
             InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
             return;
         }
@@ -45,7 +44,20 @@ public class PlaceObject : MonoBehaviour
             if (!hit.collider.CompareTag("Shelf"))
             {
                 if (placeAction.WasPressedThisFrame())
-                    incorrectPlacement.Invoke("Stock items can only be placed on shelves");
+                    HUDManager.Instance.ErrorPopup("Stock items can only be placed on shelves");
+                InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
+                return;
+            }
+        }
+
+        // If the held object is a Shelf item, restrict placement to "Floor" tag only
+        if (InventoryManager.Instance.HeldObject.type == PlacementType.Structure)
+        {
+            if (!hit.collider.CompareTag("Floor"))
+            {
+                if (placeAction.WasPressedThisFrame())
+                    HUDManager.Instance.ErrorPopup("Shelves can only be placed on the floor");
+
                 InventoryManager.Instance.HeldObject.canBePlacedAtHit = false;
                 return;
             }

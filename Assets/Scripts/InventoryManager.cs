@@ -116,7 +116,7 @@ public class InventoryManager : MonoBehaviour
         gridSlot.Text.text = placeableObject.name;
         gridSlot.CountText.text = $"{placeableObject.count}x";
 
-        if (placeableObject.prefab.TryGetComponent<RandomSell>(out RandomSell randomSell))
+        if (placeableObject.prefab.TryGetComponent<SellItem>(out SellItem randomSell))
         {
             // If the component exists, set the sale price
             float salePrice = randomSell.moneyOnSell;
@@ -149,7 +149,7 @@ public class InventoryManager : MonoBehaviour
 
         playerHeldItem = Instantiate(placeableObject.prefab, playerHeldItemParent.transform);
         playerHeldItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockScale, stockScale, stockScale) : new Vector3(structureScale, structureScale, structureScale);
-        RandomSell randomSell = playerHeldItem.GetComponent<RandomSell>();
+        SellItem randomSell = playerHeldItem.GetComponent<SellItem>();
         if (randomSell != null)
             randomSell.enabled = false;
         

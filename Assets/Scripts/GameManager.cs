@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,10 +11,11 @@ public class GameManager : MonoBehaviour
     public UnityEvent OnMoneyChange = new UnityEvent();
 
     [SerializeField]
-    private string apiUrl;
-
-    [SerializeField]
     private string username;
+    [SerializeField]
+    private string password;
+    private string token;
+    public string Token { get => token; set => token = value; }
 
     private User user;
     public User User {
@@ -54,22 +56,33 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
         StartCoroutine(nameof(Initialize));
     }
 
     private IEnumerator Initialize()
     {
-        GetUser();
+        LoginUser();
 
         // TEMPORARY HOTFIX~
-        yield return null;
-        // yield return new WaitUntil(() => User != null);
+        //yield return null;
+        yield return new WaitUntil(() => User != null);
 
         Money = startingMoney;
     }
 
-    private async void GetUser()
+    private async void LoginUser()
     {
-        User = await HTTPRequests.Get<User>($"{apiUrl}/users/{username}");
+        UserLogin login = new()
+        {
+            name = username,
+            password = password,
+        };
+
+        User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
+        Token = User.token;
     }
 }
