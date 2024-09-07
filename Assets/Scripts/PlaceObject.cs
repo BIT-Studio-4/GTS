@@ -12,7 +12,8 @@ public class PlaceObject : MonoBehaviour
     private InputAction placeAction;
     private PlayerInteraction playerInteraction;
     public Vector3 Position { get; private set; }
-    public Vector3 Rotation { get; private set; }
+    public Quaternion Rotation { get; private set; }
+    public bool CanPlaceHere { get; private set; }
 
     void Awake()
     {
@@ -26,14 +27,20 @@ public class PlaceObject : MonoBehaviour
 
     private void Update()
     {
-        if (!CanPlaceHere()) return;
-        
+        CanPlaceHere = IsPlacementValid();
+        if (!CanPlaceHere) return;
+
+        Position = hit.point;
+        Vector3 directionToPlayer = -transform.forward;
+        directionToPlayer.y = 0;
+        Rotation = Quaternion.LookRotation(-directionToPlayer);
     }
 
     void InstantiateObject(InputAction.CallbackContext ctx)
     {
-        if (InventoryManager.Instance.HeldObject == null) return;
-        if (!CanPlaceHere()) return;
+        // calling the method instead of field CanPlaceHere 
+        // in case user clicks between frames
+        if (!IsPlacementValid()) return;
 
         Debug.Log(InventoryManager.Instance.HeldObject);
 
@@ -49,7 +56,7 @@ public class PlaceObject : MonoBehaviour
         InventoryManager.Instance.ConsumePlacedItem();
     }
 
-    public bool CanPlaceHere()
+    public bool IsPlacementValid()
     {
         if (InventoryManager.Instance.HeldObject == null)
             return false;

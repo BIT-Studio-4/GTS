@@ -36,13 +36,9 @@ public class GhostObjectPlacement : MonoBehaviour
         }
 
         ghostObject.SetActive(true);
-        ghostObject.transform.position = playerInteraction.Hit.point;
-        ghostObject.transform.LookAt(playerInteraction.transform);
-        Vector3 rotation = ghostObject.transform.eulerAngles;
-        rotation.x = 0;
-        rotation.z = 0;
-        ghostObject.transform.rotation = Quaternion.Euler(rotation);
-        animator.SetBool("canBePlaced", placeObject.CanPlaceHere());
+        ghostObject.transform.position = placeObject.Position;
+        ghostObject.transform.rotation = placeObject.Rotation;
+        animator.SetBool("canBePlaced", placeObject.IsPlacementValid());
     }
 
     void HandleObjectChanged(PlaceableObject heldObject)
