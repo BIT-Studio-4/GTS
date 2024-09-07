@@ -51,12 +51,7 @@ public class PlaceObject : MonoBehaviour
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
-        GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, hit.point, Quaternion.identity, placedObjects.transform);
-        // rotate object to opposite of player rotation
-        placedObject.transform.LookAt(new Vector3(
-            transform.position.x,
-            placedObject.transform.position.y,
-            transform.position.z));
+        GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, Position, Rotation, placedObjects.transform);
 
         InventoryManager.Instance.ConsumePlacedItem();
     }
