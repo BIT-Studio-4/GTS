@@ -114,6 +114,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RotateObject",
+                    "type": "Value",
+                    "id": "55976eff-5cb4-4320-bb46-985426dee5ea",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "71f7e0d0-c490-4542-80a8-f6739a7c76d9",
@@ -563,6 +572,39 @@
                     "action": "DisableGridSnapping",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "b67cf0ff-5901-4ce7-b86f-52ce40ee3fae",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateObject",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "8542d6ff-fde0-4bf2-a193-acad626a1446",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "RotateObject",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "ea49a6ac-875b-41c1-a64d-3ae39e9749e9",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "RotateObject",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",

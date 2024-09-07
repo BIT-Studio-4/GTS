@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PlayerInteraction))]
 public class PlaceObject : MonoBehaviour
@@ -16,8 +17,10 @@ public class PlaceObject : MonoBehaviour
     private RaycastHit hit;
     private InputAction placeAction;
     private InputAction disableGridAction;
+    private InputAction rotateObjectAction;
     private PlayerInteraction playerInteraction;
     private Grid grid;
+    private int rotationSnapDegrees;
 
     void Awake()
     {
@@ -26,19 +29,24 @@ public class PlaceObject : MonoBehaviour
         // add listener to place input action
         placeAction = InputSystem.actions.FindAction("Place");
         placeAction.performed += ctx => InstantiateObject(ctx);
-
+        rotateObjectAction = InputSystem.actions.FindAction("RotateObject");
+        rotateObjectAction.performed += ctx => RotateObject();
         disableGridAction = InputSystem.actions.FindAction("DisableGridSnapping");
         playerInteraction = GetComponent<PlayerInteraction>();
     }
 
-    private void Update()
+    void Start()
+    {
+        InventoryManager.Instance.OnHeldObjectChange += HandleHeldObjectChange;
+    }
+
+    void Update()
     {
         if (InventoryManager.Instance.HeldObject == null) return;
         CanPlaceHere = IsPlacementValid();
         if (!CanPlaceHere) return;
 
         position = hit.point;
-        SetRotationRelativeToPlayer();
 
         if (disableGridAction.inProgress) return;
         SnapPosition();
@@ -105,7 +113,7 @@ public class PlaceObject : MonoBehaviour
     void SnapRotation()
     {
         Vector3 eulers = Rotation.eulerAngles;
-        eulers.y = Mathf.Round(eulers.y / 90) * 90;
+        eulers.y = Mathf.Round(eulers.y / rotationSnapDegrees) * rotationSnapDegrees;
         Rotation = Quaternion.Euler(eulers);
     }
 
@@ -114,5 +122,34 @@ public class PlaceObject : MonoBehaviour
         Vector3 directionToPlayer = -transform.forward;
         directionToPlayer.y = 0;
         Rotation = Quaternion.LookRotation(-directionToPlayer);
+    }
+
+    void HandleHeldObjectChange(PlaceableObject x)
+    {
+        if (InventoryManager.Instance.HeldObject == null) return;
+        SetRotationRelativeToPlayer();
+        rotationSnapDegrees = GetRotationSnapDegrees();
+    }
+
+    int GetRotationSnapDegrees()
+    {
+        switch (InventoryManager.Instance.HeldObject.type)
+        {
+            case PlacementType.Stock:
+                return 15;
+            case PlacementType.Structure:
+                return 90;
+            default:
+                return 1;
+        }
+    }
+
+    void RotateObject()
+    {
+        Vector3 eulers = Rotation.eulerAngles;
+        float rotateAmount = rotateObjectAction.ReadValue<float>();
+        Debug.Log(rotateAmount);
+        eulers += Vector3.up * rotationSnapDegrees * rotateAmount;
+        Rotation = Quaternion.Euler(eulers);
     }
 }
