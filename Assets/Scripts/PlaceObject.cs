@@ -31,16 +31,16 @@ public class PlaceObject : MonoBehaviour
     private void Update()
     {
         if (InventoryManager.Instance.HeldObject == null) return;
-        
+
         position = hit.point;
         SetRotationRelativeToPlayer();
-                    
+
         if (InventoryManager.Instance.HeldObject.type == PlacementType.Structure)
         {
             SnapPosition();
             SnapRotation();
         }
-
+        
         CanPlaceHere = IsPlacementValid();
     }
 
@@ -97,18 +97,19 @@ public class PlaceObject : MonoBehaviour
 
     void SnapPosition()
     {
-        if (!hit.transform.parent.TryGetComponent<Grid>(out grid)) return;
+        grid = hit.transform.GetComponentInParent<Grid>();
+        if (grid == null) return;
         position = grid.GetCellCenterWorld(grid.WorldToCell(hit.point));
         position.y = hit.point.y;
     }
-    
+
     void SnapRotation()
     {
         Vector3 eulers = Rotation.eulerAngles;
         eulers.y = Mathf.Round(eulers.y / 90) * 90;
         Rotation = Quaternion.Euler(eulers);
     }
-    
+
     void SetRotationRelativeToPlayer()
     {
         Vector3 directionToPlayer = -transform.forward;
