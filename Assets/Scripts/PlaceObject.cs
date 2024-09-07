@@ -31,6 +31,8 @@ public class PlaceObject : MonoBehaviour
     private void Update()
     {
         if (InventoryManager.Instance.HeldObject == null) return;
+        CanPlaceHere = IsPlacementValid();
+        if (!CanPlaceHere) return;
 
         position = hit.point;
         SetRotationRelativeToPlayer();
@@ -40,16 +42,12 @@ public class PlaceObject : MonoBehaviour
             SnapPosition();
             SnapRotation();
         }
-        
-        CanPlaceHere = IsPlacementValid();
     }
 
     void InstantiateObject(InputAction.CallbackContext ctx)
     {
         if (InventoryManager.Instance.HeldObject == null) return;
         if (!IsPlacementValid()) return;
-
-        Debug.Log(InventoryManager.Instance.HeldObject);
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects

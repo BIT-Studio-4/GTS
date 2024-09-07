@@ -804,7 +804,7 @@ MonoBehaviour:
       m_Calls: []
   username: ashures
   password: TestPassword12!
-  startingMoney: 5000
+  startingMoney: 70
 --- !u!4 &220861225
 Transform:
   m_ObjectHideFlags: 0
@@ -3600,6 +3600,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2908576040736156004, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: interactionTextTitle
+      value: 
+      objectReference: {fileID: 2051291605}
+    - target: {fileID: 2908576040736156004, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: interactionTextButton
+      value: 
+      objectReference: {fileID: 821176495}
+    - target: {fileID: 2908576040736156004, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: interactionTextDescription
+      value: 
+      objectReference: {fileID: 728192599}
     - target: {fileID: 6064358372453876376, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3650,6 +3665,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: spawnpoint
+      value: 
+      objectReference: {fileID: 1876903003}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
