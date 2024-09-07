@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInteraction))]
+[RequireComponent(typeof(PlaceObject))]
 public class GhostObjectPlacement : MonoBehaviour
 {
     [SerializeField] private Material ghostMaterial;
@@ -9,10 +9,12 @@ public class GhostObjectPlacement : MonoBehaviour
     private PlayerInteraction playerInteraction;
     private MeshFilter meshFilter;
     private Animator animator;
+    private PlaceObject placeObject;
 
     void Awake()
     {
         playerInteraction = GetComponent<PlayerInteraction>();
+        placeObject = GetComponent<PlaceObject>();
         meshFilter = ghostObject.GetComponent<MeshFilter>();
         animator = ghostObject.GetComponent<Animator>();
     }
@@ -40,7 +42,7 @@ public class GhostObjectPlacement : MonoBehaviour
         rotation.x = 0;
         rotation.z = 0;
         ghostObject.transform.rotation = Quaternion.Euler(rotation);
-        animator.SetBool("canBePlaced", InventoryManager.Instance.HeldObject.canBePlacedAtHit);
+        animator.SetBool("canBePlaced", placeObject.CanPlaceHere());
     }
 
     void HandleObjectChanged(PlaceableObject heldObject)
