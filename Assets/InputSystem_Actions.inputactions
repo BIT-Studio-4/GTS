@@ -105,6 +105,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DisableGridSnapping",
+                    "type": "Button",
+                    "id": "ae86d9fd-6f8c-42b2-9fdd-d177bcd2a5fa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "71f7e0d0-c490-4542-80a8-f6739a7c76d9",
@@ -541,6 +550,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ToggleStore",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c172ab5e-284d-4d9d-81e4-0f55e5f425a1",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "DisableGridSnapping",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

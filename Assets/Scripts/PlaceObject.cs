@@ -15,6 +15,7 @@ public class PlaceObject : MonoBehaviour
     private GameObject placedObjects;
     private RaycastHit hit;
     private InputAction placeAction;
+    private InputAction disableGridAction;
     private PlayerInteraction playerInteraction;
     private Grid grid;
 
@@ -25,6 +26,8 @@ public class PlaceObject : MonoBehaviour
         // add listener to place input action
         placeAction = InputSystem.actions.FindAction("Place");
         placeAction.performed += ctx => InstantiateObject(ctx);
+
+        disableGridAction = InputSystem.actions.FindAction("DisableGridSnapping");
         playerInteraction = GetComponent<PlayerInteraction>();
     }
 
@@ -37,11 +40,9 @@ public class PlaceObject : MonoBehaviour
         position = hit.point;
         SetRotationRelativeToPlayer();
 
-        if (InventoryManager.Instance.HeldObject.type == PlacementType.Structure)
-        {
-            SnapPosition();
-            SnapRotation();
-        }
+        if (disableGridAction.inProgress) return;
+        SnapPosition();
+        SnapRotation();
     }
 
     void InstantiateObject(InputAction.CallbackContext ctx)
