@@ -804,7 +804,7 @@ MonoBehaviour:
       m_Calls: []
   username: ashures
   password: TestPassword12!
-  startingMoney: 70
+  startingMoney: 5000
 --- !u!4 &220861225
 Transform:
   m_ObjectHideFlags: 0
@@ -1915,11 +1915,11 @@ Transform:
   m_GameObject: {fileID: 699043602}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -47.854, y: 0, z: -49.477}
+  m_LocalPosition: {x: -48.037, y: 0, z: -49.476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1762118443}
+  - {fileID: 2058352707}
   - {fileID: 1684806480}
   - {fileID: 1066168941}
   - {fileID: 1574611378}
@@ -3600,21 +3600,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2908576040736156004, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: interactionTextTitle
-      value: 
-      objectReference: {fileID: 2051291605}
-    - target: {fileID: 2908576040736156004, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: interactionTextButton
-      value: 
-      objectReference: {fileID: 821176495}
-    - target: {fileID: 2908576040736156004, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: interactionTextDescription
-      value: 
-      objectReference: {fileID: 728192599}
     - target: {fileID: 6064358372453876376, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3665,11 +3650,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
-        type: 3}
-      propertyPath: spawnpoint
-      value: 
-      objectReference: {fileID: 1876903003}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6262,7 +6242,7 @@ GameObject:
   - component: {fileID: 1762118445}
   - component: {fileID: 1762118444}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: Plane
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6276,12 +6256,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762118442}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 15, y: 0.25, z: 10}
   m_LocalScale: {x: 3, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 699043603}
+  m_Father: {fileID: 2058352707}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1762118444
 MeshCollider:
@@ -7705,6 +7685,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051291603}
   m_CullTransparentMesh: 1
+--- !u!1 &2058352706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2058352707}
+  - component: {fileID: 2058352708}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2058352707
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058352706}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1762118443}
+  m_Father: {fileID: 699043603}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!156049354 &2058352708
+Grid:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058352706}
+  m_Enabled: 1
+  m_CellSize: {x: 1, y: 1, z: 1}
+  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellLayout: 0
+  m_CellSwizzle: 0
 --- !u!1 &2074008842
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 public class PlaceObject : MonoBehaviour
 {
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
-    
-    public Vector3 Position { get; private set; }
+
+    private Vector3 position;
+    public Vector3 Position { get => position; }
     public Quaternion Rotation { get; private set; }
     public bool CanPlaceHere { get; private set; }
 
@@ -15,6 +16,7 @@ public class PlaceObject : MonoBehaviour
     private RaycastHit hit;
     private InputAction placeAction;
     private PlayerInteraction playerInteraction;
+    private Grid grid;
 
     void Awake()
     {
@@ -30,9 +32,9 @@ public class PlaceObject : MonoBehaviour
     {
         if (InventoryManager.Instance.HeldObject == null) return;
         
-        Position = hit.point;
+        position = hit.point;
         SetRotationRelativeToPlayer();
-        
+                    
         if (InventoryManager.Instance.HeldObject.type == PlacementType.Structure)
         {
             SnapPosition();
@@ -95,11 +97,9 @@ public class PlaceObject : MonoBehaviour
 
     void SnapPosition()
     {
-        Position = new(
-            Mathf.Round(Position.x),
-            Position.y,
-            Mathf.Round(Position.z)
-        );
+        if (!hit.transform.parent.TryGetComponent<Grid>(out grid)) return;
+        position = grid.GetCellCenterWorld(grid.WorldToCell(hit.point));
+        position.y = hit.point.y;
     }
     
     void SnapRotation()
