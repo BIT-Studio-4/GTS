@@ -6,14 +6,15 @@ using UnityEngine.InputSystem;
 public class PlaceObject : MonoBehaviour
 {
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
+    
+    public Vector3 Position { get; private set; }
+    public Quaternion Rotation { get; private set; }
+    public bool CanPlaceHere { get; private set; }
 
     private GameObject placedObjects;
     private RaycastHit hit;
     private InputAction placeAction;
     private PlayerInteraction playerInteraction;
-    public Vector3 Position { get; private set; }
-    public Quaternion Rotation { get; private set; }
-    public bool CanPlaceHere { get; private set; }
 
     void Awake()
     {
@@ -27,19 +28,23 @@ public class PlaceObject : MonoBehaviour
 
     private void Update()
     {
-        CanPlaceHere = IsPlacementValid();
-        if (!CanPlaceHere) return;
-
+        if (InventoryManager.Instance.HeldObject == null) return;
+        
         Position = hit.point;
-        Vector3 directionToPlayer = -transform.forward;
-        directionToPlayer.y = 0;
-        Rotation = Quaternion.LookRotation(-directionToPlayer);
+        SetRotationRelativeToPlayer();
+        
+        if (InventoryManager.Instance.HeldObject.type == PlacementType.Structure)
+        {
+            SnapPosition();
+            SnapRotation();
+        }
+
+        CanPlaceHere = IsPlacementValid();
     }
 
     void InstantiateObject(InputAction.CallbackContext ctx)
     {
-        // calling the method instead of field CanPlaceHere 
-        // in case user clicks between frames
+        if (InventoryManager.Instance.HeldObject == null) return;
         if (!IsPlacementValid()) return;
 
         Debug.Log(InventoryManager.Instance.HeldObject);
@@ -58,13 +63,9 @@ public class PlaceObject : MonoBehaviour
 
     public bool IsPlacementValid()
     {
-        if (InventoryManager.Instance.HeldObject == null)
-            return false;
-
-        if (!playerInteraction.raycastHasHit)
-            return false;
+        if (!playerInteraction.raycastHasHit) return false;
         hit = playerInteraction.Hit;
-        
+
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
             if (placeAction.WasPressedThisFrame())
@@ -90,11 +91,33 @@ public class PlaceObject : MonoBehaviour
             {
                 if (placeAction.WasPressedThisFrame())
                     HUDManager.Instance.ErrorPopup("Shelves can only be placed on the floor");
-
                 return false;
             }
         }
 
         return true;
+    }
+
+    void SnapPosition()
+    {
+        Position = new(
+            Mathf.Round(Position.x),
+            Position.y,
+            Mathf.Round(Position.z)
+        );
+    }
+    
+    void SnapRotation()
+    {
+        Vector3 eulers = Rotation.eulerAngles;
+        eulers.y = Mathf.Round(eulers.y / 90) * 90;
+        Rotation = Quaternion.Euler(eulers);
+    }
+    
+    void SetRotationRelativeToPlayer()
+    {
+        Vector3 directionToPlayer = -transform.forward;
+        directionToPlayer.y = 0;
+        Rotation = Quaternion.LookRotation(-directionToPlayer);
     }
 }
