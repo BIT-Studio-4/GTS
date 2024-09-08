@@ -1,9 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
+/// <summary>
+/// Handles placement of held object with grid snapping.
+/// Uses GhostObjectPlacement to check for object intersection
+/// </summary>
 [RequireComponent(typeof(PlayerInteraction))]
+[RequireComponent(typeof(GhostObjectPlacement))]
 public class PlaceObject : MonoBehaviour
 {
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
@@ -28,7 +32,7 @@ public class PlaceObject : MonoBehaviour
         placedObjects = new GameObject("Placed Objects");
         // add listener to place input action
         placeAction = InputSystem.actions.FindAction("Place");
-        placeAction.performed += ctx => InstantiateObject(ctx);
+        placeAction.performed += ctx => InstantiateObject();
         rotateObjectAction = InputSystem.actions.FindAction("RotateObject");
         rotateObjectAction.performed += ctx => RotateObject();
         disableGridAction = InputSystem.actions.FindAction("DisableGridSnapping");
@@ -52,8 +56,11 @@ public class PlaceObject : MonoBehaviour
         SnapPosition();
         SnapRotation();
     }
-
-    void InstantiateObject(InputAction.CallbackContext ctx)
+    
+    /// <summary>
+    /// Places held object at Position and Rotation
+    /// </summary>
+    void InstantiateObject()
     {
         if (InventoryManager.Instance.HeldObject == null) return;
         if (!IsPlacementValid()) return;
@@ -64,7 +71,12 @@ public class PlaceObject : MonoBehaviour
 
         InventoryManager.Instance.ConsumePlacedItem();
     }
-
+    
+    /// <summary>
+    /// All-in-one checklist to determine if placing
+    /// object should be successful
+    /// </summary>
+    /// <returns>True if object can be placed</returns>
     public bool IsPlacementValid()
     {
         if (!playerInteraction.raycastHasHit) return false;
@@ -123,33 +135,39 @@ public class PlaceObject : MonoBehaviour
         directionToPlayer.y = 0;
         Rotation = Quaternion.LookRotation(-directionToPlayer);
     }
-
+    
     void HandleHeldObjectChange(PlaceableObject x)
     {
         if (InventoryManager.Instance.HeldObject == null) return;
         SetRotationRelativeToPlayer();
         rotationSnapDegrees = GetRotationSnapDegrees();
     }
-
+    
+    /// <summary>
+    /// Determines how many degrees to snap rotation by
+    /// based on type of object
+    /// </summary>
+    /// <returns>rotationSnapDegrees</returns>
     int GetRotationSnapDegrees()
     {
         switch (InventoryManager.Instance.HeldObject.type)
         {
-            case PlacementType.Stock:
-                return 15;
             case PlacementType.Structure:
                 return 90;
             default:
-                return 1;
+                return 15;
         }
     }
-
+    
+    /// <summary>
+    /// Rotates object by number of degrees, specified by rotationSnapDegrees
+    /// </summary>
     void RotateObject()
     {
         Vector3 eulers = Rotation.eulerAngles;
-        float rotateAmount = rotateObjectAction.ReadValue<float>();
-        Debug.Log(rotateAmount);
-        eulers += Vector3.up * rotationSnapDegrees * rotateAmount;
+        float direction = rotateObjectAction.ReadValue<float>();
+        Debug.Log(direction);
+        eulers += Vector3.up * rotationSnapDegrees * direction;
         Rotation = Quaternion.Euler(eulers);
     }
 }
