@@ -45,9 +45,7 @@ public class PlaceObject : MonoBehaviour
 
     void Update()
     {
-        if (InventoryManager.Instance.HeldObject == null) return;
-        
-        if (!playerInteraction.raycastHasHit)
+        if (InventoryManager.Instance.HeldObject == null || !playerInteraction.raycastHasHit)
         {
             CanPlaceHere = false;
             ghostObject.gameObject.SetActive(false);
