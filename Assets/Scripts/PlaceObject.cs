@@ -13,8 +13,7 @@ public class PlaceObject : MonoBehaviour
     [SerializeField] List<GameObject> prefabs = new List<GameObject>();
 
     private Vector3 position;
-    public Vector3 Position { get => position; }
-    public Quaternion Rotation { get; private set; }
+    private Quaternion rotation;
     public bool CanPlaceHere { get; private set; }
 
     private GameObject placedObjects;
@@ -23,6 +22,7 @@ public class PlaceObject : MonoBehaviour
     private InputAction disableGridAction;
     private InputAction rotateObjectAction;
     private PlayerInteraction playerInteraction;
+    private GhostObjectPlacement ghostObject;
     private Grid grid;
     private int rotationSnapDegrees;
 
@@ -36,7 +36,9 @@ public class PlaceObject : MonoBehaviour
         rotateObjectAction = InputSystem.actions.FindAction("RotateObject");
         rotateObjectAction.performed += ctx => RotateObject();
         disableGridAction = InputSystem.actions.FindAction("DisableGridSnapping");
+        
         playerInteraction = GetComponent<PlayerInteraction>();
+        ghostObject = GetComponent<GhostObjectPlacement>();
     }
 
     void Start()
@@ -53,12 +55,13 @@ public class PlaceObject : MonoBehaviour
         position = hit.point;
 
         if (disableGridAction.inProgress) return;
-        SnapPosition();
-        SnapRotation();
+        Snapposition();
+        Snaprotation();
+        ghostObject.UpdateTransform(position, rotation, CanPlaceHere);
     }
     
     /// <summary>
-    /// Places held object at Position and Rotation
+    /// Places held object at position and rotation
     /// </summary>
     void InstantiateObject()
     {
@@ -67,7 +70,7 @@ public class PlaceObject : MonoBehaviour
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
-        GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, Position, Rotation, placedObjects.transform);
+        GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, position, rotation, placedObjects.transform);
 
         InventoryManager.Instance.ConsumePlacedItem();
     }
@@ -114,7 +117,7 @@ public class PlaceObject : MonoBehaviour
         return true;
     }
 
-    void SnapPosition()
+    void Snapposition()
     {
         grid = hit.transform.GetComponentInParent<Grid>();
         if (grid == null) return;
@@ -122,25 +125,25 @@ public class PlaceObject : MonoBehaviour
         position.y = hit.point.y;
     }
 
-    void SnapRotation()
+    void Snaprotation()
     {
-        Vector3 eulers = Rotation.eulerAngles;
+        Vector3 eulers = rotation.eulerAngles;
         eulers.y = Mathf.Round(eulers.y / rotationSnapDegrees) * rotationSnapDegrees;
-        Rotation = Quaternion.Euler(eulers);
+        rotation = Quaternion.Euler(eulers);
     }
 
-    void SetRotationRelativeToPlayer()
+    void SetrotationRelativeToPlayer()
     {
         Vector3 directionToPlayer = -transform.forward;
         directionToPlayer.y = 0;
-        Rotation = Quaternion.LookRotation(-directionToPlayer);
+        rotation = Quaternion.LookRotation(directionToPlayer);
     }
     
     void HandleHeldObjectChange(PlaceableObject x)
     {
         if (InventoryManager.Instance.HeldObject == null) return;
-        SetRotationRelativeToPlayer();
-        rotationSnapDegrees = GetRotationSnapDegrees();
+        SetrotationRelativeToPlayer();
+        rotationSnapDegrees = GetrotationSnapDegrees();
     }
     
     /// <summary>
@@ -148,7 +151,7 @@ public class PlaceObject : MonoBehaviour
     /// based on type of object
     /// </summary>
     /// <returns>rotationSnapDegrees</returns>
-    int GetRotationSnapDegrees()
+    int GetrotationSnapDegrees()
     {
         switch (InventoryManager.Instance.HeldObject.type)
         {
@@ -164,10 +167,10 @@ public class PlaceObject : MonoBehaviour
     /// </summary>
     void RotateObject()
     {
-        Vector3 eulers = Rotation.eulerAngles;
+        Vector3 eulers = rotation.eulerAngles;
         float direction = rotateObjectAction.ReadValue<float>();
         Debug.Log(direction);
         eulers += Vector3.up * rotationSnapDegrees * direction;
-        Rotation = Quaternion.Euler(eulers);
+        rotation = Quaternion.Euler(eulers);
     }
 }

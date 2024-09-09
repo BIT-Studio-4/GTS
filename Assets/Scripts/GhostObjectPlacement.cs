@@ -1,20 +1,21 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlaceObject))]
+[RequireComponent(typeof(PlayerInteraction))]
 public class GhostObjectPlacement : MonoBehaviour
 {
     [SerializeField] private Material ghostMaterial;
     [SerializeField] private GameObject ghostObject;
 
+    [HideInInspector] public bool canBePlaced;
+    [HideInInspector] public Quaternion rotation;
+
     private PlayerInteraction playerInteraction;
     private MeshFilter meshFilter;
     private Animator animator;
-    private PlaceObject placeObject;
 
     void Awake()
     {
         playerInteraction = GetComponent<PlayerInteraction>();
-        placeObject = GetComponent<PlaceObject>();
         meshFilter = ghostObject.GetComponent<MeshFilter>();
         animator = ghostObject.GetComponent<Animator>();
     }
@@ -36,9 +37,6 @@ public class GhostObjectPlacement : MonoBehaviour
         }
 
         ghostObject.SetActive(true);
-        ghostObject.transform.position = placeObject.Position;
-        ghostObject.transform.rotation = placeObject.Rotation;
-        animator.SetBool("canBePlaced", placeObject.IsPlacementValid());
     }
 
     void HandleObjectChanged(PlaceableObject heldObject)
@@ -68,5 +66,12 @@ public class GhostObjectPlacement : MonoBehaviour
         Mesh mesh = new Mesh();
         mesh.CombineMeshes(combine);
         meshFilter.sharedMesh = mesh;
+    }
+
+    public void UpdateTransform(Vector3 position, Quaternion rotation, bool canBePlaced)
+    {
+        ghostObject.transform.position = position;
+        ghostObject.transform.rotation = rotation;
+        animator.SetBool("canBePlaced", canBePlaced);
     }
 }
