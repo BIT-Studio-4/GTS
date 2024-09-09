@@ -1,13 +1,8 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInteraction))]
 public class GhostObjectPlacement : MonoBehaviour
 {
     [SerializeField] private Material ghostMaterial;
-    [SerializeField] private GameObject ghostObject;
-
-    [HideInInspector] public bool canBePlaced;
-    [HideInInspector] public Quaternion rotation;
 
     private PlayerInteraction playerInteraction;
     private MeshFilter meshFilter;
@@ -15,43 +10,13 @@ public class GhostObjectPlacement : MonoBehaviour
 
     void Awake()
     {
-        playerInteraction = GetComponent<PlayerInteraction>();
-        meshFilter = ghostObject.GetComponent<MeshFilter>();
-        animator = ghostObject.GetComponent<Animator>();
+        playerInteraction = GetComponentInParent<PlayerInteraction>();
+        meshFilter = GetComponent<MeshFilter>();
+        Debug.Log(meshFilter);
+        animator = GetComponent<Animator>();
     }
 
-    void Start()
-    {
-        InventoryManager.Instance.OnHeldObjectChange += HandleObjectChanged;
-        HandleObjectChanged(null);
-    }
-
-    void Update()
-    {
-        if (ghostObject == null) return;
-
-        if (!playerInteraction.raycastHasHit || InventoryManager.Instance.HeldObject == null)
-        {
-            ghostObject.SetActive(false);
-            return;
-        }
-
-        ghostObject.SetActive(true);
-    }
-
-    void HandleObjectChanged(PlaceableObject heldObject)
-    {
-        if (heldObject == null)
-        {
-            ghostObject.SetActive(false);
-            return;
-        }
-
-        GetMeshFromHeldObject();
-        ghostObject.SetActive(true);
-    }
-
-    void GetMeshFromHeldObject()
+    public void GetMeshFromHeldObject()
     {
         // code snippet from https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
         // combine all submeshes into one
@@ -70,8 +35,8 @@ public class GhostObjectPlacement : MonoBehaviour
 
     public void UpdateTransform(Vector3 position, Quaternion rotation, bool canBePlaced)
     {
-        ghostObject.transform.position = position;
-        ghostObject.transform.rotation = rotation;
+        transform.position = position;
+        transform.rotation = rotation;
         animator.SetBool("canBePlaced", canBePlaced);
     }
 }

@@ -7,10 +7,9 @@ using UnityEngine.InputSystem;
 /// Uses GhostObjectPlacement to check for object intersection
 /// </summary>
 [RequireComponent(typeof(PlayerInteraction))]
-[RequireComponent(typeof(GhostObjectPlacement))]
 public class PlaceObject : MonoBehaviour
 {
-    [SerializeField] List<GameObject> prefabs = new List<GameObject>();
+    [SerializeField] private GhostObjectPlacement ghostObject;
 
     private Vector3 position;
     private Quaternion rotation;
@@ -22,7 +21,6 @@ public class PlaceObject : MonoBehaviour
     private InputAction disableGridAction;
     private InputAction rotateObjectAction;
     private PlayerInteraction playerInteraction;
-    private GhostObjectPlacement ghostObject;
     private Grid grid;
     private int rotationSnapDegrees;
 
@@ -36,9 +34,8 @@ public class PlaceObject : MonoBehaviour
         rotateObjectAction = InputSystem.actions.FindAction("RotateObject");
         rotateObjectAction.performed += ctx => RotateObject();
         disableGridAction = InputSystem.actions.FindAction("DisableGridSnapping");
-        
+
         playerInteraction = GetComponent<PlayerInteraction>();
-        ghostObject = GetComponent<GhostObjectPlacement>();
     }
 
     void Start()
@@ -49,17 +46,24 @@ public class PlaceObject : MonoBehaviour
     void Update()
     {
         if (InventoryManager.Instance.HeldObject == null) return;
+        
+        if (!playerInteraction.raycastHasHit)
+        {
+            CanPlaceHere = false;
+            ghostObject.gameObject.SetActive(false);
+            return;
+        }
+        hit = playerInteraction.Hit;
+        ghostObject.gameObject.SetActive(true);
+
         CanPlaceHere = IsPlacementValid();
-        if (!CanPlaceHere) return;
 
         position = hit.point;
-
-        if (disableGridAction.inProgress) return;
-        Snapposition();
-        Snaprotation();
-        ghostObject.UpdateTransform(position, rotation, CanPlaceHere);
+        SnapPosition();
+        SnapRotation();
+        ghostObject.UpdateTransform(position, rotation, CanPlaceHere);       
     }
-    
+
     /// <summary>
     /// Places held object at position and rotation
     /// </summary>
@@ -74,7 +78,7 @@ public class PlaceObject : MonoBehaviour
 
         InventoryManager.Instance.ConsumePlacedItem();
     }
-    
+
     /// <summary>
     /// All-in-one checklist to determine if placing
     /// object should be successful
@@ -82,9 +86,6 @@ public class PlaceObject : MonoBehaviour
     /// <returns>True if object can be placed</returns>
     public bool IsPlacementValid()
     {
-        if (!playerInteraction.raycastHasHit) return false;
-        hit = playerInteraction.Hit;
-
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
             if (placeAction.WasPressedThisFrame())
@@ -117,41 +118,44 @@ public class PlaceObject : MonoBehaviour
         return true;
     }
 
-    void Snapposition()
+    void SnapPosition()
     {
+        if (!CanPlaceHere) return;
+        if (disableGridAction.inProgress) return;
         grid = hit.transform.GetComponentInParent<Grid>();
         if (grid == null) return;
         position = grid.GetCellCenterWorld(grid.WorldToCell(hit.point));
         position.y = hit.point.y;
     }
 
-    void Snaprotation()
+    void SnapRotation()
     {
         Vector3 eulers = rotation.eulerAngles;
         eulers.y = Mathf.Round(eulers.y / rotationSnapDegrees) * rotationSnapDegrees;
         rotation = Quaternion.Euler(eulers);
     }
 
-    void SetrotationRelativeToPlayer()
+    void SetRotationRelativeToPlayer()
     {
         Vector3 directionToPlayer = -transform.forward;
         directionToPlayer.y = 0;
         rotation = Quaternion.LookRotation(directionToPlayer);
     }
-    
+
     void HandleHeldObjectChange(PlaceableObject x)
     {
         if (InventoryManager.Instance.HeldObject == null) return;
-        SetrotationRelativeToPlayer();
-        rotationSnapDegrees = GetrotationSnapDegrees();
+        ghostObject.GetMeshFromHeldObject();
+        SetRotationRelativeToPlayer();
+        rotationSnapDegrees = GetRotationSnapDegrees();
     }
-    
+
     /// <summary>
     /// Determines how many degrees to snap rotation by
     /// based on type of object
     /// </summary>
     /// <returns>rotationSnapDegrees</returns>
-    int GetrotationSnapDegrees()
+    int GetRotationSnapDegrees()
     {
         switch (InventoryManager.Instance.HeldObject.type)
         {
@@ -161,7 +165,7 @@ public class PlaceObject : MonoBehaviour
                 return 15;
         }
     }
-    
+
     /// <summary>
     /// Rotates object by number of degrees, specified by rotationSnapDegrees
     /// </summary>
