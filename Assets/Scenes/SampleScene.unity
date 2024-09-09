@@ -3597,8 +3597,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1079112513786343594, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2893661565376030556, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
@@ -3675,6 +3675,11 @@ PrefabInstance:
       propertyPath: spawnpoint
       value: 
       objectReference: {fileID: 1876903003}
+    - target: {fileID: 7938031884412196941, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: m_CookingOptions
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

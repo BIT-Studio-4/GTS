@@ -1,19 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostObjectPlacement : MonoBehaviour
 {
     [SerializeField] private Material ghostMaterial;
+    [Tooltip("How far away to check for intersecting objects")]
+    [SerializeField] private float intersectionRadius = 1;
+
+    public bool isIntersecting { get => CheckIntersection(); }
+    public bool canBePlaced { get; set; }
 
     private PlayerInteraction playerInteraction;
     private MeshFilter meshFilter;
     private Animator animator;
+    private MeshCollider meshCollider;
 
     void Awake()
     {
         playerInteraction = GetComponentInParent<PlayerInteraction>();
         meshFilter = GetComponent<MeshFilter>();
-        Debug.Log(meshFilter);
         animator = GetComponent<Animator>();
+        meshCollider = GetComponent<MeshCollider>();
     }
 
     public void GetMeshFromHeldObject()
@@ -31,12 +38,47 @@ public class GhostObjectPlacement : MonoBehaviour
         Mesh mesh = new Mesh();
         mesh.CombineMeshes(combine);
         meshFilter.sharedMesh = mesh;
+        meshCollider.sharedMesh = mesh;
     }
 
-    public void UpdateTransform(Vector3 position, Quaternion rotation, bool canBePlaced)
+    public void UpdateTransform(Vector3 position, Quaternion rotation)
     {
         transform.position = position;
         transform.rotation = rotation;
         animator.SetBool("canBePlaced", canBePlaced);
+    }
+
+    bool CheckIntersection()
+    {
+        // edited code snippet from https://docs.unity3d.com/ScriptReference/Physics.ComputePenetration.html
+        Collider[] neighbours = Physics.OverlapSphere(transform.position, intersectionRadius);
+
+        for (int i = 0; i < neighbours.Length; ++i)
+        {
+            var collider = neighbours[i];
+
+            if (collider == meshCollider)
+                continue; // skip ourself
+
+            Vector3 otherPosition = collider.gameObject.transform.position;
+            Quaternion otherRotation = collider.gameObject.transform.rotation;
+
+            Vector3 direction;
+            float distance;
+
+            bool overlapped = Physics.ComputePenetration(
+                meshCollider, transform.position, transform.rotation,
+                collider, otherPosition, otherRotation,
+                out direction, out distance
+            );
+
+            if (overlapped)
+            {
+                Debug.Log("intersecting with " + collider.gameObject.name);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

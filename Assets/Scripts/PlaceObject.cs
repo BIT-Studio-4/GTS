@@ -54,12 +54,13 @@ public class PlaceObject : MonoBehaviour
         hit = playerInteraction.Hit;
         ghostObject.gameObject.SetActive(true);
 
-        CanPlaceHere = IsPlacementValid();
-
         position = hit.point;
         SnapPosition();
         SnapRotation();
-        ghostObject.UpdateTransform(position, rotation, CanPlaceHere);       
+        ghostObject.UpdateTransform(position, rotation);
+
+        CanPlaceHere = IsPlacementValid();
+        ghostObject.canBePlaced = CanPlaceHere;
     }
 
     /// <summary>
@@ -113,13 +114,25 @@ public class PlaceObject : MonoBehaviour
             }
         }
 
+        // If there are any intersecting objects
+        if (ghostObject.isIntersecting)
+        {
+            if (placeAction.WasPressedThisFrame())
+            {
+                HUDManager.Instance.ErrorPopup("Items cannot intersect");
+            }
+            return false;
+        }
+
         return true;
     }
 
     void SnapPosition()
     {
-        if (!CanPlaceHere) return;
         if (disableGridAction.inProgress) return;
+        // only shelves on the floor should snap to grid
+        if (InventoryManager.Instance.HeldObject.type == PlacementType.Structure
+            && !hit.collider.CompareTag("Floor")) return;
         grid = hit.transform.GetComponentInParent<Grid>();
         if (grid == null) return;
         position = grid.GetCellCenterWorld(grid.WorldToCell(hit.point));
