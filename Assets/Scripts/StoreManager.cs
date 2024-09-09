@@ -47,6 +47,7 @@ public class StoreManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
+        GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyColors);
     }
 
     // This toggles the state of the Store GUI (open or closed)
