@@ -587,7 +587,7 @@
                 {
                     "name": "negative",
                     "id": "8542d6ff-fde0-4bf2-a193-acad626a1446",
-                    "path": "<Mouse>/scroll/down",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -598,7 +598,7 @@
                 {
                     "name": "positive",
                     "id": "ea49a6ac-875b-41c1-a64d-3ae39e9749e9",
-                    "path": "<Mouse>/scroll/up",
+                    "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
