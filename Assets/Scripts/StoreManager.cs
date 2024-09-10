@@ -20,15 +20,17 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalCostText;
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private GameObject buyButton;
-    [SerializeField] private Color buyButtonValidColor;
-    [SerializeField] private Color buyButtonInvalidColor;
+    [SerializeField] private Color buttonValidColor;
+    [SerializeField] private Color buttonInvalidColor;
     [SerializeField] private int structureLeftoverMoneyCount;
+    [SerializeField] private List<Button> multiplierButtons;
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImage;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     private List<int> purchaseItems = new List<int>();
+    private int countMultiplier;
 
     private void Awake()
     {
@@ -48,6 +50,8 @@ public class StoreManager : MonoBehaviour
     {
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyColors);
+
+        countMultiplier = 1; //cannot be null
     }
 
     // This toggles the state of the Store GUI (open or closed)
@@ -77,17 +81,17 @@ public class StoreManager : MonoBehaviour
     {
         if (totalCost == 0) // no items are selected in store
         {
-            buyButtonImage.color = buyButtonInvalidColor;
+            buyButtonImage.color = buttonInvalidColor;
             totalCostText.color = Color.black;
         }
         else if (totalCost > GameManager.Instance.Money) // too expensive
         {
-            buyButtonImage.color = buyButtonInvalidColor;
+            buyButtonImage.color = buttonInvalidColor;
             totalCostText.color = Color.red;
         }
         else // can afford selection :D
         {
-            buyButtonImage.color = buyButtonValidColor;
+            buyButtonImage.color = buttonValidColor;
             totalCostText.color = Color.black;
         }
     }
@@ -269,5 +273,38 @@ public class StoreManager : MonoBehaviour
     private void UpdateMoneyText()
     {
         moneyText.text = $"${GameManager.Instance.Money}";
+    }
+
+    /// <summary>
+    /// This is called when a multiplier button is clicked, 
+    /// It makes countMulitplier the numbers from button clicked
+    /// </summary>
+    /// <param name="button"></param>
+    public void ChangeMultiplier(Button button)
+    {
+        // filter the numbers from button text
+        string multiText = "";
+        foreach (char a in button.GetComponentInChildren<TextMeshProUGUI>().text)
+        {
+            if (a >= '0' && a <= '9') multiText += a;
+        }
+
+        // convert from text to int for math
+        try
+        {
+            countMultiplier = Convert.ToInt32(multiText);
+            print(countMultiplier + " successfully changed"); //--------REMOVE LATER-------\\
+        }
+        catch
+        {
+            print(button.name + " invalid mulitiplier text, must include numbers");
+        }
+
+        // make active button show buttonValidColor, non-active show buttonInvalidColor
+        button.GetComponent<Image>().color = buttonValidColor;
+        foreach (Button b in multiplierButtons)
+        {
+            if (b != button) b.GetComponent<Image>().color = buttonInvalidColor;
+        }
     }
 }

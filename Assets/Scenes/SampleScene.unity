@@ -1832,9 +1832,12 @@ MonoBehaviour:
   totalCostText: {fileID: 989199894}
   moneyText: {fileID: 569845727}
   buyButton: {fileID: 889053396}
-  buyButtonValidColor: {r: 0.3372549, g: 0.8, b: 0.16078432, a: 1}
-  buyButtonInvalidColor: {r: 0.63127446, g: 0.6950688, b: 0.7735849, a: 1}
+  buttonValidColor: {r: 0.3372549, g: 0.8, b: 0.16078432, a: 1}
+  buttonInvalidColor: {r: 0.6313726, g: 0.69411767, b: 0.77254903, a: 1}
   structureLeftoverMoneyCount: 5
+  multiplierButtons:
+  - {fileID: 2119960022}
+  - {fileID: 1564329239}
 --- !u!4 &586006309
 Transform:
   m_ObjectHideFlags: 0
@@ -5992,11 +5995,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 586006308}
         m_TargetAssemblyTypeName: StoreManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: ChangeMultiplier
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1564329239}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8742,11 +8745,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 586006308}
         m_TargetAssemblyTypeName: StoreManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: ChangeMultiplier
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2119960022}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
