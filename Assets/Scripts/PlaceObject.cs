@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
 /// Handles placement of held object with grid snapping.
-/// Uses GhostObjectPlacement to check for object intersection
+/// Uses GhostObjectPlacement to check for object intersection.
 /// </summary>
 [RequireComponent(typeof(PlayerInteraction))]
 public class PlaceObject : MonoBehaviour

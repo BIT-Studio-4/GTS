@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class GhostObjectPlacement : MonoBehaviour
 {
-    [SerializeField] private Material ghostMaterial;
     [Tooltip("How far away to check for intersecting objects")]
     [SerializeField] private float intersectionRadius = 1;
 
@@ -16,14 +14,12 @@ public class GhostObjectPlacement : MonoBehaviour
     private bool canBePlaced;
     public bool CanBePlaced { set => canBePlaced = value; }
 
-    private PlayerInteraction playerInteraction;
     private MeshFilter meshFilter;
     private Animator animator;
     private MeshCollider meshCollider;
 
     void Awake()
     {
-        playerInteraction = GetComponentInParent<PlayerInteraction>();
         meshFilter = GetComponent<MeshFilter>();
         animator = GetComponent<Animator>();
         meshCollider = GetComponent<MeshCollider>();
