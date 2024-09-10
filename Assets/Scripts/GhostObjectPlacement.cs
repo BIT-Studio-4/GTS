@@ -1,6 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls animation of ghost object.
+/// Requires a puppeteering script to control position, rotation
+/// and visual indication of placement validity
+/// </summary>
 public class GhostObjectPlacement : MonoBehaviour
 {
     [SerializeField] private Material ghostMaterial;
@@ -8,7 +13,8 @@ public class GhostObjectPlacement : MonoBehaviour
     [SerializeField] private float intersectionRadius = 1;
 
     public bool isIntersecting { get => CheckIntersection(); }
-    public bool canBePlaced { get; set; }
+    private bool canBePlaced;
+    public bool CanBePlaced { set => canBePlaced = value; }
 
     private PlayerInteraction playerInteraction;
     private MeshFilter meshFilter;
@@ -23,6 +29,10 @@ public class GhostObjectPlacement : MonoBehaviour
         meshCollider = GetComponent<MeshCollider>();
     }
 
+    /// <summary>
+    /// Combines all submeshes from a reference of an object
+    /// to use as the ghost object mesh
+    /// </summary>
     public void GetMeshFromHeldObject()
     {
         // code snippet from https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
@@ -41,6 +51,12 @@ public class GhostObjectPlacement : MonoBehaviour
         meshCollider.sharedMesh = mesh;
     }
 
+    /// <summary>
+    /// Changes the position and rotation of the transform
+    /// and updates visual indicator of placement validity
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
     public void UpdateTransform(Vector3 position, Quaternion rotation)
     {
         transform.position = position;
@@ -48,6 +64,11 @@ public class GhostObjectPlacement : MonoBehaviour
         animator.SetBool("canBePlaced", canBePlaced);
     }
 
+    /// <summary>
+    /// Uses mesh collider to detect intersection with any objects
+    /// within a sphere located at transform position
+    /// </summary>
+    /// <returns>True if anything is intersecting</returns>
     bool CheckIntersection()
     {
         // edited code snippet from https://docs.unity3d.com/ScriptReference/Physics.ComputePenetration.html

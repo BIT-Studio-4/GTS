@@ -60,7 +60,7 @@ public class PlaceObject : MonoBehaviour
         ghostObject.UpdateTransform(position, rotation);
 
         CanPlaceHere = IsPlacementValid();
-        ghostObject.canBePlaced = CanPlaceHere;
+        ghostObject.CanBePlaced = CanPlaceHere;
     }
 
     /// <summary>
