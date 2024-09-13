@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
     private void OnContinue()
     {
         Debug.Log("Continue game!");
-        
+        UIManager.Instance.SetGUIState(UIType.Pause, false);
     }
     
     private void OnQuit()

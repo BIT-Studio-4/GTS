@@ -16,6 +16,8 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [SerializeField] private PauseMenu pauseMenu;
+
     private bool isGUIOpen = false;
     public bool IsGUIOpen { get => isGUIOpen; }
 
@@ -34,10 +36,11 @@ public class UIManager : MonoBehaviour
     {
         InputSystem.actions.FindAction("ToggleInventory").performed += ctx => SetGUIState(UIType.Inventory, !InventoryManager.Instance.InventoryGUI.activeSelf);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => SetGUIState(UIType.Store, !StoreManager.Instance.StoreGUI.activeSelf);
-        InputSystem.actions.FindAction("Pause").performed += ctx => Pause();
+        InputSystem.actions.FindAction("Pause").performed += ctx => SetGUIState(UIType.Pause, !pauseMenu.isActiveAndEnabled);
 
         InventoryManager.Instance.SetInventoryActiveState(false);
         StoreManager.Instance.SetStoreActiveState(false);
+        pauseMenu.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -57,6 +60,17 @@ public class UIManager : MonoBehaviour
                 StoreManager.Instance.SetStoreActiveState(state);
                 InventoryManager.Instance.SetInventoryActiveState(false);
                 break;
+            case UIType.Pause:
+                InventoryManager.Instance.SetInventoryActiveState(false);
+                StoreManager.Instance.SetStoreActiveState(false);
+                // close gui (but not pause) if gui open
+                if (isGUIOpen && !pauseMenu.isActiveAndEnabled)
+                {
+                    SetOpenStatus(false);
+                    return;
+                }
+                pauseMenu.gameObject.SetActive(state);
+                break;
         }
 
         SetOpenStatus(state);
@@ -67,19 +81,5 @@ public class UIManager : MonoBehaviour
     {
         isGUIOpen = state;
         Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
-    }
-
-    private void Pause()
-    {
-        if (isGUIOpen)
-        {
-            StoreManager.Instance.SetStoreActiveState(false);
-            InventoryManager.Instance.SetInventoryActiveState(false);
-            SetOpenStatus(false);
-            return;
-        }
-    
-        Debug.Log("Game paused");
-        SetOpenStatus(true);
     }
 }
