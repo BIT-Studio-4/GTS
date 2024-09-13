@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 public enum UIType
 {
     Inventory,
-    Store
+    Store,
+    Pause
 }
 
 /// <summary>
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
     {
         InputSystem.actions.FindAction("ToggleInventory").performed += ctx => SetGUIState(UIType.Inventory, !InventoryManager.Instance.InventoryGUI.activeSelf);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => SetGUIState(UIType.Store, !StoreManager.Instance.StoreGUI.activeSelf);
+        InputSystem.actions.FindAction("Pause").performed += ctx => Pause();
 
         InventoryManager.Instance.SetInventoryActiveState(false);
         StoreManager.Instance.SetStoreActiveState(false);
@@ -65,5 +67,19 @@ public class UIManager : MonoBehaviour
     {
         isGUIOpen = state;
         Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    private void Pause()
+    {
+        if (isGUIOpen)
+        {
+            StoreManager.Instance.SetStoreActiveState(false);
+            InventoryManager.Instance.SetInventoryActiveState(false);
+            SetOpenStatus(false);
+            return;
+        }
+    
+        Debug.Log("Game paused");
+        SetOpenStatus(true);
     }
 }
