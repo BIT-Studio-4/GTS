@@ -13,6 +13,16 @@ public class PauseMenu : MonoBehaviour
         continueButton.onClick.AddListener(OnContinue);
         quitButton.onClick.AddListener(OnQuit);
     }
+    
+    private void OnEnable()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void OnDisable()
+    {
+        Time.timeScale = 1;
+    }
 
     private void OnContinue()
     {
