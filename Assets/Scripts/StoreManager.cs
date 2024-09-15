@@ -139,6 +139,16 @@ public class StoreManager : MonoBehaviour
     // Runs when the amount of stock the player wants is added to or subtracted from
     public void ChangeStockCount(int UIIndex, int storeIndex, int change)
     {
+        if (countMultiplier > 1 && change > 0) //stop higher than 1 multipliers from adding more than can afford
+        {
+            int moneyToSpend = GameManager.Instance.Money - totalCost;
+            int itemsCanAfford = moneyToSpend / allStoreItems[storeIndex].cost; //int division always rounds down
+            itemsCanAfford = Mathf.Min(itemsCanAfford, countMultiplier); //dont add more than multiplier
+            change = itemsCanAfford;
+        }
+        else if (change < 0) change *= countMultiplier; //reduce stock by multiplier
+
+
         int itemCount = purchaseItems[storeIndex];
         itemCount = Mathf.Max(itemCount + change, 0); //cant be less than 0
         purchaseItems[storeIndex] = itemCount;
