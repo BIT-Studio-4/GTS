@@ -138,12 +138,12 @@ public class StoreManager : MonoBehaviour
     // Runs when the amount of stock the player wants is added to or subtracted from
     public void ChangeStockCount(int UIIndex, int storeIndex, int change)
     {
-        int countChange = purchaseItems[storeIndex];
-        countChange = Mathf.Max(countChange + change, 0);
-        purchaseItems[storeIndex] = countChange;
+        int itemCount = purchaseItems[storeIndex];
+        itemCount = Mathf.Max(itemCount + change, 0); //cant be less than 0
+        purchaseItems[storeIndex] = itemCount;
 
         StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
-        slot.CountText.text = countChange.ToString();
+        slot.CountText.text = itemCount.ToString();
 
         totalCost = CalculateTotalCost();
         totalCostText.text = $"Total: ${totalCost}";
