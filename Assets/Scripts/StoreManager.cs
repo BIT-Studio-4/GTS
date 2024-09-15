@@ -69,6 +69,7 @@ public class StoreManager : MonoBehaviour
             UpdateMoneyColors();
             buyButtonText.text = "Buy!";
             InputSystem.actions.FindAction("Place").Disable();
+            ChangeMultiplierColours();
         }
         else
         {
@@ -276,35 +277,53 @@ public class StoreManager : MonoBehaviour
     }
 
     /// <summary>
-    /// This is called when a multiplier button is clicked, 
-    /// It makes countMulitplier the numbers from button clicked
+    /// This is called when a multiplier button is clicked
     /// </summary>
     /// <param name="button"></param>
     public void ChangeMultiplier(Button button)
     {
-        // filter the numbers from button text
-        string multiText = "";
+        countMultiplier = GetIntFromButton(button);
+        ChangeMultiplierColours();
+    }
+
+    /// <summary>
+    /// Gets the numbers from button text
+    /// </summary>
+    /// <param name="button"></param>
+    /// <returns>int</returns>
+    private int GetIntFromButton(Button button)
+    {
+        string text = "";
+        int num = 0;
+
+        // filter the num from button text
         foreach (char a in button.GetComponentInChildren<TextMeshProUGUI>().text)
         {
-            if (a >= '0' && a <= '9') multiText += a;
+            if (a >= '0' && a <= '9') text += a;
         }
 
         // convert from text to int for math
         try
         {
-            countMultiplier = Convert.ToInt32(multiText);
-            print(countMultiplier + " successfully changed"); //--------REMOVE LATER-------\\
+            num = Convert.ToInt32(text);
         }
         catch
         {
-            print(button.name + " invalid mulitiplier text, must include numbers");
+            print(button.name + " invalid button text, must include numbers");
         }
 
-        // make active button show buttonValidColor, non-active show buttonInvalidColor
-        button.GetComponent<Image>().color = buttonValidColor;
+        return num;
+    }
+
+    /// <summary>
+    /// makes active button show buttonValidColor, non-active show buttonInvalidColor
+    /// </summary>
+    private void ChangeMultiplierColours()
+    {
         foreach (Button b in multiplierButtons)
         {
-            if (b != button) b.GetComponent<Image>().color = buttonInvalidColor;
+            if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = buttonValidColor;
+            else b.GetComponent<Image>().color = buttonInvalidColor;
         }
     }
 }
