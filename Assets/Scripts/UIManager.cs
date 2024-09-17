@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 public enum UIType
 {
     Inventory,
-    Store
+    Store,
+    Pause
 }
 
 /// <summary>
@@ -14,6 +15,8 @@ public enum UIType
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
+    [SerializeField] private PauseMenu pauseMenu;
 
     private bool isGUIOpen = false;
     public bool IsGUIOpen { get => isGUIOpen; }
@@ -33,9 +36,11 @@ public class UIManager : MonoBehaviour
     {
         InputSystem.actions.FindAction("ToggleInventory").performed += ctx => SetGUIState(UIType.Inventory, !InventoryManager.Instance.InventoryGUI.activeSelf);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => SetGUIState(UIType.Store, !StoreManager.Instance.StoreGUI.activeSelf);
+        InputSystem.actions.FindAction("Pause").performed += ctx => SetGUIState(UIType.Pause, !pauseMenu.isActiveAndEnabled);
 
         InventoryManager.Instance.SetInventoryActiveState(false);
         StoreManager.Instance.SetStoreActiveState(false);
+        pauseMenu.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -48,12 +53,25 @@ public class UIManager : MonoBehaviour
         switch (UI)
         {
             case UIType.Inventory:
+                if (pauseMenu.isActiveAndEnabled) return;
                 InventoryManager.Instance.SetInventoryActiveState(state);
                 StoreManager.Instance.SetStoreActiveState(false);
                 break;
             case UIType.Store:
+                if (pauseMenu.isActiveAndEnabled) return;
                 StoreManager.Instance.SetStoreActiveState(state);
                 InventoryManager.Instance.SetInventoryActiveState(false);
+                break;
+            case UIType.Pause:
+                InventoryManager.Instance.SetInventoryActiveState(false);
+                StoreManager.Instance.SetStoreActiveState(false);
+                // close gui (but not pause) if gui open
+                if (isGUIOpen && !pauseMenu.isActiveAndEnabled)
+                {
+                    SetOpenStatus(false);
+                    return;
+                }
+                pauseMenu.gameObject.SetActive(state);
                 break;
         }
 
