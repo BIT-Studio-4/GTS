@@ -53,10 +53,12 @@ public class UIManager : MonoBehaviour
         switch (UI)
         {
             case UIType.Inventory:
+                if (pauseMenu.isActiveAndEnabled) return;
                 InventoryManager.Instance.SetInventoryActiveState(state);
                 StoreManager.Instance.SetStoreActiveState(false);
                 break;
             case UIType.Store:
+                if (pauseMenu.isActiveAndEnabled) return;
                 StoreManager.Instance.SetStoreActiveState(state);
                 InventoryManager.Instance.SetInventoryActiveState(false);
                 break;
