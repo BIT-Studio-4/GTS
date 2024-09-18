@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: e86a892d926573e45b3dd6bb37bb1eb7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - inventoryGUI: {instanceID: 0}
+  - inventoryGrid: {instanceID: 0}
+  - inventoryItemPrefab: {instanceID: 0}
+  - playerHeldItemParent: {instanceID: 0}
+  - shelfItem: {fileID: 11400000, guid: 8c8b47ca405b50a419b1c70343732301, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
