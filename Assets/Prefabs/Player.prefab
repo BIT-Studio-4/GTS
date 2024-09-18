@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4667196677246100083}
   - component: {fileID: 7569073354144114021}
   - component: {fileID: 124709709604099119}
+  - component: {fileID: 2172462091198951542}
+  - component: {fileID: 7938031884412196941}
   m_Layer: 0
   m_Name: Ghost Object
   m_TagString: Untagged
@@ -108,6 +110,41 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2172462091198951542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079112513786343594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8798aadcf3bb23469cda1d575ea4439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostMaterial: {fileID: 2100000, guid: f172f02f674f68a45b36a6c840addfee, type: 2}
+--- !u!64 &7938031884412196941
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079112513786343594}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -951608786083511892, guid: 03bc099a9edb8d040ac0dc12fb480c87, type: 3}
 --- !u!1 &2893661565376030556
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +256,6 @@ GameObject:
   - component: {fileID: 4635837565340512232}
   - component: {fileID: 2908576040736156004}
   - component: {fileID: 7439313883792136263}
-  - component: {fileID: 893337788071560415}
   m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -375,28 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707a44f27afc75546b3184b1578f5b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 92670362388832611, guid: 8c8ba9083d724b6419fa93ea297327e9, type: 3}
-  - {fileID: 5527126596583947887, guid: a7338e75769c78841b0306eaa2a6b933, type: 3}
-  - {fileID: 1729293619525604392, guid: ec53c5bf8b1667c46b232405d4c61293, type: 3}
-  - {fileID: 8947323300707565331, guid: c2cf5ef4ef98e534f88958120472e1b8, type: 3}
-  incorrectPlacement:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &893337788071560415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3103663510848858061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8798aadcf3bb23469cda1d575ea4439, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghostMaterial: {fileID: 2100000, guid: f172f02f674f68a45b36a6c840addfee, type: 2}
-  ghostObject: {fileID: 1079112513786343594}
+  ghostObject: {fileID: 2172462091198951542}
 --- !u!1 &3226304405040356737
 GameObject:
   m_ObjectHideFlags: 0

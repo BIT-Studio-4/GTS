@@ -1,61 +1,35 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInteraction))]
+/// <summary>
+/// Controls animation of ghost object.
+/// Requires a puppeteering script to control position, rotation
+/// and visual indication of placement validity
+/// </summary>
 public class GhostObjectPlacement : MonoBehaviour
 {
-    [SerializeField] private Material ghostMaterial;
-    [SerializeField] private GameObject ghostObject;
+    [Tooltip("How far away to check for intersecting objects")]
+    [SerializeField] private float intersectionRadius = 1;
 
-    private PlayerInteraction playerInteraction;
+    public bool isIntersecting { get => CheckIntersection(); }
+    private bool canBePlaced;
+    public bool CanBePlaced { set => canBePlaced = value; }
+
     private MeshFilter meshFilter;
     private Animator animator;
+    private MeshCollider meshCollider;
 
     void Awake()
     {
-        playerInteraction = GetComponent<PlayerInteraction>();
-        meshFilter = ghostObject.GetComponent<MeshFilter>();
-        animator = ghostObject.GetComponent<Animator>();
+        meshFilter = GetComponent<MeshFilter>();
+        animator = GetComponent<Animator>();
+        meshCollider = GetComponent<MeshCollider>();
     }
 
-    void Start()
-    {
-        InventoryManager.Instance.OnHeldObjectChange += HandleObjectChanged;
-        HandleObjectChanged(null);
-    }
-
-    void Update()
-    {
-        if (ghostObject == null) return;
-
-        if (!playerInteraction.raycastHasHit || InventoryManager.Instance.HeldObject == null)
-        {
-            ghostObject.SetActive(false);
-            return;
-        }
-
-        ghostObject.SetActive(true);
-        ghostObject.transform.position = playerInteraction.Hit.point;
-        ghostObject.transform.LookAt(playerInteraction.transform);
-        Vector3 rotation = ghostObject.transform.eulerAngles;
-        rotation.x = 0;
-        rotation.z = 0;
-        ghostObject.transform.rotation = Quaternion.Euler(rotation);
-        animator.SetBool("canBePlaced", InventoryManager.Instance.HeldObject.canBePlacedAtHit);
-    }
-
-    void HandleObjectChanged(PlaceableObject heldObject)
-    {
-        if (heldObject == null)
-        {
-            ghostObject.SetActive(false);
-            return;
-        }
-
-        GetMeshFromHeldObject();
-        ghostObject.SetActive(true);
-    }
-
-    void GetMeshFromHeldObject()
+    /// <summary>
+    /// Combines all submeshes from a reference of an object
+    /// to use as the ghost object mesh
+    /// </summary>
+    public void GetMeshFromHeldObject()
     {
         // code snippet from https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
         // combine all submeshes into one
@@ -70,5 +44,58 @@ public class GhostObjectPlacement : MonoBehaviour
         Mesh mesh = new Mesh();
         mesh.CombineMeshes(combine);
         meshFilter.sharedMesh = mesh;
+        meshCollider.sharedMesh = mesh;
+    }
+
+    /// <summary>
+    /// Changes the position and rotation of the transform
+    /// and updates visual indicator of placement validity
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
+    public void UpdateTransform(Vector3 position, Quaternion rotation)
+    {
+        transform.position = position;
+        transform.rotation = rotation;
+        animator.SetBool("canBePlaced", canBePlaced);
+    }
+
+    /// <summary>
+    /// Uses mesh collider to detect intersection with any objects
+    /// within a sphere located at transform position
+    /// </summary>
+    /// <returns>True if anything is intersecting</returns>
+    bool CheckIntersection()
+    {
+        // edited code snippet from https://docs.unity3d.com/ScriptReference/Physics.ComputePenetration.html
+        Collider[] neighbours = Physics.OverlapSphere(transform.position, intersectionRadius);
+
+        for (int i = 0; i < neighbours.Length; ++i)
+        {
+            var collider = neighbours[i];
+
+            if (collider == meshCollider)
+                continue; // skip ourself
+
+            Vector3 otherPosition = collider.gameObject.transform.position;
+            Quaternion otherRotation = collider.gameObject.transform.rotation;
+
+            Vector3 direction;
+            float distance;
+
+            bool overlapped = Physics.ComputePenetration(
+                meshCollider, transform.position, transform.rotation,
+                collider, otherPosition, otherRotation,
+                out direction, out distance
+            );
+
+            if (overlapped)
+            {
+                Debug.Log("intersecting with " + collider.gameObject.name);
+                return true;
+            }
+        }
+
+        return false;
     }
 }
