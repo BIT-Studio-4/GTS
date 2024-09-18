@@ -12,6 +12,8 @@ public class HUDManager : MonoBehaviour
     private Label moneyDisplay;
     private VisualElement errorPopup;
     private Label errorMessage;
+    private VisualElement versionContainer;
+    private Label versionText;
     private Boolean errorPopupUp;
     private float popupTime;
     [SerializeField] private float popupDelay;
@@ -30,6 +32,9 @@ public class HUDManager : MonoBehaviour
         moneyDisplay = moneyContainer.Q<Label>("moneyDisplay");
         errorPopup = hud.Q<VisualElement>("errorPopup");
         errorMessage = errorPopup.Q<Label>("errorText");
+        versionContainer = hud.Q<VisualElement>("versionNumber");
+        versionText = versionContainer.Q<Label>("versionText");
+
     }
 
     private void Start()
@@ -37,7 +42,7 @@ public class HUDManager : MonoBehaviour
         //event listener to change display
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
         errorPopupUp = false;
-
+        versionText.text = $"Version Number: {Application.version}";
     }
 
     private void Update()
