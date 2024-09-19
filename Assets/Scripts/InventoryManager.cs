@@ -14,6 +14,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private float stockScale;
     [SerializeField] private float structureScale;
 
+    [SerializeField] private StoreItemSO shelfItem; // Reference to StoreItemSO for shelf
+
     // This is the list of items the inventory contains
     private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
     public List<PlaceableObject> InventoryPlaceableObjects { get => inventoryPlaceableObjects; set => inventoryPlaceableObjects = value; }
@@ -61,7 +63,12 @@ public class InventoryManager : MonoBehaviour
     {
         HeldObject = null;
         SwitchTab(0);
+
+        Debug.Log(shelfItem.itemName);
+        InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.prefab, shelfItem.type, 1));
     }
+
+
     
     // This toggles the state of the Inventory GUI (open or closed)
     public void SetInventoryActiveState(bool isActive)

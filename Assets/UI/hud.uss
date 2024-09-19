@@ -25,3 +25,10 @@
     bottom: 20%;
     display: none;
 }
+
+.version-number{
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 15px;
+}
