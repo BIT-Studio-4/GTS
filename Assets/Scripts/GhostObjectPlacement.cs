@@ -91,7 +91,6 @@ public class GhostObjectPlacement : MonoBehaviour
 
             if (overlapped)
             {
-                Debug.Log("intersecting with " + collider.gameObject.name);
                 return true;
             }
         }
