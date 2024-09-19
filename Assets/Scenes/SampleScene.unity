@@ -802,9 +802,9 @@ MonoBehaviour:
   OnMoneyChange:
     m_PersistentCalls:
       m_Calls: []
-  username: ashures
-  password: TestPassword12!
-  startingMoney: 70
+  username: jeffrey
+  password: BetterPassword24!
+  startingMoney: 20
 --- !u!4 &220861225
 Transform:
   m_ObjectHideFlags: 0
