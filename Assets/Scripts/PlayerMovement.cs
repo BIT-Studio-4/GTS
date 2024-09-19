@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         sprintAction = InputSystem.actions.FindAction("Sprint");
         // add listener to crouch event
         InputSystem.actions.FindAction("Crouch").performed += ctx => HandleCrouchInput();
-        InputSystem.actions.FindAction("Jump").performed += ctx => jumpLastPressedTime = Time.time;
+        InputSystem.actions.FindAction("Jump").performed += ctx => HandleJumpInput();
         // start at spawnpoint, + half of player height because its pivot is in the center
         spawnpoint.position += Vector3.up * cc.height / 2;
         transform.position = spawnpoint.position;
@@ -93,15 +93,23 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        if (UIManager.Instance.IsGUIOpen) return;
         moveVector.y = jumpForce;
         jumpLastPressedTime = Mathf.NegativeInfinity;
     }
 
     void HandleCrouchInput()
     {
+        if (UIManager.Instance.IsGUIOpen) return;
         if (cameraTargetHeight == standHeight)
             cameraTargetHeight = standHeight - crouchDepth;
         else
             cameraTargetHeight = standHeight;
+    }
+    
+    void HandleJumpInput()
+    {
+        if (UIManager.Instance.IsGUIOpen) return;
+        jumpLastPressedTime = Time.time;
     }
 }

@@ -592,7 +592,7 @@ Transform:
   m_GameObject: {fileID: 167680956}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 5.0155}
+  m_LocalPosition: {x: 0, y: -0.1, z: 4.6666665}
   m_LocalScale: {x: 10, y: 0.5, z: 1.3333334}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -802,9 +802,9 @@ MonoBehaviour:
   OnMoneyChange:
     m_PersistentCalls:
       m_Calls: []
-  username: ashures
-  password: TestPassword12!
-  startingMoney: 70
+  username: jeffrey
+  password: BetterPassword24!
+  startingMoney: 20
 --- !u!4 &220861225
 Transform:
   m_ObjectHideFlags: 0
@@ -2190,7 +2190,7 @@ Transform:
   m_GameObject: {fileID: 699043602}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -48.037, y: 0, z: -49.476}
+  m_LocalPosition: {x: -48, y: 0, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2229,7 +2229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &721979056
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5387,8 +5387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefee174f9b5f0247b609841b7e8e074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TutorialText: {fileID: 506930226}
   pauseMenu: {fileID: 412268506}
+  TutorialText: {fileID: 506930226}
 --- !u!1 &1435044076
 GameObject:
   m_ObjectHideFlags: 0
