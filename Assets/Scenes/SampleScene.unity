@@ -8090,6 +8090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2000022676}
   - component: {fileID: 2000022677}
+  - component: {fileID: 2000022678}
   m_Layer: 5
   m_Name: VirtualCursor
   m_TagString: Untagged
@@ -8225,6 +8226,18 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 6240969308177333660, guid: 7233997b2ae2d1243b35c595a8d86606,
       type: 3}
+--- !u!114 &2000022678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000022675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abc50b181709434a88b3e0bfdb0f1b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2013862364
 GameObject:
   m_ObjectHideFlags: 0
