@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private float cameraTargetHeight;
     private Camera cam;
     private float jumpLastPressedTime;
+    private bool isCrouched;
 
     void Awake()
     {
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
         standHeight = cam.transform.localPosition.y;
         cameraTargetHeight = standHeight;
+        isCrouched = false;
         jumpLastPressedTime = Mathf.NegativeInfinity;
     }
 
@@ -106,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
             cameraTargetHeight = standHeight - crouchDepth;
         else
             cameraTargetHeight = standHeight;
+        isCrouched = !isCrouched;
     }
     
     void HandleJumpInput()
