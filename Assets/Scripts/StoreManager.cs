@@ -15,7 +15,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
     public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
-    // The grid that aligns the buttons in the UI
+    // The grid that aligns the objects in the UI
     [SerializeField] private GameObject storeGrid;
     // The prefab for each item displayed in the UI
     [SerializeField] private GameObject storeItemPrefab;

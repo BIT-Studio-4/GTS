@@ -2832,9 +2832,9 @@ MonoBehaviour:
   inventoryGrid: {fileID: 623046402}
   inventoryItemPrefab: {fileID: 5036502275639446614, guid: a988f004b1bc5be418324c80bd1ada10,
     type: 3}
-  playerHeldItemParent: {fileID: 182626466}
-  stockScale: 1.2
-  structureScale: 0.35
+  handDisplayItemParent: {fileID: 182626466}
+  stockHandScale: 1.2
+  structureHandScale: 0.35
   shelfItem: {fileID: 11400000, guid: 8c8b47ca405b50a419b1c70343732301, type: 2}
 --- !u!4 &775283612
 Transform:

@@ -8,12 +8,13 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private GameObject inventoryGUI;
     public GameObject InventoryGUI { get => inventoryGUI; set => inventoryGUI = value; }
+    // The grid that aligns the objects in the UI
     [SerializeField] private GameObject inventoryGrid;
+    // The prefab for each item displayed in the UI
     [SerializeField] private GameObject inventoryItemPrefab;
-    [SerializeField] private GameObject playerHeldItemParent;
-    [SerializeField] private float stockScale;
-    [SerializeField] private float structureScale;
-
+    [SerializeField] private GameObject handDisplayItemParent;
+    [SerializeField] private float stockHandScale;
+    [SerializeField] private float structureHandScale;
     [SerializeField] private StoreItemSO shelfItem; // Reference to StoreItemSO for shelf
 
     // This is the list of items the inventory contains
@@ -46,7 +47,9 @@ public class InventoryManager : MonoBehaviour
     // The GameObject that the player is holding for display.
     private GameObject playerHeldItem;
 
-    // Makes InventorManager a singleton
+    /// <summary>
+    /// Makes InventoryManager a singleton
+    /// </summary>
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -58,19 +61,23 @@ public class InventoryManager : MonoBehaviour
         Instance = this;
     }
 
-    // Sets inventory to be closed when the game starts
+    /// <summary>
+    /// Sets inventory to be closed when the game starts
+    /// </summary>
     void Start()
     {
         HeldObject = null;
         SwitchTab(0);
 
         Debug.Log(shelfItem.itemName);
+        // Adds a shelf to the inventory on start
         InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.prefab, shelfItem.type, 1));
     }
 
-
-    
-    // This toggles the state of the Inventory GUI (open or closed)
+    /// <summary>
+    /// This toggles the state of the Inventory GUI (open or closed)
+    /// </summary>
+    /// <param name="isActive"></param>
     public void SetInventoryActiveState(bool isActive)
     {
         inventoryGUI.SetActive(isActive);
@@ -154,8 +161,8 @@ public class InventoryManager : MonoBehaviour
     {
         ClearHandItem();
 
-        playerHeldItem = Instantiate(placeableObject.prefab, playerHeldItemParent.transform);
-        playerHeldItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockScale, stockScale, stockScale) : new Vector3(structureScale, structureScale, structureScale);
+        playerHeldItem = Instantiate(placeableObject.prefab, handDisplayItemParent.transform);
+        handDisplayItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockHandScale, stockHandScale, stockHandScale) : new Vector3(structureHandScale, structureHandScale, structureHandScale);
         SellItem randomSell = playerHeldItem.GetComponent<SellItem>();
         if (randomSell != null)
             randomSell.enabled = false;
