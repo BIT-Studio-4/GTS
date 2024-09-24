@@ -1,10 +1,10 @@
+using System.Collections;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.UI;
 
 [RequireComponent(typeof(VirtualMouseInput))]
-// whole class is a code snippet from this Code Monkey tutorial
-// https://youtu.be/j2XyzSAD4VU
 public class VirtualMouseUI : MonoBehaviour
 {
     private VirtualMouseInput virtualMouseInput;
@@ -14,6 +14,21 @@ public class VirtualMouseUI : MonoBehaviour
         virtualMouseInput = GetComponent<VirtualMouseInput>();
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(EnableCursor());
+    }
+
+    IEnumerator EnableCursor()
+    {
+        yield return new WaitUntil(() => virtualMouseInput != null);
+
+        Vector2 virtualMousePosition = new (Screen.width / 2, Screen.height / 2);
+        InputState.Change(virtualMouseInput.virtualMouse.position, virtualMousePosition);
+    }
+
+    // code snippet from this Code Monkey tutorial
+    // https://youtu.be/j2XyzSAD4VU
     private void LateUpdate()
     {
         Vector2 virtualMousePosition = virtualMouseInput.virtualMouse.position.value;

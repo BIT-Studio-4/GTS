@@ -5410,6 +5410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 412268506}
+  virtualCursor: {fileID: 2000022675}
   TutorialText: {fileID: 506930226}
 --- !u!1 &1435044076
 GameObject:
@@ -8097,7 +8098,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2000022676
 RectTransform:
   m_ObjectHideFlags: 0

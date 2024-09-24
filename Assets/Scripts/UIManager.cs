@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [SerializeField] private PauseMenu pauseMenu;
+    [SerializeField] private GameObject virtualCursor;
 
     private bool isGUIOpen = false;
     public bool IsGUIOpen { get => isGUIOpen; }
@@ -51,6 +52,8 @@ public class UIManager : MonoBehaviour
         StoreManager.Instance.SetStoreActiveState(false);
         pauseMenu.gameObject.SetActive(false);
 
+        InputDeviceManager.Instance.onGameDeviceChanged += HandleInputDeviceChange;
+
         StartTutorial();
     }
 
@@ -62,6 +65,7 @@ public class UIManager : MonoBehaviour
             NextTutorialStep();
         }
     }
+
     /// <summary>
     /// Used to open/close a specific GUI
     /// </summary>
@@ -152,5 +156,10 @@ public class UIManager : MonoBehaviour
         {
             HideTutorial();
         }
+    }
+
+    private void HandleInputDeviceChange(InputDevice inputDevice)
+    {
+        Debug.Log($"omg they're using a {inputDevice}");
     }
 }
