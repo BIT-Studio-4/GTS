@@ -68,15 +68,7 @@ public class StoreManager : MonoBehaviour
         // When the store GUI is opened
         if (storeGUI.activeSelf)
         {
-            FillShoppingCartWithItems();
-            SwitchTab(tabIndex);
-            totalCost = CalculateTotalCost();
-            totalCostText.text = $"Total: ${totalCost}";
-            UpdateMoneyText();
-            UpdateMoneyColors();
-            buyButtonText.text = "Buy!";
-            InputSystem.actions.FindAction("Place").Disable();
-            ChangeMultiplierColours();
+            OnEnableStore();
         }
         else
         {
@@ -85,6 +77,26 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Enables all required things when the store is opened
+    /// </summary>
+    private void OnEnableStore()
+    {
+        // Fills the shopping cart with stacks of 0
+        FillShoppingCartWithItems();
+        SwitchTab(tabIndex);
+        totalCost = CalculateTotalCost();
+        totalCostText.text = $"Total: ${totalCost}";
+        UpdateMoneyText();
+        UpdateMoneyColors();
+        buyButtonText.text = "Buy!";
+        InputSystem.actions.FindAction("Place").Disable();
+        ChangeMultiplierColours();
+    }
+
+    /// <summary>
+    /// Changes the button, and money text visually to give feedback to user
+    /// </summary>
     private void UpdateMoneyColors()
     {
         if (totalCost == 0) // no items are selected in store
@@ -104,7 +116,9 @@ public class StoreManager : MonoBehaviour
         }
     }
 
-    // Sets all of the content of the store GUI
+    /// <summary>
+    /// Sets all of the content of the store GUI
+    /// </summary>
     private void SetStoreDisplayContent()
     {
         // Removes all the old GUI display gridItems, and clears the lists of what was in them
@@ -112,25 +126,26 @@ public class StoreManager : MonoBehaviour
         gridObjectDisplayList.Clear();
 
         int indexInTab = 0;
-        int storeIndex = 0;
-
-        
 
         // Iterates over all items to see if it should display in current tab
-        allStoreItems.ForEach(placeableObject =>
+        for (int storeIndex = 0; storeIndex < allStoreItems.Count; storeIndex++)
         {
-            if (((int)placeableObject.type) == tabIndex)
+            // If the item is in the currently opened tab
+            if (((int)allStoreItems[storeIndex].type) == tabIndex)
             {
-                CreateGridItem(indexInTab, storeIndex, placeableObject);
+                CreateGridItem(indexInTab, storeIndex, allStoreItems[storeIndex]);
 
                 indexInTab++;
             }
-
-            storeIndex++;
-        });
+        }
     }
 
-    // Instantiates a new grid GameObject in the Store menu
+    /// <summary>
+    /// Instantiates a new grid item GameObject in the Store menu
+    /// </summary>
+    /// <param name="indexInTab"></param>
+    /// <param name="storeIndex"></param>
+    /// <param name="storeItem"></param>
     private void CreateGridItem(int indexInTab, int storeIndex, StoreItemSO storeItem)
     {
         // Creates the new GameObject and puts it in a list
@@ -138,6 +153,7 @@ public class StoreManager : MonoBehaviour
         gridObjectDisplayList.Add(gridItem);
         StoreItemSlot gridSlot = gridItem.GetComponent<StoreItemSlot>();
 
+        // Sets all the parameters on the buttons
         gridSlot.AddButton.onClick.AddListener(() => ChangeStockCount(indexInTab, storeIndex, 1));
         gridSlot.SubtractButton.onClick.AddListener(() => ChangeStockCount(indexInTab, storeIndex, -1));
         gridSlot.NameText.text = storeItem.name;
