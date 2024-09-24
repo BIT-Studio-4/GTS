@@ -15,21 +15,24 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
     public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
+    // The grid that aligns the buttons in the UI
     [SerializeField] private GameObject storeGrid;
+    // The prefab for each item displayed in the UI
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
-    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI currentMoneyText;
     [SerializeField] private GameObject buyButton;
     [SerializeField] private Color buttonValidColor;
     [SerializeField] private Color buttonInvalidColor;
     [SerializeField] private int structureLeftoverMoneyCount;
     [SerializeField] private List<Button> multiplierButtons;
     private TextMeshProUGUI buyButtonText;
-    private Image buyButtonImage;
+    private Image buyButtonImageComponent;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
-    private List<int> purchaseItems = new List<int>();
+    // A list of all the counts of items in the cart
+    private List<int> itemCountsInCart = new List<int>();
     private int countMultiplier;
 
     private void Awake()
@@ -43,7 +46,7 @@ public class StoreManager : MonoBehaviour
         Instance = this;
 
         buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
-        buyButtonImage = buyButton.GetComponent<Image>();
+        buyButtonImageComponent = buyButton.GetComponent<Image>();
     }
 
     private void Start()
@@ -54,11 +57,15 @@ public class StoreManager : MonoBehaviour
         countMultiplier = 1; //cannot be null
     }
 
-    // This toggles the state of the Store GUI (open or closed)
+    /// <summary>
+    /// Toggles the state of the Store GUI (open or closed)
+    /// </summary>
+    /// <param name="isActive"></param>
     public void SetStoreActiveState(bool isActive)
     {
         storeGUI.SetActive(isActive);
 
+        // When the store GUI is opened
         if (storeGUI.activeSelf)
         {
             FillPurchaseItemList();
@@ -82,17 +89,17 @@ public class StoreManager : MonoBehaviour
     {
         if (totalCost == 0) // no items are selected in store
         {
-            buyButtonImage.color = buttonInvalidColor;
+            buyButtonImageComponent.color = buttonInvalidColor;
             totalCostText.color = Color.black;
         }
         else if (totalCost > GameManager.Instance.Money) // too expensive
         {
-            buyButtonImage.color = buttonInvalidColor;
+            buyButtonImageComponent.color = buttonInvalidColor;
             totalCostText.color = Color.red;
         }
         else // can afford selection :D
         {
-            buyButtonImage.color = buttonValidColor;
+            buyButtonImageComponent.color = buttonValidColor;
             totalCostText.color = Color.black;
         }
     }
@@ -133,7 +140,7 @@ public class StoreManager : MonoBehaviour
         gridSlot.SubtractButton.onClick.AddListener(() => ChangeStockCount(UIIndex, storeIndex, -1));
         gridSlot.NameText.text = storeItem.name;
         gridSlot.PriceText.text = $"${storeItem.cost}";
-        gridSlot.CountText.text = $"{purchaseItems[storeIndex]}";
+        gridSlot.CountText.text = $"{itemCountsInCart[storeIndex]}";
     }
 
     // Runs when the amount of stock the player wants is added to or subtracted from
@@ -149,9 +156,9 @@ public class StoreManager : MonoBehaviour
         else if (change < 0) change *= countMultiplier; //reduce stock by multiplier
 
 
-        int itemCount = purchaseItems[storeIndex];
+        int itemCount = itemCountsInCart[storeIndex];
         itemCount = Mathf.Max(itemCount + change, 0); //cant be less than 0
-        purchaseItems[storeIndex] = itemCount;
+        itemCountsInCart[storeIndex] = itemCount;
 
         StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
         slot.CountText.text = itemCount.ToString();
@@ -172,11 +179,11 @@ public class StoreManager : MonoBehaviour
     // Fills the list of all empty items possible to purchase
     private void FillPurchaseItemList()
     {
-        purchaseItems.Clear();
+        itemCountsInCart.Clear();
 
         allStoreItems.ForEach(item =>
         {
-            purchaseItems.Add(0);
+            itemCountsInCart.Add(0);            
         });
     }
 
@@ -187,7 +194,7 @@ public class StoreManager : MonoBehaviour
 
         for (int i = 0; i < allStoreItems.Count; i++)
         {
-            totalCost += allStoreItems[i].cost * purchaseItems[i];
+            totalCost += allStoreItems[i].cost * itemCountsInCart[i];
         }
 
         return totalCost;
@@ -227,7 +234,7 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < allStoreItems.Count; i++)
         {
             // Count of how many of that an item there is
-            if (purchaseItems[i] > 0 && allStoreItems[i].type == PlacementType.Stock)
+            if (itemCountsInCart[i] > 0 && allStoreItems[i].type == PlacementType.Stock)
             {
                 stockItemsInCart.Add(allStoreItems[i]);
             }
@@ -259,7 +266,7 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < allStoreItems.Count; i++)
         {
             // Checks if any of these are actually being bought
-            if (purchaseItems[i] > 0)
+            if (itemCountsInCart[i] > 0)
             {
                 // Gets index of item inside of inventory if it exists (if not returns -1)
                 int indexOfItem = InventoryManager.Instance.InventoryPlaceableObjects.FindIndex(item => item.name == allStoreItems[i].name);
@@ -269,12 +276,12 @@ public class StoreManager : MonoBehaviour
                     StoreItemSO item = allStoreItems[i];
 
                     // Adds new PlaceableObject item inside of Inventory if it doesn't already exist
-                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, purchaseItems[i]));
+                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, itemCountsInCart[i]));
                 }
                 else
                 {
                     // Adds to the count of Inventory if the player already has that stock item
-                    InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += purchaseItems[i];
+                    InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += itemCountsInCart[i];
                 }
             }
         }
@@ -283,7 +290,7 @@ public class StoreManager : MonoBehaviour
     // Updates the money text to reflect money value in GameManager
     private void UpdateMoneyText()
     {
-        moneyText.text = $"${GameManager.Instance.Money}";
+        currentMoneyText.text = $"${GameManager.Instance.Money}";
     }
 
     /// <summary>
