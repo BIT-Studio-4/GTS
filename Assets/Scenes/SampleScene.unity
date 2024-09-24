@@ -1830,7 +1830,7 @@ MonoBehaviour:
   storeItemPrefab: {fileID: 458661302285995283, guid: 5993ce23366979341979021d342d1ffa,
     type: 3}
   totalCostText: {fileID: 989199894}
-  moneyText: {fileID: 569845727}
+  currentMoneyText: {fileID: 569845727}
   buyButton: {fileID: 889053396}
   buttonValidColor: {r: 0.3372549, g: 0.8, b: 0.16078432, a: 1}
   buttonInvalidColor: {r: 0.6313726, g: 0.69411767, b: 0.77254903, a: 1}

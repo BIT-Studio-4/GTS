@@ -231,7 +231,9 @@ public class StoreManager : MonoBehaviour
         return totalCost;
     }
 
-    // Tries to purchase stock if the player can afford it and it won't softlock themselves
+    /// <summary>
+    /// Tries to purchase stock if the player can afford it and won't softlock themselves
+    /// </summary>
     public void TryPurchaseStock()
     {
         if (GameManager.Instance.Money < totalCost)
@@ -248,6 +250,10 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if the player will softlock themselves by making a purchase
+    /// </summary>
+    /// <returns>If the player will softlock themselves</returns>
     private bool WillSoftlock()
     {
         // Checks if they have leftover money at the end
@@ -277,7 +283,10 @@ public class StoreManager : MonoBehaviour
         return true;
     }
 
-    // Displays too expensive text if the user cannot afford the items
+    /// <summary>
+    /// Displays too expensive text if the user cannot afford the items
+    /// </summary>
+    /// <param name="message"></param>
     private IEnumerator DisplayErrorMessage(string message)
     {
         buyButtonText.text = message;
@@ -285,7 +294,9 @@ public class StoreManager : MonoBehaviour
         buyButtonText.text = "Buy!";
     }
 
-    // Adds items to Inventory when purchasing them and removes money
+    /// <summary>
+    /// Adds items to Inventory when purchasing them and removes money
+    /// </summary>
     private void PurchaseStock()
     {
         GameManager.Instance.Money -= totalCost;
@@ -318,7 +329,9 @@ public class StoreManager : MonoBehaviour
         }
     }
 
-    // Updates the money text to reflect money value in GameManager
+    /// <summary>
+    /// Updates the money text to reflect money value in GameManager
+    /// </summary>
     private void UpdateMoneyText()
     {
         currentMoneyText.text = $"${GameManager.Instance.Money}";
@@ -335,7 +348,7 @@ public class StoreManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the numbers from button text
+    /// Gets the number displayed inside of a button's text
     /// </summary>
     /// <param name="button"></param>
     /// <returns>int</returns>
