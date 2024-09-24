@@ -60,7 +60,8 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         // Check if the "N" key is pressed and advances tutorial step
-        if (Keyboard.current.nKey.wasPressedThisFrame)
+        if (Keyboard.current.nKey.wasPressedThisFrame
+            || Gamepad.current.dpad.right.wasPressedThisFrame)
         {
             NextTutorialStep();
         }
