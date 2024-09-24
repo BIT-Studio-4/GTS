@@ -77,7 +77,7 @@ public class InventoryManager : MonoBehaviour
     /// <summary>
     /// This toggles the state of the Inventory GUI (open or closed)
     /// </summary>
-    /// <param name="isActive"></param>
+    /// <param name="isActive">What you want to set the inventory open state to</param>
     public void SetInventoryActiveState(bool isActive)
     {
         inventoryGUI.SetActive(isActive);
@@ -89,14 +89,19 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // Changes the tab and resets the contents of the inventory
+    /// <summary>
+    /// Changes the tab and resets the contents of the inventory
+    /// </summary>
+    /// <param name="index">The index of the tab you want to switch to</param>
     public void SwitchTab(int index)
     {
         tabIndex = index;
         SetInventoryDisplayContent();
     }
 
-    // Sets all of the content of the inventory GUI
+    /// <summary>
+    /// Sets all of the content of the inventory GUI
+    /// </summary>
     private void SetInventoryDisplayContent()
     {
         // Removes all the old GUI display gridItems, and clears the lists of what was in them
