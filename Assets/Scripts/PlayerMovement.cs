@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // handle walking movement (horizontal) ~ and prevent walking when in menu
         Vector2 moveInput = UIManager.Instance.IsGUIOpen ? Vector2.zero : moveAction.ReadValue<Vector2>() * moveSpeed;
+        if (isCrouched) moveInput *= crouchMoveSpeedMultiplier;
         Vector2.ClampMagnitude(moveInput, moveSpeed);
 
         // transform.forward and transform.right are forward/back & left/right motion respectively
