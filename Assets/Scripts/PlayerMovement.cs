@@ -12,7 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(1, 10)] private float jumpForce;
     [SerializeField][Range(0, 1)] private float jumpBufferTime; // used when jump is pressed before touching the ground
     [SerializeField][Range(0.1f, 2)] private float crouchDepth;
-    [SerializeField][Range(0.1f, 20)] private float crouchSpeed;
+    [SerializeField][Range(0.1f, 20)] private float crouchAnimationSpeed;
+    [SerializeField][Range(0.01f, 1)] private float crouchMoveSpeedMultiplier;
     [SerializeField] private Transform spawnpoint;
 
     private CharacterController cc;
@@ -73,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         cc.Move(moveVector * Time.deltaTime);
 
         // move camera towards target (crouched or standing) height, with an exponential ease
-        float cameraNewHeight = Mathf.Lerp(cam.transform.localPosition.y, cameraTargetHeight, crouchSpeed * Time.deltaTime);
+        float cameraNewHeight = Mathf.Lerp(cam.transform.localPosition.y, cameraTargetHeight, crouchAnimationSpeed * Time.deltaTime);
         cam.transform.localPosition = new Vector3(
             cam.transform.localPosition.x,
             cameraNewHeight,
