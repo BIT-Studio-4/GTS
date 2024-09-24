@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.UI;
 
@@ -9,13 +10,9 @@ public class VirtualMouseUI : MonoBehaviour
 {
     private VirtualMouseInput virtualMouseInput;
     
-    private void Awake()
-    {
-        virtualMouseInput = GetComponent<VirtualMouseInput>();
-    }
-
     private void OnEnable()
     {
+        virtualMouseInput = GetComponent<VirtualMouseInput>();
         StartCoroutine(EnableCursor());
     }
 
@@ -29,7 +26,7 @@ public class VirtualMouseUI : MonoBehaviour
 
     // code snippet from this Code Monkey tutorial
     // https://youtu.be/j2XyzSAD4VU
-    private void LateUpdate()
+    private void Update()
     {
         Vector2 virtualMousePosition = virtualMouseInput.virtualMouse.position.value;
         virtualMousePosition.x = Mathf.Clamp(virtualMousePosition.x, 0, Screen.width);

@@ -15,7 +15,7 @@ public class InputDeviceManager : MonoBehaviour
 {
     public static InputDeviceManager Instance;
 
-    [HideInInspector] public Action<InputDevice> onGameDeviceChanged;
+    [HideInInspector] public UnityEvent onGameDeviceChanged;
 
     private InputDevice activeDevice;
 
@@ -69,6 +69,6 @@ public class InputDeviceManager : MonoBehaviour
     private void ChangeActiveDevice(InputDevice inputDevice)
     {
         activeDevice = inputDevice;
-        onGameDeviceChanged?.Invoke(inputDevice);
+        onGameDeviceChanged?.Invoke();
     }
 }

@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
         StoreManager.Instance.SetStoreActiveState(false);
         pauseMenu.gameObject.SetActive(false);
 
-        InputDeviceManager.Instance.onGameDeviceChanged += HandleInputDeviceChange;
+        InputDeviceManager.Instance.onGameDeviceChanged.AddListener(ChangeCursorMode);
 
         StartTutorial();
     }
@@ -105,7 +105,33 @@ public class UIManager : MonoBehaviour
     private void SetOpenStatus(bool state)
     {
         isGUIOpen = state;
-        Cursor.lockState = state ? CursorLockMode.None : CursorLockMode.Locked;
+        ChangeCursorMode();
+    }
+
+    private void ChangeCursorMode()
+    {
+        // not much logic to take care of when GUI is closed, so get that out the way
+        if (!isGUIOpen)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            virtualCursor.SetActive(false);
+            return;
+        }
+
+        // swap between using cursor and virtual mouse
+        switch (InputDeviceManager.Instance.ActiveDevice)
+        {
+            case InputDevice.Gamepad:
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = false;
+                virtualCursor.SetActive(true);
+                break;
+            case InputDevice.KeyboardMouse:
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                virtualCursor.SetActive(false);
+                break;
+        }
     }
 
     // Method to start the tutorial
@@ -156,10 +182,5 @@ public class UIManager : MonoBehaviour
         {
             HideTutorial();
         }
-    }
-
-    private void HandleInputDeviceChange(InputDevice inputDevice)
-    {
-        Debug.Log($"omg they're using a {inputDevice}");
     }
 }
