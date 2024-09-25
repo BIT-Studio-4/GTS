@@ -122,7 +122,11 @@ public class InventoryManager : MonoBehaviour
         });
     }
 
-    // Instantiates a new grid GameObject in the Inventory menu
+    /// <summary>
+    /// Instantiates a new grid item GameObject in the Inventory menu
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="placeableObject"></param>
     private void CreateGridItem(int index, PlaceableObject placeableObject)
     {
         // Creates the new GameObject and puts it in a list
@@ -148,7 +152,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // Method that is called when an item button is clicked
+    /// <summary>
+    /// Method that is called when an item button is clicked
+    /// </summary>
+    /// <param name="index"></param>
     public void StockButtonClick(int index)
     {
         PlaceableObject placeableObject = inventoryObjectDisplayList[index];
@@ -161,7 +168,10 @@ public class InventoryManager : MonoBehaviour
         UIManager.Instance.SetGUIState(UIType.Inventory, false);
     }
 
-    // Sets the item the player is holding
+    /// <summary>
+    /// Sets the item the player is holding
+    /// </summary>
+    /// <param name="placeableObject"></param>
     private void SetHandItem(PlaceableObject placeableObject)
     {
         ClearHandItem();
@@ -175,7 +185,9 @@ public class InventoryManager : MonoBehaviour
         HeldObject = placeableObject;
     }
 
-    // Clears the item the player is holding
+    /// <summary>
+    /// Clears the item the player is holding
+    /// </summary>
     private void ClearHandItem()
     {
         if (playerHeldItem == null) return;
@@ -186,7 +198,9 @@ public class InventoryManager : MonoBehaviour
         HeldObject = null;
     }
 
-    // Consumes an item when it is placed
+    /// <summary>
+    /// Consumes an item from the inventory when it is placed
+    /// </summary>
     public void ConsumePlacedItem()
     {
         HeldObject.count -= 1;
