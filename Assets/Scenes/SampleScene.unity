@@ -804,7 +804,7 @@ MonoBehaviour:
       m_Calls: []
   username: jeffrey
   password: BetterPassword24!
-  startingMoney: 999999
+  startingMoney: 20
 --- !u!4 &220861225
 Transform:
   m_ObjectHideFlags: 0
