@@ -245,6 +245,10 @@ public class StoreManager : MonoBehaviour
         {
             StartCoroutine(DisplayErrorMessage("You need some stock!"));
         }
+        else if (GetCartContents().Count == 0)
+        {
+            StartCoroutine(DisplayErrorMessage("You need to buy some stock!"));
+        }
         else
         {
             PurchaseStock();
@@ -257,7 +261,6 @@ public class StoreManager : MonoBehaviour
     /// <returns>If the player will softlock themselves</returns>
     private bool WillSoftlock()
     {
-        // Makes a list of all stock items inside of cart
         List<StoreItemSO> stockItemsInCart = new List<StoreItemSO>();
         for (int i = 0; i < allStoreItems.Count; i++)
         {
@@ -267,8 +270,6 @@ public class StoreManager : MonoBehaviour
                 stockItemsInCart.Add(allStoreItems[i]);
             }
         }
-
-        if (stockItemsInCart.Count == 0) return true;
 
         // Checks if they have leftover money at the end
         if (GameManager.Instance.Money - totalCost >= structureLeftoverMoneyCount) return false;
@@ -284,6 +285,25 @@ public class StoreManager : MonoBehaviour
         if (stockItemsInCart.Count > 0) return false;
 
         return true;
+    }
+
+    /// <summary>
+    /// Returns a list of all items inside of cart
+    /// </summary>
+    /// <returns></returns>
+    private List<StoreItemSO> GetCartContents()
+    {
+        List<StoreItemSO> stockItemsInCart = new List<StoreItemSO>();
+        for (int i = 0; i < allStoreItems.Count; i++)
+        {
+            // Count of how many of that an item there is
+            if (itemCountsInCart[i] > 0)
+            {
+                stockItemsInCart.Add(allStoreItems[i]);
+            }
+        }
+
+        return stockItemsInCart;
     }
 
     /// <summary>
