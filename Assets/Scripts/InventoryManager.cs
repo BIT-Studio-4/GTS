@@ -8,12 +8,13 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private GameObject inventoryGUI;
     public GameObject InventoryGUI { get => inventoryGUI; set => inventoryGUI = value; }
+    // The grid that aligns the objects in the UI
     [SerializeField] private GameObject inventoryGrid;
+    // The prefab for each item displayed in the UI
     [SerializeField] private GameObject inventoryItemPrefab;
-    [SerializeField] private GameObject playerHeldItemParent;
-    [SerializeField] private float stockScale;
-    [SerializeField] private float structureScale;
-
+    [SerializeField] private GameObject handDisplayItemParent;
+    [SerializeField] private float stockHandScale;
+    [SerializeField] private float structureHandScale;
     [SerializeField] private StoreItemSO shelfItem; // Reference to StoreItemSO for shelf
 
     // This is the list of items the inventory contains
@@ -40,17 +41,21 @@ public class InventoryManager : MonoBehaviour
     }
     public Action<PlaceableObject> OnHeldObjectChange;
     private int tabIndex;
+    // List of the GameObjects which display the items in the inventory
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     // List of items currently displayed in GUI
     private List<PlaceableObject> inventoryObjectDisplayList = new List<PlaceableObject>();
     // The GameObject that the player is holding for display.
     private GameObject playerHeldItem;
 
-    // Makes InventorManager a singleton
+    /// <summary>
+    /// Makes InventoryManager a singleton
+    /// </summary>
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
+            Debug.LogWarning($"Multiple instances InventoryManager found, deleting instance attached to {gameObject}");
             Destroy(this);
             return;
         }
@@ -58,19 +63,23 @@ public class InventoryManager : MonoBehaviour
         Instance = this;
     }
 
-    // Sets inventory to be closed when the game starts
+    /// <summary>
+    /// Sets inventory to be closed when the game starts
+    /// </summary>
     void Start()
     {
         HeldObject = null;
         SwitchTab(0);
 
         Debug.Log(shelfItem.itemName);
+        // Adds a shelf to the inventory on start
         InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.prefab, shelfItem.type, 1));
     }
 
-
-    
-    // This toggles the state of the Inventory GUI (open or closed)
+    /// <summary>
+    /// This toggles the state of the Inventory GUI (open or closed)
+    /// </summary>
+    /// <param name="isActive">What you want to set the inventory open state to</param>
     public void SetInventoryActiveState(bool isActive)
     {
         inventoryGUI.SetActive(isActive);
@@ -82,14 +91,19 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // Changes the tab and resets the contents of the inventory
+    /// <summary>
+    /// Changes the tab and resets the contents of the inventory
+    /// </summary>
+    /// <param name="index">The index of the tab you want to switch to</param>
     public void SwitchTab(int index)
     {
         tabIndex = index;
         SetInventoryDisplayContent();
     }
 
-    // Sets all of the content of the inventory GUI
+    /// <summary>
+    /// Sets all of the content of the inventory GUI
+    /// </summary>
     private void SetInventoryDisplayContent()
     {
         // Removes all the old GUI display gridItems, and clears the lists of what was in them
@@ -110,7 +124,11 @@ public class InventoryManager : MonoBehaviour
         });
     }
 
-    // Instantiates a new grid GameObject in the Inventory menu
+    /// <summary>
+    /// Instantiates a new grid item GameObject in the Inventory menu
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="placeableObject"></param>
     private void CreateGridItem(int index, PlaceableObject placeableObject)
     {
         // Creates the new GameObject and puts it in a list
@@ -119,11 +137,12 @@ public class InventoryManager : MonoBehaviour
         inventoryObjectDisplayList.Add(placeableObject);
         InventoryItemSlot gridSlot = gridItem.GetComponent<InventoryItemSlot>();
 
+        // Assigns the information to a certain grid item
         gridSlot.Button.onClick.AddListener(() => StockButtonClick(index));
         gridSlot.Text.text = placeableObject.name;
         gridSlot.CountText.text = $"{placeableObject.count}x";
 
-        if (placeableObject.prefab.TryGetComponent<SellItem>(out SellItem randomSell))
+        if (placeableObject.prefab.TryGetComponent(out SellItem randomSell))
         {
             // If the component exists, set the sale price
             float salePrice = randomSell.moneyOnSell;
@@ -136,7 +155,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // Method that is called when an item button is clicked
+    /// <summary>
+    /// Method that is called when an item button is clicked
+    /// </summary>
+    /// <param name="index"></param>
     public void StockButtonClick(int index)
     {
         PlaceableObject placeableObject = inventoryObjectDisplayList[index];
@@ -149,13 +171,16 @@ public class InventoryManager : MonoBehaviour
         UIManager.Instance.SetGUIState(UIType.Inventory, false);
     }
 
-    // Sets the item the player is holding
+    /// <summary>
+    /// Sets the item the player is holding for display purposes
+    /// </summary>
+    /// <param name="placeableObject"></param>
     private void SetHandItem(PlaceableObject placeableObject)
     {
         ClearHandItem();
 
-        playerHeldItem = Instantiate(placeableObject.prefab, playerHeldItemParent.transform);
-        playerHeldItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockScale, stockScale, stockScale) : new Vector3(structureScale, structureScale, structureScale);
+        playerHeldItem = Instantiate(placeableObject.prefab, handDisplayItemParent.transform);
+        handDisplayItemParent.transform.localScale = ((int)placeableObject.type) == 0 ? new Vector3(stockHandScale, stockHandScale, stockHandScale) : new Vector3(structureHandScale, structureHandScale, structureHandScale);
         SellItem randomSell = playerHeldItem.GetComponent<SellItem>();
         if (randomSell != null)
             randomSell.enabled = false;
@@ -163,7 +188,9 @@ public class InventoryManager : MonoBehaviour
         HeldObject = placeableObject;
     }
 
-    // Clears the item the player is holding
+    /// <summary>
+    /// Clears the item the player is holding for display purposes
+    /// </summary>
     private void ClearHandItem()
     {
         if (playerHeldItem == null) return;
@@ -174,7 +201,9 @@ public class InventoryManager : MonoBehaviour
         HeldObject = null;
     }
 
-    // Consumes an item when it is placed
+    /// <summary>
+    /// Consumes an item from the inventory when it is placed
+    /// </summary>
     public void ConsumePlacedItem()
     {
         HeldObject.count -= 1;
