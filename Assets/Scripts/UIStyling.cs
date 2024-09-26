@@ -6,10 +6,14 @@ public class UIStyling : MonoBehaviour
 
     // Add new colours in here for UI
     [SerializeField] private Color buttonValidColor;
+    [SerializeField] private Color buttonAddColor;
+    [SerializeField] private Color buttonSubtractColor;
     [SerializeField] private Color buttonDeselectedColor;
     [SerializeField] private Color buttonInvalidColor;
 
     public Color ButtonValidColor {  get => buttonValidColor; }
+    public Color ButtonAddColor {  get => buttonAddColor; }
+    public Color ButtonNegativeColor {  get => buttonSubtractColor; }
     public Color ButtonDeselectedColor {  get => buttonDeselectedColor; }
     public Color ButtonInvalidColor {  get => buttonInvalidColor; }
 

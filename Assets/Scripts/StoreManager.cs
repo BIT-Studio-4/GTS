@@ -158,6 +158,8 @@ public class StoreManager : MonoBehaviour
         gridSlot.NameText.text = storeItem.name;
         gridSlot.PriceText.text = $"${storeItem.cost}";
         gridSlot.CountText.text = $"{itemCountsInCart[storeIndex]}";
+        gridSlot.AddButton.GetComponent<Image>().color = UIStyling.Instance.ButtonAddColor;
+        gridSlot.SubtractButton.GetComponent<Image>().color = UIStyling.Instance.ButtonNegativeColor;
     }
 
     /// <summary>
