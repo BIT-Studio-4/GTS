@@ -22,8 +22,6 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalCostText;
     [SerializeField] private TextMeshProUGUI currentMoneyText;
     [SerializeField] private GameObject buyButton;
-    [SerializeField] private Color buttonValidColor;
-    [SerializeField] private Color buttonInvalidColor;
     [SerializeField] private int structureLeftoverMoneyCount;
     [SerializeField] private List<Button> multiplierButtons;
     private TextMeshProUGUI buyButtonText;
@@ -39,6 +37,7 @@ public class StoreManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            Debug.LogWarning($"Multiple instances StoreManager found, deleting instance attached to {gameObject}");
             Destroy(this);
             return;
         }
@@ -101,17 +100,17 @@ public class StoreManager : MonoBehaviour
     {
         if (totalCost == 0) // no items are selected in store
         {
-            buyButtonImageComponent.color = buttonInvalidColor;
+            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
             totalCostText.color = Color.black;
         }
         else if (totalCost > GameManager.Instance.Money) // too expensive
         {
-            buyButtonImageComponent.color = buttonInvalidColor;
+            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
             totalCostText.color = Color.red;
         }
         else // can afford selection :D
         {
-            buyButtonImageComponent.color = buttonValidColor;
+            buyButtonImageComponent.color = UIStyling.Instance.ButtonValidColor;
             totalCostText.color = Color.black;
         }
     }
@@ -377,14 +376,14 @@ public class StoreManager : MonoBehaviour
     }
 
     /// <summary>
-    /// makes active button show buttonValidColor, non-active show buttonInvalidColor
+    /// makes active button show buttonValidColor, non-active show buttonDeselectedColor
     /// </summary>
     private void ChangeMultiplierColours()
     {
         foreach (Button b in multiplierButtons)
         {
-            if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = buttonValidColor;
-            else b.GetComponent<Image>().color = buttonInvalidColor;
+            if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = UIStyling.Instance.ButtonValidColor;
+            else b.GetComponent<Image>().color = UIStyling.Instance.ButtonDeselectedColor;
         }
     }
 }

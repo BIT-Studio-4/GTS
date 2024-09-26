@@ -41,6 +41,7 @@ public class InventoryManager : MonoBehaviour
     }
     public Action<PlaceableObject> OnHeldObjectChange;
     private int tabIndex;
+    // List of the GameObjects which display the items in the inventory
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     // List of items currently displayed in GUI
     private List<PlaceableObject> inventoryObjectDisplayList = new List<PlaceableObject>();
@@ -54,6 +55,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
+            Debug.LogWarning($"Multiple instances InventoryManager found, deleting instance attached to {gameObject}");
             Destroy(this);
             return;
         }
@@ -135,11 +137,12 @@ public class InventoryManager : MonoBehaviour
         inventoryObjectDisplayList.Add(placeableObject);
         InventoryItemSlot gridSlot = gridItem.GetComponent<InventoryItemSlot>();
 
+        // Assigns the information to a certain grid item
         gridSlot.Button.onClick.AddListener(() => StockButtonClick(index));
         gridSlot.Text.text = placeableObject.name;
         gridSlot.CountText.text = $"{placeableObject.count}x";
 
-        if (placeableObject.prefab.TryGetComponent<SellItem>(out SellItem randomSell))
+        if (placeableObject.prefab.TryGetComponent(out SellItem randomSell))
         {
             // If the component exists, set the sale price
             float salePrice = randomSell.moneyOnSell;
@@ -169,7 +172,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the item the player is holding
+    /// Sets the item the player is holding for display purposes
     /// </summary>
     /// <param name="placeableObject"></param>
     private void SetHandItem(PlaceableObject placeableObject)
@@ -186,7 +189,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Clears the item the player is holding
+    /// Clears the item the player is holding for display purposes
     /// </summary>
     private void ClearHandItem()
     {
