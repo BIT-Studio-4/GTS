@@ -3969,6 +3969,16 @@ PrefabInstance:
       propertyPath: spawnpoint
       value: 
       objectReference: {fileID: 1876903003}
+    - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: crouchAnimationSpeed
+      value: 13.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830794489188715879, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: crouchMoveSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 7439313883792136263, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: ghostObject
