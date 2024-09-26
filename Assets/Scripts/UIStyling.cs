@@ -4,6 +4,7 @@ public class UIStyling : MonoBehaviour
 {
     public static UIStyling Instance;
 
+    // Add new colours in here for UI
     [SerializeField] private Color buttonValidColor;
     [SerializeField] private Color buttonDeselectedColor;
     [SerializeField] private Color buttonInvalidColor;
