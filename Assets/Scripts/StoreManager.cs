@@ -255,16 +255,6 @@ public class StoreManager : MonoBehaviour
     /// <returns>If the player will softlock themselves</returns>
     private bool WillSoftlock()
     {
-        // Checks if they have leftover money at the end
-        if (GameManager.Instance.Money - totalCost >= structureLeftoverMoneyCount) return false;
-
-        // Checks if there are any items placed in the shop
-        if (StockManager.Instance.itemsToSell.Count > 0 || StockManager.Instance.customerPickedItems.Count > 0) return false;
-
-        // Checks if there are any items in the player inventory
-        List<PlaceableObject> inventoryItems = InventoryManager.Instance.InventoryPlaceableObjects.Where(placeableObject => placeableObject.type == PlacementType.Stock).ToList();
-        if (inventoryItems.Count > 0) return false;
-
         // Makes a list of all stock items inside of cart
         List<StoreItemSO> stockItemsInCart = new List<StoreItemSO>();
         for (int i = 0; i < allStoreItems.Count; i++)
@@ -275,7 +265,19 @@ public class StoreManager : MonoBehaviour
                 stockItemsInCart.Add(allStoreItems[i]);
             }
         }
-        
+
+        if (stockItemsInCart.Count == 0) return true;
+
+        // Checks if they have leftover money at the end
+        if (GameManager.Instance.Money - totalCost >= structureLeftoverMoneyCount) return false;
+
+        // Checks if there are any items placed in the shop
+        if (StockManager.Instance.itemsToSell.Count > 0 || StockManager.Instance.customerPickedItems.Count > 0) return false;
+
+        // Checks if there are any items in the player inventory
+        List<PlaceableObject> inventoryItems = InventoryManager.Instance.InventoryPlaceableObjects.Where(placeableObject => placeableObject.type == PlacementType.Stock).ToList();
+        if (inventoryItems.Count > 0) return false;
+
         // Checks if there is stock in cart
         if (stockItemsInCart.Count > 0) return false;
 
