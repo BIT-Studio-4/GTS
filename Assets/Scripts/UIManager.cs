@@ -65,6 +65,10 @@ public class UIManager : MonoBehaviour
         {
             NextTutorialStep();
         }
+        else if (Gamepad.current != null)
+        {
+            if (Gamepad.current.dpad.right.wasPressedThisFrame) NextTutorialStep();
+        }
     }
 
     /// <summary>
