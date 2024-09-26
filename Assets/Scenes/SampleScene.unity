@@ -1832,8 +1832,6 @@ MonoBehaviour:
   totalCostText: {fileID: 989199894}
   currentMoneyText: {fileID: 569845727}
   buyButton: {fileID: 889053396}
-  buttonValidColor: {r: 0.3372549, g: 0.8, b: 0.16078432, a: 1}
-  buttonInvalidColor: {r: 0.6313726, g: 0.69411767, b: 0.77254903, a: 1}
   structureLeftoverMoneyCount: 5
   multiplierButtons:
   - {fileID: 2119960022}
@@ -5353,6 +5351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1390626459}
   - component: {fileID: 1390626460}
+  - component: {fileID: 1390626461}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -5389,6 +5388,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 412268506}
   TutorialText: {fileID: 506930226}
+--- !u!114 &1390626461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390626458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36220f3b2ec9ac429bb935009e9ba41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonValidColor: {r: 0.2734267, g: 0.7924528, b: 0.18316127, a: 1}
+  buttonDeselectedColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
+  buttonInvalidColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
 --- !u!1 &1435044076
 GameObject:
   m_ObjectHideFlags: 0
