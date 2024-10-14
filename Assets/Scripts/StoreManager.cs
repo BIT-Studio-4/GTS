@@ -15,27 +15,29 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
     public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
+    // The grid that aligns the objects in the UI
     [SerializeField] private GameObject storeGrid;
+    // The prefab for each item displayed in the UI
     [SerializeField] private GameObject storeItemPrefab;
     [SerializeField] private TextMeshProUGUI totalCostText;
-    [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI currentMoneyText;
     [SerializeField] private GameObject buyButton;
-    [SerializeField] private Color buttonValidColor;
-    [SerializeField] private Color buttonInvalidColor;
     [SerializeField] private int structureLeftoverMoneyCount;
     [SerializeField] private List<Button> multiplierButtons;
     private TextMeshProUGUI buyButtonText;
-    private Image buyButtonImage;
+    private Image buyButtonImageComponent;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
-    private List<int> purchaseItems = new List<int>();
+    // A list of how many of each item there is in the players cart
+    private List<int> itemCountsInCart = new List<int>();
     private int countMultiplier;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
+            Debug.LogWarning($"Multiple instances StoreManager found, deleting instance attached to {gameObject}");
             Destroy(this);
             return;
         }
@@ -43,7 +45,7 @@ public class StoreManager : MonoBehaviour
         Instance = this;
 
         buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
-        buyButtonImage = buyButton.GetComponent<Image>();
+        buyButtonImageComponent = buyButton.GetComponent<Image>();
     }
 
     private void Start()
@@ -54,22 +56,18 @@ public class StoreManager : MonoBehaviour
         countMultiplier = 1; //cannot be null
     }
 
-    // This toggles the state of the Store GUI (open or closed)
+    /// <summary>
+    /// Toggles the state of the Store GUI (open or closed)
+    /// </summary>
+    /// <param name="isActive"></param>
     public void SetStoreActiveState(bool isActive)
     {
         storeGUI.SetActive(isActive);
 
+        // When the store GUI is opened
         if (storeGUI.activeSelf)
         {
-            FillPurchaseItemList();
-            SwitchTab(tabIndex);
-            totalCost = CalculateTotalCost();
-            totalCostText.text = $"Total: ${totalCost}";
-            UpdateMoneyText();
-            UpdateMoneyColors();
-            buyButtonText.text = "Buy!";
-            InputSystem.actions.FindAction("Place").Disable();
-            ChangeMultiplierColours();
+            OnEnableStore();
         }
         else
         {
@@ -78,66 +76,99 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Enables all required things when the store is opened
+    /// </summary>
+    private void OnEnableStore()
+    {
+        // Fills the shopping cart with stacks of 0
+        FillShoppingCartWithItems();
+        SwitchTab(tabIndex);
+        totalCost = CalculateTotalCost();
+        totalCostText.text = $"Total: ${totalCost}";
+        UpdateMoneyText();
+        UpdateMoneyColors();
+        buyButtonText.text = "Buy!";
+        InputSystem.actions.FindAction("Place").Disable();
+        ChangeMultiplierColours();
+    }
+
+    /// <summary>
+    /// Changes the button, and money text visually to give feedback to user
+    /// </summary>
     private void UpdateMoneyColors()
     {
         if (totalCost == 0) // no items are selected in store
         {
-            buyButtonImage.color = buttonInvalidColor;
+            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
             totalCostText.color = Color.black;
         }
         else if (totalCost > GameManager.Instance.Money) // too expensive
         {
-            buyButtonImage.color = buttonInvalidColor;
+            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
             totalCostText.color = Color.red;
         }
         else // can afford selection :D
         {
-            buyButtonImage.color = buttonValidColor;
+            buyButtonImageComponent.color = UIStyling.Instance.ButtonValidColor;
             totalCostText.color = Color.black;
         }
     }
 
-    // Sets all of the content of the store GUI
+    /// <summary>
+    /// Sets all of the content of the store GUI
+    /// </summary>
     private void SetStoreDisplayContent()
     {
         // Removes all the old GUI display gridItems, and clears the lists of what was in them
         gridObjectDisplayList.ForEach(gridItem => Destroy(gridItem));
         gridObjectDisplayList.Clear();
 
-        int UIIndex = 0;
-        int storeIndex = 0;
+        int indexInTab = 0;
 
         // Iterates over all items to see if it should display in current tab
-        allStoreItems.ForEach(placeableObject =>
+        for (int storeIndex = 0; storeIndex < allStoreItems.Count; storeIndex++)
         {
-            if (((int)placeableObject.type) == tabIndex)
+            // If the item is in the currently opened tab
+            if (((int)allStoreItems[storeIndex].type) == tabIndex)
             {
-                CreateGridItem(UIIndex, storeIndex, placeableObject);
+                CreateGridItem(indexInTab, storeIndex, allStoreItems[storeIndex]);
 
-                UIIndex++;
+                indexInTab++;
             }
-
-            storeIndex++;
-        });
+        }
     }
 
-    // Instantiates a new grid GameObject in the Store menu
-    private void CreateGridItem(int UIIndex, int storeIndex, StoreItemSO storeItem)
+    /// <summary>
+    /// Instantiates a new grid item GameObject in the Store menu
+    /// </summary>
+    /// <param name="indexInTab"></param>
+    /// <param name="storeIndex"></param>
+    /// <param name="storeItem"></param>
+    private void CreateGridItem(int indexInTab, int storeIndex, StoreItemSO storeItem)
     {
         // Creates the new GameObject and puts it in a list
         GameObject gridItem = Instantiate(storeItemPrefab, storeGrid.transform);
         gridObjectDisplayList.Add(gridItem);
         StoreItemSlot gridSlot = gridItem.GetComponent<StoreItemSlot>();
 
-        gridSlot.AddButton.onClick.AddListener(() => ChangeStockCount(UIIndex, storeIndex, 1));
-        gridSlot.SubtractButton.onClick.AddListener(() => ChangeStockCount(UIIndex, storeIndex, -1));
+        // Sets all the parameters on the buttons
+        gridSlot.AddButton.onClick.AddListener(() => ChangeStockCount(indexInTab, storeIndex, 1));
+        gridSlot.SubtractButton.onClick.AddListener(() => ChangeStockCount(indexInTab, storeIndex, -1));
         gridSlot.NameText.text = storeItem.name;
         gridSlot.PriceText.text = $"${storeItem.cost}";
-        gridSlot.CountText.text = $"{purchaseItems[storeIndex]}";
+        gridSlot.CountText.text = $"{itemCountsInCart[storeIndex]}";
+        gridSlot.AddButton.GetComponent<Image>().color = UIStyling.Instance.ButtonAddColor;
+        gridSlot.SubtractButton.GetComponent<Image>().color = UIStyling.Instance.ButtonNegativeColor;
     }
 
-    // Runs when the amount of stock the player wants is added to or subtracted from
-    public void ChangeStockCount(int UIIndex, int storeIndex, int change)
+    /// <summary>
+    /// Changes the stock count in your cart based on the currently selected multiplier
+    /// </summary>
+    /// <param name="indexInTab">The index of the changed item in its tab</param>
+    /// <param name="storeIndex">The index of the changed item in the store</param>
+    /// <param name="change">The amount the count is changed by</param>
+    public void ChangeStockCount(int indexInTab, int storeIndex, int change)
     {
         if (countMultiplier > 1 && change > 0) //stop higher than 1 multipliers from adding more than can afford
         {
@@ -148,12 +179,11 @@ public class StoreManager : MonoBehaviour
         }
         else if (change < 0) change *= countMultiplier; //reduce stock by multiplier
 
-
-        int itemCount = purchaseItems[storeIndex];
+        int itemCount = itemCountsInCart[storeIndex];
         itemCount = Mathf.Max(itemCount + change, 0); //cant be less than 0
-        purchaseItems[storeIndex] = itemCount;
+        itemCountsInCart[storeIndex] = itemCount;
 
-        StoreItemSlot slot = gridObjectDisplayList[UIIndex].GetComponent<StoreItemSlot>();
+        StoreItemSlot slot = gridObjectDisplayList[indexInTab].GetComponent<StoreItemSlot>();
         slot.CountText.text = itemCount.ToString();
 
         totalCost = CalculateTotalCost();
@@ -162,38 +192,49 @@ public class StoreManager : MonoBehaviour
         UpdateMoneyColors();
     }
 
-    // Changes the tab and resets the contents of the store
+    /// <summary>
+    /// Changes the tab and resets the contents of the store
+    /// </summary>
+    /// <param name="index"></param>
     public void SwitchTab(int index)
     {
         tabIndex = index;
         SetStoreDisplayContent();
     }
 
-    // Fills the list of all empty items possible to purchase
-    private void FillPurchaseItemList()
+    /// <summary>
+    /// Fills the shopping cart with a list of 0 count items
+    /// </summary>
+    private void FillShoppingCartWithItems()
     {
-        purchaseItems.Clear();
+        itemCountsInCart.Clear();
 
+        // Fills the cart with empty numbers
         allStoreItems.ForEach(item =>
         {
-            purchaseItems.Add(0);
+            itemCountsInCart.Add(0);            
         });
     }
 
-    // Calculates the total cost of all selected items to purchase
+    /// <summary>
+    /// Calculates the total cost of all selected items to purchase
+    /// </summary>
+    /// <returns>The total cost of current items in the cart</returns>
     private int CalculateTotalCost()
     {
         int totalCost = 0;
 
         for (int i = 0; i < allStoreItems.Count; i++)
         {
-            totalCost += allStoreItems[i].cost * purchaseItems[i];
+            totalCost += allStoreItems[i].cost * itemCountsInCart[i];
         }
 
         return totalCost;
     }
 
-    // Tries to purchase stock if the player can afford it and it won't softlock themselves
+    /// <summary>
+    /// Tries to purchase stock if the player can afford it and won't softlock themselves
+    /// </summary>
     public void TryPurchaseStock()
     {
         if (GameManager.Instance.Money < totalCost)
@@ -204,14 +245,32 @@ public class StoreManager : MonoBehaviour
         {
             StartCoroutine(DisplayErrorMessage("You need some stock!"));
         }
+        else if (GetCartContents().Count == 0)
+        {
+            StartCoroutine(DisplayErrorMessage("You need to buy some stock!"));
+        }
         else
         {
             PurchaseStock();
         }
     }
 
+    /// <summary>
+    /// Checks if the player will softlock themselves by making a purchase
+    /// </summary>
+    /// <returns>If the player will softlock themselves</returns>
     private bool WillSoftlock()
     {
+        List<StoreItemSO> stockItemsInCart = new List<StoreItemSO>();
+        for (int i = 0; i < allStoreItems.Count; i++)
+        {
+            // Count of how many of that an item there is
+            if (itemCountsInCart[i] > 0 && allStoreItems[i].type == PlacementType.Stock)
+            {
+                stockItemsInCart.Add(allStoreItems[i]);
+            }
+        }
+
         // Checks if they have leftover money at the end
         if (GameManager.Instance.Money - totalCost >= structureLeftoverMoneyCount) return false;
 
@@ -222,24 +281,35 @@ public class StoreManager : MonoBehaviour
         List<PlaceableObject> inventoryItems = InventoryManager.Instance.InventoryPlaceableObjects.Where(placeableObject => placeableObject.type == PlacementType.Stock).ToList();
         if (inventoryItems.Count > 0) return false;
 
-        // Makes a list of all stock items inside of cart
-        List<StoreItemSO> stockItemsInCart = new List<StoreItemSO>();
-        for (int i = 0; i < allStoreItems.Count; i++)
-        {
-            // Count of how many of that an item there is
-            if (purchaseItems[i] > 0 && allStoreItems[i].type == PlacementType.Stock)
-            {
-                stockItemsInCart.Add(allStoreItems[i]);
-            }
-        }
-        
         // Checks if there is stock in cart
         if (stockItemsInCart.Count > 0) return false;
 
         return true;
     }
 
-    // Displays too expensive text if the user cannot afford the items
+    /// <summary>
+    /// Returns a list of all items inside of cart
+    /// </summary>
+    /// <returns></returns>
+    private List<StoreItemSO> GetCartContents()
+    {
+        List<StoreItemSO> stockItemsInCart = new List<StoreItemSO>();
+        for (int i = 0; i < allStoreItems.Count; i++)
+        {
+            // Count of how many of that an item there is
+            if (itemCountsInCart[i] > 0)
+            {
+                stockItemsInCart.Add(allStoreItems[i]);
+            }
+        }
+
+        return stockItemsInCart;
+    }
+
+    /// <summary>
+    /// Displays too expensive text if the user cannot afford the items
+    /// </summary>
+    /// <param name="message"></param>
     private IEnumerator DisplayErrorMessage(string message)
     {
         buyButtonText.text = message;
@@ -247,7 +317,9 @@ public class StoreManager : MonoBehaviour
         buyButtonText.text = "Buy!";
     }
 
-    // Adds items to Inventory when purchasing them and removes money
+    /// <summary>
+    /// Adds items to Inventory when purchasing them and removes money
+    /// </summary>
     private void PurchaseStock()
     {
         GameManager.Instance.Money -= totalCost;
@@ -259,7 +331,7 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < allStoreItems.Count; i++)
         {
             // Checks if any of these are actually being bought
-            if (purchaseItems[i] > 0)
+            if (itemCountsInCart[i] > 0)
             {
                 // Gets index of item inside of inventory if it exists (if not returns -1)
                 int indexOfItem = InventoryManager.Instance.InventoryPlaceableObjects.FindIndex(item => item.name == allStoreItems[i].name);
@@ -269,21 +341,23 @@ public class StoreManager : MonoBehaviour
                     StoreItemSO item = allStoreItems[i];
 
                     // Adds new PlaceableObject item inside of Inventory if it doesn't already exist
-                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, purchaseItems[i]));
+                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, itemCountsInCart[i]));
                 }
                 else
                 {
                     // Adds to the count of Inventory if the player already has that stock item
-                    InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += purchaseItems[i];
+                    InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += itemCountsInCart[i];
                 }
             }
         }
     }
 
-    // Updates the money text to reflect money value in GameManager
+    /// <summary>
+    /// Updates the money text to reflect money value in GameManager
+    /// </summary>
     private void UpdateMoneyText()
     {
-        moneyText.text = $"${GameManager.Instance.Money}";
+        currentMoneyText.text = $"${GameManager.Instance.Money}";
     }
 
     /// <summary>
@@ -297,7 +371,7 @@ public class StoreManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the numbers from button text
+    /// Gets the number displayed inside of a button's text
     /// </summary>
     /// <param name="button"></param>
     /// <returns>int</returns>
@@ -326,14 +400,14 @@ public class StoreManager : MonoBehaviour
     }
 
     /// <summary>
-    /// makes active button show buttonValidColor, non-active show buttonInvalidColor
+    /// makes active button show buttonValidColor, non-active show buttonDeselectedColor
     /// </summary>
     private void ChangeMultiplierColours()
     {
         foreach (Button b in multiplierButtons)
         {
-            if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = buttonValidColor;
-            else b.GetComponent<Image>().color = buttonInvalidColor;
+            if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = UIStyling.Instance.ButtonValidColor;
+            else b.GetComponent<Image>().color = UIStyling.Instance.ButtonDeselectedColor;
         }
     }
 }
