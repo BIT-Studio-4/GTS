@@ -27,6 +27,14 @@ public class SaveManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Loads the game from the api
+    /// </summary>
+    public void LoadGame()
+    {
+
+    }
+
+    /// <summary>
     /// Loops every autoSaveCooldown minutes and saves the game
     /// </summary>
     /// <returns></returns>
