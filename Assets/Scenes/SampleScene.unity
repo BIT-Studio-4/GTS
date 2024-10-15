@@ -5837,7 +5837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc45109f8345ac45a9622ee25b7e037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  apiUrl: https://gts-api-g852.onrender.com
+  apiUrl: http://20.167.49.189
 --- !u!4 &1475313000
 Transform:
   m_ObjectHideFlags: 0
