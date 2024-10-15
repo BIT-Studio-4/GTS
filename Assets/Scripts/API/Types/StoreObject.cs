@@ -5,9 +5,12 @@ using System;
 /// </summary>
 
 [Serializable] // Means that data can be parsed and stored within an instance of this class of creation.
-public class InventoryItem
+public class StoreObject
 {
     public int item_id;
-    public string inventory_id;
-    public int quantity;
+    public string store_id;
+    public float x_pos;
+    public float y_pos;
+    public float z_pos;
+    public float y_rot;
 }

@@ -7,6 +7,6 @@ using System;
 [Serializable] // Means that data can be parsed and stored within an instance of this class of creation.
 public class Inventory
 {
-    public string id;
+    public int id;
     public InventoryItem[] items;
 }

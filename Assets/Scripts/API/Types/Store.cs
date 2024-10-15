@@ -8,5 +8,5 @@ using System;
 public class Store
 {
     public string id;
-    //public StoreObject[] store_objects;
+    public StoreObject[] store_objects;
 }
