@@ -9,8 +9,8 @@ public class User
 {
     public string id;
     public string name;
-    private double money;
-    public double Money
+    private int money;
+    public int Money
     {
         get => money;
         set
