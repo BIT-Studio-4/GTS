@@ -10,7 +10,9 @@ public class Test
     public string name;
     public int age;
     public double money;
-    public string[] children;
+    private string[] children;
+    public string[] Children { get => children; set => children = value; }
     public bool verified;
-    public User user;
+    private User user;
+    public User User { get => user;  set => user = value; }
 }

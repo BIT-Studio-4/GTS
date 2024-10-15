@@ -17,8 +17,8 @@ public class ApiManager : MonoBehaviour
             name = "hi",
             age = 5,
             money = 10.5,
-            children = new[] { "hello", "hey", "hiya" },
-            user = new User { name = "test-user", id = "0", Money = 200, token = "example-token"},
+            Children = new[] { "hello", "hey", "hiya" },
+            User = new User { name = "test-user", id = "0", Money = 200, token = "example-token"},
         };
 
         Debug.Log(HTTPRequests.GetJson(test));
