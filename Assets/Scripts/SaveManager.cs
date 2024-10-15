@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
+    public static SaveManager Instance { get; private set; }
+
     // Minutes between auto saves
     [SerializeField, Range(1f, 20f)] private int autoSaveCooldown = 5;
     public int AutoSaveCooldown 
@@ -17,6 +19,18 @@ public class SaveManager : MonoBehaviour
     }
 
     private Coroutine autoSaveCoroutine;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) 
+        {
+            Debug.LogWarning($"Instance of SaveManager already exists, removing {this} on {gameObject}");
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+    }
 
     /// <summary>
     /// Saves the game to the API
@@ -37,7 +51,6 @@ public class SaveManager : MonoBehaviour
     /// <summary>
     /// Loops every autoSaveCooldown minutes and saves the game
     /// </summary>
-    /// <returns></returns>
     public IEnumerator AutoSave(float cooldown)
     {
         while (true)
