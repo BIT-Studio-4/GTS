@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
+using static UnityEditor.Progress;
 
 /// <summary>
 /// Handles all HTTP requests that the game requires to function.
@@ -121,7 +122,7 @@ public class HTTPRequests
 
             try
             {
-                if (valueType.IsClass)
+                if (valueType.IsClass && valueType != typeof(string) && !valueType.IsArray)
                 {
                     sb.Append($"\"{field.Name}\":{GetJson(value)},");
                 }
@@ -129,22 +130,26 @@ public class HTTPRequests
                 {
                     sb.Append($"{field.Name}:[");
 
-                    foreach (var item in (Array) value)
+                    foreach (var item in ((Array) value))
                     {
-                        if (item.GetType().IsClass) sb.Append($"{GetJson(item)},");
+                        if (item.GetType().IsClass && item.GetType() != typeof(string)) 
+                            sb.Append($"{GetJson(item)},");
                         else
                         {
                             string jsonValue = item.GetType() == typeof(string) ? $"\"{item}\"" : item.ToString(); // Add quotes to strings for JSON formatting.
+                            jsonValue = item.GetType() == typeof(bool) ? jsonValue.ToLower() : jsonValue;
                             sb.Append($"{jsonValue},");
                         }
                     }
 
+                    sb.Remove(sb.Length - 1, 1);
                     sb.Append("],");
                 }
                 else
                 {
                     // Gets the value and the name of the field and appends it to the StringBuilder object.
                     string jsonValue = valueType == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+                    jsonValue = valueType == typeof(bool) ? jsonValue.ToLower() : jsonValue;
                     sb.Append($"\"{field.Name}\":{jsonValue},");
                 }
             }
