@@ -162,23 +162,39 @@ public class HTTPRequests
         {
             var value = prop.GetValue(data);
             var valueType = value.GetType();
-
+            string propName = prop.Name.ToLower();
 
             try
             {
-                if (valueType.IsClass)
+                if (valueType.IsClass && valueType != typeof(string) && !valueType.IsArray)
                 {
-
+                    sb.Append($"\"{propName}\":{GetJson(value)},");
                 }
                 else if (valueType.IsArray)
                 {
+                    sb.Append($"{propName}:[");
 
+                    foreach (var item in ((Array)value))
+                    {
+                        if (item.GetType().IsClass && item.GetType() != typeof(string))
+                            sb.Append($"{GetJson(item)},");
+                        else
+                        {
+                            string jsonValue = item.GetType() == typeof(string) ? $"\"{item}\"" : item.ToString(); // Add quotes to strings for JSON formatting.
+                            jsonValue = item.GetType() == typeof(bool) ? jsonValue.ToLower() : jsonValue;
+                            sb.Append($"{jsonValue},");
+                        }
+                    }
+
+                    sb.Remove(sb.Length - 1, 1);
+                    sb.Append("],");
                 }
                 else
                 {
-                    // Gets the value and the name of the property and appends it to the StringBuilder object.
+                    // Gets the value and the name of the field and appends it to the StringBuilder object.
                     string jsonValue = valueType == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
-                    sb.Append($"\"{prop.Name.ToLower()}\":{jsonValue},");
+                    jsonValue = valueType == typeof(bool) ? jsonValue.ToLower() : jsonValue;
+                    sb.Append($"\"{propName}\":{jsonValue},");
                 }
             }
             catch (Exception e)
