@@ -12,11 +12,11 @@ public class SaveManager : MonoBehaviour
         set 
         {
             autoSaveCooldown = value;
-            StopCoroutine(AutoSaveCoroutine);
+            StartAutoSave();
         }
     }
 
-    private Coroutine AutoSaveCoroutine;
+    private Coroutine autoSaveCoroutine;
 
     /// <summary>
     /// Saves the game to the API
@@ -30,13 +30,34 @@ public class SaveManager : MonoBehaviour
     /// Loops every autoSaveCooldown minutes and saves the game
     /// </summary>
     /// <returns></returns>
-    public IEnumerator AutoSave()
+    public IEnumerator AutoSave(float cooldown)
     {
         while (true)
         {
-            yield return new WaitForSeconds(autoSaveCooldown);
+            yield return new WaitForSeconds(cooldown);
 
             SaveGame();
         }
+    }
+
+    /// <summary>
+    /// Stops the auto save coroutine if its already going and starts a new one
+    /// </summary>
+    private void StartAutoSave()
+    {
+        if (autoSaveCoroutine != null)
+        {
+            StopAutoSave();
+        }
+
+        autoSaveCoroutine = StartCoroutine(AutoSave(autoSaveCooldown));
+    }
+
+    /// <summary>
+    /// Stops the auto save coroutine
+    /// </summary>
+    private void StopAutoSave()
+    {
+        StopCoroutine(autoSaveCoroutine);
     }
 }
