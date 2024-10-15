@@ -5,10 +5,10 @@ using System;
 /// </summary>
 
 [Serializable] // Means that data can be parsed and stored within an instance of this class of creation.
-public class SaveGame
+public class InventoryItem
 {
     public string id;
-    private int money;
-    public int Money { get => money; set => money = value; }
-    public User user;
+    public int item_id;
+    public string inventory_id;
+    public int quantity;
 }

@@ -9,16 +9,5 @@ public class User
 {
     public string id;
     public string name;
-    private double money;
-    public double Money
-    {
-        get => money;
-        set
-        {
-            money = value;
-
-            ApiManager.Instance.UpdateUser($"{ApiManager.Instance.ApiUrl}/api/users/{id}", this);
-        }
-    }
     public string token;
 }
