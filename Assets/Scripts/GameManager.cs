@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
             // can add more stuff here, eg updating UI etc later on
             if (user != null)
             {
-                user.Money = money;
+                // TODO!! This needs changing to the SaveGame money!!
+                //user.Money = money;
             }
         }
     }
