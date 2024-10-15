@@ -101,7 +101,7 @@ public class HTTPRequests
         }
     }
 
-    private static string GetJson<T>(T data)
+    public static string GetJson<T>(T data)
     {
         StringBuilder sb = new();
         sb.Append("{");
@@ -116,19 +116,70 @@ public class HTTPRequests
             if (field.Name == "token") continue;
             // ----------------------------- \\
 
-            // Gets the value and the name of the field and appends it to the StringBuilder object.
             var value = field.GetValue(data);
-            string jsonValue = value.GetType() == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+            var valueType = value.GetType();
 
-            sb.Append($"\"{field.Name}\":{jsonValue},");
+            try
+            {
+                if (valueType.IsClass)
+                {
+                    sb.Append($"\"{field.Name}\":{GetJson(value)},");
+                }
+                else if (valueType.IsArray)
+                {
+                    sb.Append($"{field.Name}:[");
+
+                    foreach (var item in (Array) value)
+                    {
+                        if (item.GetType().IsClass) sb.Append($"{GetJson(item)},");
+                        else
+                        {
+                            string jsonValue = item.GetType() == typeof(string) ? $"\"{item}\"" : item.ToString(); // Add quotes to strings for JSON formatting.
+                            sb.Append($"{jsonValue},");
+                        }
+                    }
+
+                    sb.Append("],");
+                }
+                else
+                {
+                    // Gets the value and the name of the field and appends it to the StringBuilder object.
+                    string jsonValue = valueType == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+                    sb.Append($"\"{field.Name}\":{jsonValue},");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
         foreach (PropertyInfo prop in props)
         {
-            // Gets the value and the name of the property and appends it to the StringBuilder object.
             var value = prop.GetValue(data);
-            string jsonValue = value.GetType() == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+            var valueType = value.GetType();
 
-            sb.Append($"\"{prop.Name.ToLower()}\":{jsonValue},");
+
+            try
+            {
+                if (valueType.IsClass)
+                {
+
+                }
+                else if (valueType.IsArray)
+                {
+
+                }
+                else
+                {
+                    // Gets the value and the name of the property and appends it to the StringBuilder object.
+                    string jsonValue = valueType == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+                    sb.Append($"\"{prop.Name.ToLower()}\":{jsonValue},");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
 
         // Removes the final comma from the new string and closes the bracket to end the JSON object creation.
