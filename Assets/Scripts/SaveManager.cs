@@ -125,7 +125,7 @@ public class SaveManager : MonoBehaviour
         while (true)
         {
             // * 60 so its in minutes
-            yield return new WaitForSeconds(cooldown);
+            yield return new WaitForSeconds(cooldown * 60);
 
             SaveGame();
         }
