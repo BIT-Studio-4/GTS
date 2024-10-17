@@ -10,6 +10,7 @@ public class PlacedObject : MonoBehaviour
 
     private void Start()
     {
+        // Adds to the placed object list in StockManager
         StockManager.Instance.PlacedObjects.Add(this);
     }
 

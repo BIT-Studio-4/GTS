@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
@@ -47,6 +48,7 @@ public class SaveManager : MonoBehaviour
     {
         SaveGame saveSnapshot = GetCurrentSave();
         ApiManager.Instance.CreateSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", saveSnapshot, GameManager.Instance.User);
+        Debug.Log("Saved Game");
     }
 
     /// <summary>
@@ -69,6 +71,8 @@ public class SaveManager : MonoBehaviour
             }
         };
 
+        Debug.Log(saveGame.store.store_objects.Length);
+
         return saveGame;
     }
 
@@ -76,7 +80,7 @@ public class SaveManager : MonoBehaviour
     {
         List<StoreObject> storeObjects = new List<StoreObject>();
 
-
+        Debug.Log("Placed Object Count: " + StockManager.Instance.PlacedObjects.Count);
 
         StockManager.Instance.PlacedObjects.ForEach(placedObject =>
         {

@@ -86,7 +86,6 @@ public class PlaceObject : MonoBehaviour
         GameObject placedGameObject = Instantiate(placeableObject.prefab, pos, rot, parent);
         PlacedObject placedObject = placedGameObject.AddComponent<PlacedObject>();
         placedObject.StoreItem = placeableObject.storeItem;
-        StockManager.Instance.PlacedObjects.Add(placedObject);
     }
 
     /// <summary>
