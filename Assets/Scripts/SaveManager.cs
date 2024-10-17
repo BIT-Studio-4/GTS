@@ -71,16 +71,12 @@ public class SaveManager : MonoBehaviour
             }
         };
 
-        Debug.Log(saveGame.store.store_objects.Length);
-
         return saveGame;
     }
 
     private StoreObject[] GetStoreObjects()
     {
         List<StoreObject> storeObjects = new List<StoreObject>();
-
-        Debug.Log("Placed Object Count: " + StockManager.Instance.PlacedObjects.Count);
 
         StockManager.Instance.PlacedObjects.ForEach(placedObject =>
         {
