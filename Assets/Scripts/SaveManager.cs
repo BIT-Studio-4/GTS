@@ -37,7 +37,31 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     public void SaveGame()
     {
+        SaveGame saveSnapshot = GetCurrentSave();
 
+    }
+
+    /// <summary>
+    /// Creates a save from the current state of the game
+    /// </summary>
+    /// <returns></returns>
+    private SaveGame GetCurrentSave()
+    {
+        SaveGame saveGame = new SaveGame()
+        {
+            id = GameManager.Instance.User.id,
+            Money = GameManager.Instance.Money,
+            store = new Store()
+            {
+
+            },
+            inventory = new Inventory()
+            {
+
+            }
+        };
+
+        return saveGame;
     }
 
     /// <summary>
