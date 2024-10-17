@@ -34,11 +34,9 @@ public class SaveManager : MonoBehaviour
         Instance = this;
     }
 
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitForSeconds(10f);
-
-        SaveGame();
+        StartAutoSave();
     }
 
     /// <summary>
@@ -46,7 +44,7 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     public void SaveGame()
     {
-        SaveGame saveSnapshot = GetCurrentSave();
+        SaveGame saveSnapshot = GetCurrentSaveState();
         ApiManager.Instance.CreateSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", saveSnapshot, GameManager.Instance.User);
         Debug.Log("Saved Game");
     }
@@ -55,7 +53,7 @@ public class SaveManager : MonoBehaviour
     /// Creates a save from the current state of the game
     /// </summary>
     /// <returns></returns>
-    private SaveGame GetCurrentSave()
+    private SaveGame GetCurrentSaveState()
     {
         SaveGame saveGame = new SaveGame()
         {
@@ -126,6 +124,7 @@ public class SaveManager : MonoBehaviour
     {
         while (true)
         {
+            // * 60 so its in minutes
             yield return new WaitForSeconds(cooldown);
 
             SaveGame();

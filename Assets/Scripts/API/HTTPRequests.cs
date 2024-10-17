@@ -105,6 +105,8 @@ public class HTTPRequests
 
         string response = http.downloadHandler.text;
 
+        Debug.Log(response);
+
         if (http.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError(http.error);
@@ -166,6 +168,8 @@ public class HTTPRequests
                 }
                 else if (valueType.IsArray)
                 {
+                    bool hasItems = false;
+
                     sb.Append($"\"{field.Name}\":[");
 
                     foreach (var item in ((Array) value))
@@ -178,9 +182,12 @@ public class HTTPRequests
                             jsonValue = item.GetType() == typeof(bool) ? jsonValue.ToLower() : jsonValue;
                             sb.Append($"{jsonValue},");
                         }
+
+                        hasItems = true;
                     }
 
-                    sb.Remove(sb.Length - 1, 1);
+                    if (hasItems) sb.Remove(sb.Length - 1, 1);
+
                     sb.Append("],");
                 }
                 else
@@ -210,6 +217,8 @@ public class HTTPRequests
                 }
                 else if (valueType.IsArray)
                 {
+                    bool hasItems = false;
+
                     sb.Append($"\"{propName}\":[");
 
                     foreach (var item in ((Array)value))
@@ -222,9 +231,11 @@ public class HTTPRequests
                             jsonValue = item.GetType() == typeof(bool) ? jsonValue.ToLower() : jsonValue;
                             sb.Append($"{jsonValue},");
                         }
+
+                        hasItems = true;
                     }
 
-                    sb.Remove(sb.Length - 1, 1);
+                    if (hasItems) sb.Remove(sb.Length - 1, 1);
                     sb.Append("],");
                 }
                 else
@@ -244,6 +255,8 @@ public class HTTPRequests
         // Removes the final comma from the new string and closes the bracket to end the JSON object creation.
         sb.Remove(sb.Length - 1, 1);
         sb.Append("}");
+
+        Debug.Log(sb.ToString());
 
         return sb.ToString();
     }
