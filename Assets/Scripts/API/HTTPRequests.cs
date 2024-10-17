@@ -50,6 +50,10 @@ public class HTTPRequests
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
 
+        string JSON = GetJson(data);
+
+        Debug.Log(JSON);
+
         UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson(data)));
         uploadHandler.contentType = "application/json";
         http.uploadHandler = uploadHandler;
