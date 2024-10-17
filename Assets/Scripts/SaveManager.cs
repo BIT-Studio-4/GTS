@@ -6,6 +6,7 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance { get; private set; }
 
+    [SerializeField] private GameObject placedObjects;
     // Minutes between auto saves
     [SerializeField, Range(1f, 20f)] private int autoSaveCooldown = 5;
     public int AutoSaveCooldown 
@@ -32,13 +33,20 @@ public class SaveManager : MonoBehaviour
         Instance = this;
     }
 
+    private IEnumerator Start()
+    {
+        yield return new WaitForSeconds(10f);
+
+        SaveGame();
+    }
+
     /// <summary>
     /// Saves the game to the API
     /// </summary>
     public void SaveGame()
     {
         SaveGame saveSnapshot = GetCurrentSave();
-
+        ApiManager.Instance.CreateSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", saveSnapshot, GameManager.Instance.User);
     }
 
     /// <summary>
@@ -53,15 +61,54 @@ public class SaveManager : MonoBehaviour
             Money = GameManager.Instance.Money,
             store = new Store()
             {
-
+                store_objects = GetStoreObjects(),
             },
             inventory = new Inventory()
             {
-
+                items = GetInventoryItems(),
             }
         };
 
         return saveGame;
+    }
+
+    private StoreObject[] GetStoreObjects()
+    {
+        List<StoreObject> storeObjects = new List<StoreObject>();
+
+
+
+        StockManager.Instance.PlacedObjects.ForEach(placedObject =>
+        {
+            Vector3 pos = placedObject.transform.position;
+
+            storeObjects.Add(new StoreObject()
+            {
+                item_id = placedObject.StoreItem.id,
+                x_pos = pos.x,
+                y_pos = pos.y,
+                z_pos = pos.z,
+                y_rot = placedObject.transform.rotation.eulerAngles.y,
+            });
+        });
+
+        return storeObjects.ToArray();
+    }
+
+    private InventoryItem[] GetInventoryItems()
+    {
+        List<InventoryItem> inventoryItems = new List<InventoryItem>();
+
+        InventoryManager.Instance.InventoryPlaceableObjects.ForEach(item =>
+        {
+            inventoryItems.Add(new InventoryItem()
+            {
+                item_id = item.id,
+                quantity = item.count
+            });
+        });
+
+        return inventoryItems.ToArray();
     }
 
     /// <summary>

@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => User != null);
 
         //Money = startingMoney;
+        Money = 10000;
     }
 
     private async void LoginUser()
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
             password = password,
         };
 
+        // Sends a UserLogin, and returns a User if successful
         User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
         Token = User.token;
     }
