@@ -37,7 +37,13 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     public void SaveGame()
     {
+        SaveGame snapshot = GetCurrentSave();
 
+    }
+
+    private SaveGame GetCurrentSave()
+    {
+        return null;
     }
 
     /// <summary>
