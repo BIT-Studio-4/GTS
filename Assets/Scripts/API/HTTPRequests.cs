@@ -50,6 +50,9 @@ public class HTTPRequests
         http.method = "POST";
         http.SetRequestHeader("Content-Type", "application/json");
 
+        string json = GetJson(data);
+        Debug.Log(json);
+
         UploadHandlerRaw uploadHandler = new(Encoding.UTF8.GetBytes(GetJson(data)));
         uploadHandler.contentType = "application/json";
         http.uploadHandler = uploadHandler;
@@ -166,7 +169,7 @@ public class HTTPRequests
                 }
                 else if (valueType.IsArray)
                 {
-                    sb.Append($"{field.Name}:[");
+                    sb.Append($"\"{field.Name}\":[");
 
                     foreach (var item in ((Array) value))
                     {
