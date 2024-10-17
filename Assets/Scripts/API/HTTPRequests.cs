@@ -210,7 +210,7 @@ public class HTTPRequests
                 }
                 else if (valueType.IsArray)
                 {
-                    sb.Append($"{propName}:[");
+                    sb.Append($"\"{propName}\":[");
 
                     foreach (var item in ((Array)value))
                     {
