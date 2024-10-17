@@ -118,7 +118,7 @@ public class HTTPRequests
             // Due to the way our API formats responses, the extra 'data' step is necessary.
             Data<T> data = JsonUtility.FromJson<Data<T>>(response); // Converts the JSON to the 'T' type provided whenever the method is called.
 
-            Debug.Log(data.msg);
+            // Debug.Log(data.msg);
 
             T result = data.data;
 
