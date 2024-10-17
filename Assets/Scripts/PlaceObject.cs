@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +15,8 @@ public class PlaceObject : MonoBehaviour
     private Quaternion rotation;
     public bool CanPlaceHere { get; private set; }
 
-    private GameObject placedObjects;
+    // Parent object that all children go on
+    [SerializeField] private GameObject placedObjectsParent;
     private RaycastHit hit;
     private InputAction placeAction;
     private InputAction disableGridAction;
@@ -25,11 +27,9 @@ public class PlaceObject : MonoBehaviour
 
     void Awake()
     {
-        // empty parent to keep all instantiated objects hidden in hierarchy
-        placedObjects = new GameObject("Placed Objects");
         // add listener to place input action
         placeAction = InputSystem.actions.FindAction("Place");
-        placeAction.performed += ctx => InstantiateObject();
+        placeAction.performed += ctx => PlayerPlaceObject();
         rotateObjectAction = InputSystem.actions.FindAction("RotateObject");
         rotateObjectAction.performed += ctx => RotateObject();
         disableGridAction = InputSystem.actions.FindAction("DisableGridSnapping");
@@ -65,16 +65,25 @@ public class PlaceObject : MonoBehaviour
     /// <summary>
     /// Places held object at position and rotation
     /// </summary>
-    void InstantiateObject()
+    void PlayerPlaceObject()
     {
         if (InventoryManager.Instance.HeldObject == null) return;
         if (!IsPlacementValid()) return;
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
-        GameObject placedObject = Instantiate(InventoryManager.Instance.HeldObject.prefab, position, rotation, placedObjects.transform);
+        InstantiateObject(InventoryManager.Instance.HeldObject.prefab, position, rotation, placedObjects.transform);
 
         InventoryManager.Instance.ConsumePlacedItem();
+    } 
+
+    /// <summary>
+    /// Places an object at a certain position and rotation (used for things like loading)
+    /// </summary>
+    void InstantiateObject(GameObject prefab, Vector3 pos, Quaternion rot, Transform parent)
+    {
+        GameObject placedObject = Instantiate(prefab, pos, rot, parent);
+        StoreManager.Instance.
     }
 
     /// <summary>

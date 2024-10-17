@@ -7,12 +7,17 @@ public class SellItemEvent : UnityEvent<SellItem> { }
 public class StockManager : MonoBehaviour
 {
     public static StockManager Instance;
+
     [HideInInspector] public List<SellItem> itemsToSell;
     [HideInInspector] public List<SellItem> customerPickedItems;
 
     [HideInInspector] public SellItemEvent itemPlaced = new SellItemEvent();
     [HideInInspector] public SellItemEvent itemPickedByCustomer = new SellItemEvent();
     [HideInInspector] public SellItemEvent itemSold = new SellItemEvent();
+
+    // A list of all objects that are placed down in the store
+    [SerializeField] private List<PlacedObject> placedObjects = new List<PlacedObject>();
+    public List<PlacedObject> PlacedObjects { get => placedObjects; set => placedObjects = value; }
 
     private void Awake()
     {
