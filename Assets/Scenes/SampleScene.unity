@@ -3378,6 +3378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsToSell: []
   customerPickedItems: []
+  placedObjects: []
 --- !u!4 &862874780
 Transform:
   m_ObjectHideFlags: 0
@@ -4031,6 +4032,11 @@ PrefabInstance:
     - target: {fileID: 7439313883792136263, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
         type: 3}
       propertyPath: placedObjects
+      value: 
+      objectReference: {fileID: 1440719920}
+    - target: {fileID: 7439313883792136263, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,
+        type: 3}
+      propertyPath: placedObjectsParent
       value: 
       objectReference: {fileID: 1440719920}
     - target: {fileID: 7938031884412196941, guid: 671aa3d2f1b2d74468ca28aa9dd85b07,

@@ -13,8 +13,8 @@ public class ApiManager : MonoBehaviour
         Instance = this;
     }
 
-    public async void UpdateUser(string url, User user)
+    public async void CreateSaveGame(string url, SaveGame saveGame, User user)
     {
-        await HTTPRequests.Put<User, User>(url, user, user.token);
+        await HTTPRequests.Post<SaveGame, SaveGame>(url, saveGame, user.token);
     }
 }

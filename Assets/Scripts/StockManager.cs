@@ -62,6 +62,12 @@ public class StockManager : MonoBehaviour
     private void OnItemSold(SellItem item)
     {
         customerPickedItems.Remove(item);
+
+        // Special case because we don't want to track the item after its been picked up
+        PlacedObject placedObject = item.gameObject.GetComponent<PlacedObject>();
+        placedObjects.Remove(placedObject);
+        // Removing the component on the object, not strictly necessary but could cause some issues if it remains
+        Destroy(placedObject);
     }
 
     public SellItem GetRandomItemForSale()

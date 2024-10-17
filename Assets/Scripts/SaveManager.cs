@@ -46,7 +46,7 @@ public class SaveManager : MonoBehaviour
     public void SaveGame()
     {
         SaveGame saveSnapshot = GetCurrentSave();
-
+        ApiManager.Instance.CreateSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", saveSnapshot, GameManager.Instance.User);
     }
 
     /// <summary>
@@ -78,12 +78,17 @@ public class SaveManager : MonoBehaviour
 
 
 
-        InventoryManager.Instance.InventoryPlaceableObjects.ForEach(placedObject =>
+        StockManager.Instance.PlacedObjects.ForEach(placedObject =>
         {
+            Vector3 pos = placedObject.transform.position;
+
             storeObjects.Add(new StoreObject()
             {
-                item_id = placedObject.id,
-                
+                item_id = placedObject.StoreItem.id,
+                x_pos = pos.x,
+                y_pos = pos.y,
+                z_pos = pos.z,
+                y_rot = placedObject.transform.rotation.eulerAngles.y,
             });
         });
 

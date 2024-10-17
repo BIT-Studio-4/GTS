@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -72,7 +73,7 @@ public class PlaceObject : MonoBehaviour
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
-        InstantiateObject(InventoryManager.Instance.HeldObject.prefab, position, rotation, placedObjects.transform);
+        InstantiateObject(InventoryManager.Instance.HeldObject, position, rotation, placedObjectsParent.transform);
 
         InventoryManager.Instance.ConsumePlacedItem();
     } 
@@ -80,10 +81,12 @@ public class PlaceObject : MonoBehaviour
     /// <summary>
     /// Places an object at a certain position and rotation (used for things like loading)
     /// </summary>
-    void InstantiateObject(GameObject prefab, Vector3 pos, Quaternion rot, Transform parent)
+    void InstantiateObject(PlaceableObject placeableObject, Vector3 pos, Quaternion rot, Transform parent)
     {
-        GameObject placedObject = Instantiate(prefab, pos, rot, parent);
-        StoreManager.Instance.
+        GameObject placedGameObject = Instantiate(placeableObject.prefab, pos, rot, parent);
+        PlacedObject placedObject = placedGameObject.AddComponent<PlacedObject>();
+        placedObject.StoreItem = placeableObject.storeItem;
+        StockManager.Instance.PlacedObjects.Add(placedObject);
     }
 
     /// <summary>
