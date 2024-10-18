@@ -9,16 +9,9 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField] private GameObject placedObjects;
     // Minutes between auto saves
-    [SerializeField, Range(1f, 20f)] private int autoSaveCooldown = 5;
-    public int AutoSaveCooldown 
-    { 
-        get =>  autoSaveCooldown; 
-        set 
-        {
-            autoSaveCooldown = value;
-            StartAutoSave();
-        }
-    }
+    [SerializeField, Range(0f, 20f)] private int autoSaveCooldown = 5;
+
+    private int autoSaveCheck;
 
     private Coroutine autoSaveCoroutine;
 
@@ -36,7 +29,20 @@ public class SaveManager : MonoBehaviour
 
     private void Start()
     {
+        autoSaveCheck = autoSaveCooldown;
         StartAutoSave();
+    }
+
+    // Used to change the autosave loop when its updated in the inspector
+    private void OnValidate()
+    {
+        if (autoSaveCooldown != autoSaveCheck && Application.isPlaying)
+        {
+            Debug.Log("cooldown: " + autoSaveCooldown + ", check:" + autoSaveCheck);
+            autoSaveCheck = autoSaveCooldown;
+            if (autoSaveCooldown >= 1) StartAutoSave();
+            else StopAutoSave();
+        }
     }
 
     /// <summary>
@@ -47,6 +53,8 @@ public class SaveManager : MonoBehaviour
         SaveGame saveSnapshot = GetCurrentSaveState();
         ApiManager.Instance.CreateSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", saveSnapshot, GameManager.Instance.User);
         Debug.Log("Saved Game");
+
+        HUDManager.Instance.SaveGame();
     }
 
     /// <summary>
@@ -120,12 +128,15 @@ public class SaveManager : MonoBehaviour
     /// <summary>
     /// Loops every autoSaveCooldown minutes and saves the game
     /// </summary>
-    public IEnumerator AutoSave(float cooldown)
+    public IEnumerator AutoSave(int cooldown)
     {
+        // 60 * so its in minutes
+        int minuteLengthInSeconds = 60;
+        int secondsTime = cooldown * minuteLengthInSeconds;
+
         while (true)
         {
-            // * 60 so its in minutes
-            yield return new WaitForSeconds(cooldown * 60);
+            yield return new WaitForSeconds(secondsTime);
 
             SaveGame();
         }

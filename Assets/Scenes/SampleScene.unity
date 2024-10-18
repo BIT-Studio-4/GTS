@@ -149,7 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudObject: {fileID: 2118508038}
-  popupDelay: 3
+  errorPopupDelay: 3
+  saveGamePopupDelay: 4
   placement: {fileID: 820156064}
 --- !u!4 &23548010
 Transform:
@@ -1654,7 +1655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placedObjects: {fileID: 1440719920}
-  autoSaveCooldown: 5
+  autoSaveCooldown: 10
 --- !u!4 &549611717
 Transform:
   m_ObjectHideFlags: 0

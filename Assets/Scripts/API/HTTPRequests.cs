@@ -105,7 +105,8 @@ public class HTTPRequests
 
         string response = http.downloadHandler.text;
 
-        Debug.Log(response);
+        // Reponse logging in case something goes wrong
+        //Debug.Log(response); 
 
         if (http.result != UnityWebRequest.Result.Success)
         {
@@ -255,8 +256,6 @@ public class HTTPRequests
         // Removes the final comma from the new string and closes the bracket to end the JSON object creation.
         sb.Remove(sb.Length - 1, 1);
         sb.Append("}");
-
-        Debug.Log(sb.ToString());
 
         return sb.ToString();
     }
