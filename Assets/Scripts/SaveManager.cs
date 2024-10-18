@@ -38,7 +38,6 @@ public class SaveManager : MonoBehaviour
     {
         if (autoSaveCooldown != autoSaveCheck && Application.isPlaying)
         {
-            Debug.Log("cooldown: " + autoSaveCooldown + ", check:" + autoSaveCheck);
             autoSaveCheck = autoSaveCooldown;
             if (autoSaveCooldown >= 1) StartAutoSave();
             else StopAutoSave();
@@ -52,7 +51,6 @@ public class SaveManager : MonoBehaviour
     {
         SaveGame saveSnapshot = GetCurrentSaveState();
         ApiManager.Instance.CreateSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", saveSnapshot, GameManager.Instance.User);
-        Debug.Log("Saved Game");
 
         HUDManager.Instance.SaveGame();
     }
