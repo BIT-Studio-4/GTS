@@ -49,6 +49,12 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     public void SaveGame()
     {
+        if (GameManager.Instance.User is null)
+        {
+            Debug.LogWarning("User does not exist! Skipping save.");
+            return;
+        } 
+
         SaveGame saveSnapshot = GetCurrentSaveState();
         ApiManager.Instance.CreateSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", saveSnapshot, GameManager.Instance.User);
 

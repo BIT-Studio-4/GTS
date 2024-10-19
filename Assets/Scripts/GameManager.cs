@@ -71,8 +71,7 @@ public class GameManager : MonoBehaviour
         // yield return null;
         yield return new WaitUntil(() => User != null);
 
-        //Money = startingMoney;
-        Money = 10000;
+        Money = startingMoney;
     }
 
     private async void LoginUser()

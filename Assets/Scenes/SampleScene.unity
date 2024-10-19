@@ -1655,7 +1655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placedObjects: {fileID: 1440719920}
-  autoSaveCooldown: 10
+  autoSaveCooldown: 5
 --- !u!4 &549611717
 Transform:
   m_ObjectHideFlags: 0
