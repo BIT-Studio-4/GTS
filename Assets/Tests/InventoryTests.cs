@@ -4,12 +4,12 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class TestScript
+public class InventoryTests
 {
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
     [UnityTest]
-    public IEnumerator Test()
+    public IEnumerator SellingPrices()
     {
         // Use the Assert class to test conditions.
         // Use yield to skip a frame.
