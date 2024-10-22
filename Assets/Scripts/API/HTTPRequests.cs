@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
+using static UnityEditor.Progress;
 
 /// <summary>
 /// Handles all HTTP requests that the game requires to function.
@@ -13,6 +14,13 @@ using UnityEngine.Networking;
 
 public class HTTPRequests
 {
+    /// <summary>
+    /// Makes a GET request to a specified API and returns data from a given endpoint.
+    /// </summary>
+    /// <typeparam name="T">Return type of the request.</typeparam>
+    /// <param name="url">URL of the endpoint data is being retreived from.</param>
+    /// <param name="token">Authorization token to make requests to the API.</param>
+    /// <returns>An object of type T automatically filled and formatted according to the API response data.</returns>
     public static async Task<T> Get<T>(string url, string token = "")
     {
         // Create a new GET request.
@@ -25,6 +33,15 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
+    /// <summary>
+    /// Makes a POST request with provided data to a specified API and returns data from a given endpoint.
+    /// </summary>
+    /// <typeparam name="T">Return type of the request.</typeparam>
+    /// <typeparam name="D">Data type being sent to the API.</typeparam>
+    /// <param name="url">URL of the endpoint data is being retreived from.</param>
+    /// <param name="data">Data being sent to the API.</param>
+    /// <param name="token">Authorization token to make requests to the API.</param>
+    /// <returns>An object of type T automatically filled and formatted according to the API response data.</returns>
     public static async Task<T> Post<T, D>(string url, D data, string token = "")
     {
         // Create a new POST request.
@@ -43,6 +60,15 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
+    /// <summary>
+    /// Makes a PUT request with provided data to a specified API and returns data from a given endpoint.
+    /// </summary>
+    /// <typeparam name="T">Return type of the request.</typeparam>
+    /// <typeparam name="D">Data type being sent to the API.</typeparam>
+    /// <param name="url">URL of the endpoint data is being retreived from.</param>
+    /// <param name="data">Data being sent to the API.</param>
+    /// <param name="token">Authorization token to make requests to the API.</param>
+    /// <returns>An object of type T automatically filled and formatted according to the API response data.</returns>
     public static async Task<T> Put<T, D>(string url, D data, string token = "")
     {
         // Create a new PUT request.
@@ -61,8 +87,12 @@ public class HTTPRequests
         return await MakeHttpRequest<T>(http);
     }
 
-    // All requests will use this, may need updating in future when more requests are needed.
-    // This is the basic error and data handling of the request, and will return the desired type that the relevant request needs.
+    /// <summary>
+    /// Handles HTTP requests using Unity's built-in UnityWebRequest objects.
+    /// </summary>
+    /// <typeparam name="T">Return type of the request.</typeparam>
+    /// <param name="http">UnityWebRequest being made to an API.</param>
+    /// <returns>An object of type T automatically filled and formatted according to the API response data.</returns>
     private static async Task<T> MakeHttpRequest<T>(UnityWebRequest http)
     {
         // Make the request to the API.
@@ -74,6 +104,9 @@ public class HTTPRequests
         while (!req.isDone) await Task.Yield();
 
         string response = http.downloadHandler.text;
+
+        // Reponse logging in case something goes wrong
+        //Debug.Log(response); 
 
         if (http.result != UnityWebRequest.Result.Success)
         {
@@ -87,6 +120,9 @@ public class HTTPRequests
         {
             // Due to the way our API formats responses, the extra 'data' step is necessary.
             Data<T> data = JsonUtility.FromJson<Data<T>>(response); // Converts the JSON to the 'T' type provided whenever the method is called.
+
+            // Debug.Log(data.msg);
+
             T result = data.data;
 
             // Debug.Log(http.downloadHandler.text);
@@ -101,7 +137,13 @@ public class HTTPRequests
         }
     }
 
-    private static string GetJson<T>(T data)
+    /// <summary>
+    /// Takes any object and formats its public fields and properties into a JSON string.
+    /// </summary>
+    /// <typeparam name="T">Data type being formatted into a JSON string.</typeparam>
+    /// <param name="data">Data to be formatted into a JSON string.</param>
+    /// <returns>A JSON formatted string representing the provided data.</returns>
+    public static string GetJson<T>(T data)
     {
         StringBuilder sb = new();
         sb.Append("{");
@@ -116,19 +158,99 @@ public class HTTPRequests
             if (field.Name == "token") continue;
             // ----------------------------- \\
 
-            // Gets the value and the name of the field and appends it to the StringBuilder object.
             var value = field.GetValue(data);
-            string jsonValue = value.GetType() == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+            var valueType = value.GetType();
 
-            sb.Append($"\"{field.Name}\":{jsonValue},");
+            try
+            {
+                if (valueType.IsClass && valueType != typeof(string) && !valueType.IsArray)
+                {
+                    sb.Append($"\"{field.Name}\":{GetJson(value)},");
+                }
+                else if (valueType.IsArray)
+                {
+                    bool hasItems = false;
+
+                    sb.Append($"\"{field.Name}\":[");
+
+                    foreach (var item in ((Array) value))
+                    {
+                        if (item.GetType().IsClass && item.GetType() != typeof(string)) 
+                            sb.Append($"{GetJson(item)},");
+                        else
+                        {
+                            string jsonValue = item.GetType() == typeof(string) ? $"\"{item}\"" : item.ToString(); // Add quotes to strings for JSON formatting.
+                            jsonValue = item.GetType() == typeof(bool) ? jsonValue.ToLower() : jsonValue;
+                            sb.Append($"{jsonValue},");
+                        }
+
+                        hasItems = true;
+                    }
+
+                    if (hasItems) sb.Remove(sb.Length - 1, 1);
+
+                    sb.Append("],");
+                }
+                else
+                {
+                    // Gets the value and the name of the field and appends it to the StringBuilder object.
+                    string jsonValue = valueType == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+                    jsonValue = valueType == typeof(bool) ? jsonValue.ToLower() : jsonValue;
+                    sb.Append($"\"{field.Name}\":{jsonValue},");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
         foreach (PropertyInfo prop in props)
         {
-            // Gets the value and the name of the property and appends it to the StringBuilder object.
             var value = prop.GetValue(data);
-            string jsonValue = value.GetType() == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+            var valueType = value.GetType();
+            string propName = prop.Name.ToLower();
 
-            sb.Append($"\"{prop.Name.ToLower()}\":{jsonValue},");
+            try
+            {
+                if (valueType.IsClass && valueType != typeof(string) && !valueType.IsArray)
+                {
+                    sb.Append($"\"{propName}\":{GetJson(value)},");
+                }
+                else if (valueType.IsArray)
+                {
+                    bool hasItems = false;
+
+                    sb.Append($"\"{propName}\":[");
+
+                    foreach (var item in ((Array)value))
+                    {
+                        if (item.GetType().IsClass && item.GetType() != typeof(string))
+                            sb.Append($"{GetJson(item)},");
+                        else
+                        {
+                            string jsonValue = item.GetType() == typeof(string) ? $"\"{item}\"" : item.ToString(); // Add quotes to strings for JSON formatting.
+                            jsonValue = item.GetType() == typeof(bool) ? jsonValue.ToLower() : jsonValue;
+                            sb.Append($"{jsonValue},");
+                        }
+
+                        hasItems = true;
+                    }
+
+                    if (hasItems) sb.Remove(sb.Length - 1, 1);
+                    sb.Append("],");
+                }
+                else
+                {
+                    // Gets the value and the name of the field and appends it to the StringBuilder object.
+                    string jsonValue = valueType == typeof(string) ? $"\"{value}\"" : value.ToString(); // Add quotes to strings for JSON formatting.
+                    jsonValue = valueType == typeof(bool) ? jsonValue.ToLower() : jsonValue;
+                    sb.Append($"\"{propName}\":{jsonValue},");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+            }
         }
 
         // Removes the final comma from the new string and closes the bracket to end the JSON object creation.

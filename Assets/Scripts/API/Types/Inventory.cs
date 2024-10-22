@@ -5,9 +5,7 @@ using System;
 /// </summary>
 
 [Serializable] // Means that data can be parsed and stored within an instance of this class on creation.
-public class User
+public class Inventory
 {
-    public string id;
-    public string name;
-    public string token;
+    public InventoryItem[] items;
 }

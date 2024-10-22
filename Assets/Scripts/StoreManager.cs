@@ -341,7 +341,7 @@ public class StoreManager : MonoBehaviour
                     StoreItemSO item = allStoreItems[i];
 
                     // Adds new PlaceableObject item inside of Inventory if it doesn't already exist
-                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, itemCountsInCart[i]));
+                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.id, item, item.prefab, item.type, itemCountsInCart[i]));
                 }
                 else
                 {
