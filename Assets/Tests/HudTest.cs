@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -11,10 +12,17 @@ public class HudTest
     [UnityTest]
     public IEnumerator HudMoneyChange()
     {
-
+        new GameObject().AddComponent<GameManager>();
+        new GameObject().AddComponent<HUDManager>();
         // create a scenario that changes the players money and then check the HUD is displaying the correct amount 
-        
-        // Use the Assert class to test conditions.
+
+
+        //convert display into checkable amount
+        string HUDdisplaytext = HUDManager.Instance.MoneyDisplay.text.Remove(0);
+        int HUDmoney = int.Parse(HUDdisplaytext);
+
+        //checking if display is correct
+        Assert.AreEqual(GameManager.Instance.Money, HUDmoney);
         // Use yield to skip a frame.
         yield return null;
 
