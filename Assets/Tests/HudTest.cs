@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.UIElements;
 
 public class HudTest
 {
@@ -14,8 +15,12 @@ public class HudTest
     {
         new GameObject().AddComponent<GameManager>();
         new GameObject().AddComponent<HUDManager>();
-        // create a scenario that changes the players money and then check the HUD is displaying the correct amount 
 
+        UIDocument TestUI = new UIDocument();
+        
+
+        // create a scenario that changes the players money and then check the HUD is displaying the correct amount 
+        GameManager.Instance.Money += 5;
 
         //convert display into checkable amount
         string HUDdisplaytext = HUDManager.Instance.MoneyDisplay.text.Remove(0);
