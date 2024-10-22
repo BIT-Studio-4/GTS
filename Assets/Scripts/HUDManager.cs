@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour
     private VisualElement hud;
     private VisualElement moneyContainer;
     private Label moneyDisplay;
+    public Label MoneyDisplay{get{return moneyDisplay;}}
     private VisualElement errorPopup;
     private Label errorMessage;
     private VisualElement versionContainer;
