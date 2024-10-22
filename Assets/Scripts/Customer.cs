@@ -22,6 +22,7 @@ public class Customer : MonoBehaviour
         yield return new WaitUntil(() => atEndWaypoint);
 
         // Null if there is nothing to buy
+        if (CustomerManager.Instance is null) yield break;
         targetItem = CustomerManager.Instance.PickItemToBuy();
 
         // If going to buy something
@@ -99,5 +100,15 @@ public class Customer : MonoBehaviour
         bool isNotNull = item != null;
         bool randomChance = Random.Range(0f, 1f) <= CustomerManager.Instance.BaseChanceOfEnter;
         return isNotNull && randomChance;
+    }
+
+    /* 
+     *      methods below are for unit testing (wow) 
+     */
+
+    public void TestBuyItem(SellItem itemToBuy)
+    {
+        targetItem = itemToBuy;
+        PickUpItem();
     }
 }

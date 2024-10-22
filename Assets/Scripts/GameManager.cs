@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
             password = password,
         };
 
+        if (ApiManager.Instance is null) return;
         User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
         Token = User.token;
     }

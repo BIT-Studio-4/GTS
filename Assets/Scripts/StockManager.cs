@@ -37,6 +37,7 @@ public class StockManager : MonoBehaviour
     /// <param name="item"></param>
     private void OnItemPlaced(SellItem item)
     {
+        if (itemsToSell == null) return;
         itemsToSell.Add(item);
     }
 
