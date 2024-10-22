@@ -1,20 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
 
 public class InventoryTests
 {
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
+    private GameObject customerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Customer.prefab");
+
     [UnityTest]
+    // make an item get sold to a customer and assert that total money afterward is correct
     public IEnumerator SellingPrices()
     {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
+        new GameObject().AddComponent<GameManager>();
+        new GameObject().AddComponent<StockManager>();
+        Customer customer = GameObject.Instantiate(customerPrefab).GetComponent<Customer>();
+        SellItem item = new GameObject().AddComponent<SellItem>();
+        int cost = 5;
+        item.moneyOnSell = 5;
+        int startMoney = GameManager.Instance.Money;
+        yield return null;
+        yield return null;
         yield return null;
 
-        
+        customer.TestBuyItem(item);
+        yield return null;
+
+        Assert.AreEqual(startMoney + cost, GameManager.Instance.Money);
+    }
+
+    [UnityTest]
+    public IEnumerator SpendingPrices()
+    {
+        // make the player buy an item and assert that total money afterward is correct
+        yield return null;
     }
 }
