@@ -103,13 +103,11 @@ public class Customer : MonoBehaviour
         return isNotNull && randomChance;
     }
 
-    /* 
-     *      methods below are for unit testing (wow) 
-     */
-
+    #region Unit Testing
     public void TestBuyItem(SellItem itemToBuy)
     {
         targetItem = itemToBuy;
         PickUpItem();
     }
+    #endregion
 }
