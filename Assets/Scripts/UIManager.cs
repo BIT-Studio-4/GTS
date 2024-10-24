@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.EventSystems;
 
 // Which inventory do you want to apply things to
 public enum UIType
@@ -18,7 +19,8 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [SerializeField] private PauseMenu pauseMenu;
-    [SerializeField] private GameObject virtualCursor;
+    [SerializeField] private EventSystem eventSystemMain;
+    public EventSystem EventSystemMain { get => eventSystemMain; }
 
     private bool isGUIOpen = false;
     public bool IsGUIOpen { get => isGUIOpen; }
@@ -118,7 +120,6 @@ public class UIManager : MonoBehaviour
         if (!isGUIOpen)
         {
             Cursor.lockState = CursorLockMode.Locked;
-            virtualCursor.SetActive(false);
             return;
         }
 
@@ -128,12 +129,10 @@ public class UIManager : MonoBehaviour
             case InputDevice.Gamepad:
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = false;
-                virtualCursor.SetActive(true);
                 break;
             case InputDevice.KeyboardMouse:
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                virtualCursor.SetActive(false);
                 break;
         }
     }
