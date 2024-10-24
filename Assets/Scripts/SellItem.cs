@@ -7,6 +7,7 @@ public class SellItem : MonoBehaviour
 
     private void Start()
     {
+        if (StockManager.Instance == null) return;
         StockManager.Instance.itemPlaced.Invoke(this);
 
         ////wait random time

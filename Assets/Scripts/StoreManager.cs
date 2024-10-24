@@ -14,7 +14,7 @@ public class StoreManager : MonoBehaviour
     // The list of all items that are purchasable
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
-    public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
+    public GameObject StoreGUI { get => storeGUI; set => storeGUI = value; }
     // The grid that aligns the objects in the UI
     [SerializeField] private GameObject storeGrid;
     // The prefab for each item displayed in the UI
@@ -98,6 +98,7 @@ public class StoreManager : MonoBehaviour
     /// </summary>
     private void UpdateMoneyColors()
     {
+        if (UIStyling.Instance == null) return;
         if (totalCost == 0) // no items are selected in store
         {
             buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
@@ -212,7 +213,7 @@ public class StoreManager : MonoBehaviour
         // Fills the cart with empty numbers
         allStoreItems.ForEach(item =>
         {
-            itemCountsInCart.Add(0);            
+            itemCountsInCart.Add(0);
         });
     }
 
@@ -325,7 +326,10 @@ public class StoreManager : MonoBehaviour
         GameManager.Instance.Money -= totalCost;
 
         // This is done via UI manager so the correct windows are opened and closed
-        UIManager.Instance.SetGUIState(UIType.Store, false);
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.SetGUIState(UIType.Store, false);
+        }
 
         // Iterates over all items able to be bought
         for (int i = 0; i < allStoreItems.Count; i++)
@@ -410,4 +414,15 @@ public class StoreManager : MonoBehaviour
             else b.GetComponent<Image>().color = UIStyling.Instance.ButtonDeselectedColor;
         }
     }
+
+    #region Unit Testing
+    public void TestBuyItem(StoreItemSO item)
+    {
+        FillShoppingCartWithItems();
+        int index = allStoreItems.IndexOf(item);
+        itemCountsInCart[index] = 1;
+        CalculateTotalCost();
+        PurchaseStock();
+    }
+    #endregion
 }

@@ -22,6 +22,7 @@ public class Customer : MonoBehaviour
         yield return new WaitUntil(() => atEndWaypoint);
 
         // Null if there is nothing to buy
+        if (CustomerManager.Instance is null) yield break;
         targetItem = CustomerManager.Instance.PickItemToBuy();
 
         // If going to buy something
@@ -86,6 +87,7 @@ public class Customer : MonoBehaviour
         targetItem.transform.position = handTransform.position;
         targetItem.transform.rotation = handTransform.rotation;
 
+        if (StockManager.Instance == null) return;
         StockManager.Instance.itemSold.Invoke(targetItem);
     }
 
@@ -100,4 +102,12 @@ public class Customer : MonoBehaviour
         bool randomChance = Random.Range(0f, 1f) <= CustomerManager.Instance.BaseChanceOfEnter;
         return isNotNull && randomChance;
     }
+
+    #region Unit Testing
+    public void TestBuyItem(SellItem itemToBuy)
+    {
+        targetItem = itemToBuy;
+        PickUpItem();
+    }
+    #endregion
 }
