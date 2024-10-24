@@ -14,14 +14,11 @@ public class InventoryTests
     public IEnumerator SellingPrices()
     {
         new GameObject().AddComponent<GameManager>();
-        new GameObject().AddComponent<StockManager>();
         Customer customer = GameObject.Instantiate(customerPrefab).GetComponent<Customer>();
         SellItem item = new GameObject().AddComponent<SellItem>();
         int cost = 5;
         item.moneyOnSell = 5;
         int startMoney = GameManager.Instance.Money;
-        yield return null;
-        yield return null;
         yield return null;
 
         customer.TestBuyItem(item);
