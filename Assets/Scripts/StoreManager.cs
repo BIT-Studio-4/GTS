@@ -24,6 +24,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject buyButton;
     [SerializeField] private int structureLeftoverMoneyCount;
     [SerializeField] private List<Button> multiplierButtons;
+    [SerializeField] private GameObject selectOnOpen;
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImageComponent;
     private int tabIndex = 0;
@@ -68,6 +69,7 @@ public class StoreManager : MonoBehaviour
         if (storeGUI.activeSelf)
         {
             OnEnableStore();
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
         }
         else
         {

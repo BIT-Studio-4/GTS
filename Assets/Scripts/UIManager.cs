@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.EventSystems;
 
 // Which inventory do you want to apply things to
 public enum UIType
@@ -18,6 +19,8 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [SerializeField] private PauseMenu pauseMenu;
+    [SerializeField] private EventSystem eventSystemMain;
+    public EventSystem EventSystemMain { get => eventSystemMain; }
 
     private bool isGUIOpen = false;
     public bool IsGUIOpen { get => isGUIOpen; }
