@@ -5,6 +5,7 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] Button continueButton;
     [SerializeField] Button quitButton;
+    [SerializeField] private GameObject selectOnOpen;
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     private void OnEnable()
     {
         Time.timeScale = 0;
+        UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
     }
 
     private void OnDisable()
