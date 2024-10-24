@@ -34,17 +34,22 @@ public class GhostObjectPlacement : MonoBehaviour
         // code snippet from https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
         // combine all submeshes into one
         MeshFilter[] meshFilters = InventoryManager.Instance.HeldObject.prefab.GetComponentsInChildren<MeshFilter>();
+        MeshFilter[] meshFiltersCopy = new MeshFilter[meshFilters.Length];
+        System.Array.Copy(meshFilters, meshFiltersCopy, meshFilters.Length);
+
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
-        for (int i = 0; i < meshFilters.Length; i++)
+
+        for (int i = 0; i < meshFiltersCopy.Length; i++)
         {
-            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].mesh = meshFiltersCopy[i].sharedMesh;
             combine[i].mesh.SetTriangles(combine[i].mesh.triangles, 0);
-            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            combine[i].transform = meshFiltersCopy[i].transform.localToWorldMatrix;
         }
-        Mesh mesh = new Mesh();
-        mesh.CombineMeshes(combine);
-        meshFilter.sharedMesh = mesh;
-        meshCollider.sharedMesh = mesh;
+
+        Mesh newMesh = new Mesh();
+        newMesh.CombineMeshes(combine);
+        meshFilter.mesh = newMesh;
+        meshCollider.sharedMesh = newMesh;
     }
 
     /// <summary>

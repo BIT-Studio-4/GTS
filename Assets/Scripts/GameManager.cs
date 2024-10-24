@@ -67,8 +67,8 @@ public class GameManager : MonoBehaviour
         LoginUser();
 
         // TEMPORARY HOTFIX~
-        // yield return null;
-        yield return new WaitUntil(() => User != null);
+         yield return null;
+        //yield return new WaitUntil(() => User != null);
 
         Money = startingMoney;
     }
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
             password = password,
         };
 
-        User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
-        Token = User.token;
+        //User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
+        //Token = User.token;
     }
 }
