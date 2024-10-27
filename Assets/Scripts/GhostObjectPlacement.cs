@@ -38,7 +38,7 @@ public class GhostObjectPlacement : MonoBehaviour
         for (int i = 0; i < meshFilters.Length; i++)
         {
             combine[i].mesh = meshFilters[i].sharedMesh;
-            combine[i].mesh.SetTriangles(combine[i].mesh.triangles, 0);
+            // combine[i].mesh.SetTriangles(combine[i].mesh.triangles, 0);
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
         }
         Mesh mesh = new Mesh();
