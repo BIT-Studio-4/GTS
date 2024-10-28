@@ -194,7 +194,6 @@ public class PlaceObject : MonoBehaviour
     {
         Vector3 eulers = rotation.eulerAngles;
         float direction = rotateObjectAction.ReadValue<float>();
-        Debug.Log(direction);
         eulers += Vector3.up * rotationSnapDegrees * direction;
         rotation = Quaternion.Euler(eulers);
     }
