@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
             // can add more stuff here, eg updating UI etc later on
             if (user != null)
             {
-                user.Money = money;
+                // TODO!! This needs changing to the SaveGame money!!
+                //user.Money = money;
             }
         }
     }
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
             password = password,
         };
 
+        // Sends a UserLogin, and returns a User if successful
         User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
         Token = User.token;
     }

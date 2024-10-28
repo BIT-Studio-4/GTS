@@ -73,7 +73,7 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log(shelfItem.itemName);
         // Adds a shelf to the inventory on start
-        InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.prefab, shelfItem.type, 1));
+        InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.id, shelfItem, shelfItem.prefab, shelfItem.type, 1));
     }
 
     /// <summary>

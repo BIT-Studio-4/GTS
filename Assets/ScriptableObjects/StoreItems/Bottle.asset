@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bottle
   m_EditorClassIdentifier: 
   itemName: Bottle
+  id: 1
   prefab: {fileID: 92670362388832611, guid: 8c8ba9083d724b6419fa93ea297327e9, type: 3}
   type: 0
   cost: 2
