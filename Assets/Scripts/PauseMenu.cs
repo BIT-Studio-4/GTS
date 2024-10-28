@@ -26,7 +26,6 @@ public class PauseMenu : MonoBehaviour
 
     private void OnContinue()
     {
-        Debug.Log("Continue game!");
         UIManager.Instance.SetGUIState(UIType.Pause, false);
     }
 
@@ -34,7 +33,6 @@ public class PauseMenu : MonoBehaviour
     {
         SaveManager.Instance.SaveGame();
 
-        Debug.Log("Quit game!");
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
