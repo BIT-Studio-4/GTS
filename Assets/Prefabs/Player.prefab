@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 124709709604099119}
   - component: {fileID: 2172462091198951542}
   - component: {fileID: 7938031884412196941}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ghost Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8798aadcf3bb23469cda1d575ea4439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostMaterial: {fileID: 2100000, guid: f172f02f674f68a45b36a6c840addfee, type: 2}
+  intersectionRadius: 1
 --- !u!64 &7938031884412196941
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 5
   m_Convex: 1
-  m_CookingOptions: 30
+  m_CookingOptions: -1
   m_Mesh: {fileID: -951608786083511892, guid: 03bc099a9edb8d040ac0dc12fb480c87, type: 3}
 --- !u!1 &2893661565376030556
 GameObject:
@@ -197,7 +197,8 @@ MonoBehaviour:
   jumpForce: 5
   jumpBufferTime: 0.201
   crouchDepth: 0.701
-  crouchSpeed: 13.12
+  crouchAnimationSpeed: 13.12
+  crouchMoveSpeedMultiplier: 0.4
   spawnpoint: {fileID: 0}
 --- !u!114 &6386847648168054992
 MonoBehaviour:
@@ -412,6 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostObject: {fileID: 2172462091198951542}
+  placedObjectsParent: {fileID: 0}
 --- !u!1 &3226304405040356737
 GameObject:
   m_ObjectHideFlags: 0
