@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         LoginUser();
 
         // TEMPORARY HOTFIX~
-        // yield return null;
+        //yield return null;
         yield return new WaitUntil(() => User != null);
 
         Money = startingMoney;
