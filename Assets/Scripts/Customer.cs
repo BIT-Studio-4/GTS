@@ -87,6 +87,7 @@ public class Customer : MonoBehaviour
         targetItem.transform.rotation = handTransform.rotation;
 
         StockManager.Instance.itemSold.Invoke(targetItem);
+        if (TutorialManager.Instance.InProgress) TutorialManager.Instance.CompleteTutorialTask("soldStock");
     }
 
     /// <summary>

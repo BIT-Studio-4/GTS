@@ -8,11 +8,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI TutorialText; // Reference to tutorial text UI element
 
     public static TutorialManager Instance { get; private set; }
+    public bool InProgress { get; private set; }
 
-    private Dictionary<string, bool> tutorial = new();
-    public Dictionary<string, bool> Tutorial { get => tutorial; }
+    private Dictionary<string, bool> tutorial;
 
-    private int currentTutorialStep = 0; // Tracks current tutorial step
 
     void Awake()
     {
@@ -27,71 +26,73 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        StartTutorial();
-    }
-
-    private void Update()
-    {
-        // Check if the "N" key is pressed and advances tutorial step
-        if (Keyboard.current.nKey.wasPressedThisFrame)
+        tutorial = new()
         {
-            NextTutorialStep();
-        }
-        else if (Gamepad.current != null)
-        {
-            if (Gamepad.current.dpad.right.wasPressedThisFrame) NextTutorialStep();
-        }
-    }
-
-
-    // Method to start the tutorial
-    public void StartTutorial()
-    {
-        ShowTutorialStep(0); // Starts with the first step
+            {"openedInventory", false},
+            {"selectedShelf", false},
+            {"placedShelf", false},
+            {"openedShop", false},
+            {"boughtStock", false},
+            {"placedStock", false},
+            {"soldStock", false}
+        };
+        InProgress = true;
+        AdvanceTutorial();
     }
 
     // Method to show a specific tutorial step
-    public void ShowTutorialStep(int stepIndex)
+    public void AdvanceTutorial()
     {
-        TutorialText.text = "";
-
-        switch (stepIndex)
+        if (!tutorial["openedInventory"])
         {
-            case 0:
-                TutorialText.text = "Welcome to your very own supermarket!\n\nThis is the tutorial, which will help you to get started.\n\n(press 'N' to continue)";
-                break;
-            case 1:
-                TutorialText.text = "We have provided you with your first shelf!\n\nPlace it somewhere in the shop by opening the inventory, and selecting the shelf from the structure tab.\n\n (Press N to continue)";
-                break;
-            case 2:
-                TutorialText.text = "Good job!\n\nnow you have placed your first shelf, lets buy some stock to put on it.\n\nPress Q to access the shop screen, there you can purchase stock to sell for profit to customers.\n\n(Press N to continue)";
-                break;
-            case 3:
-                TutorialText.text = "Nice!\n\nNow you can place those stock items on your shelf, by clicking on them in the inventory screen.\n\n stock items can only be placed on shelves.\n\n(Press N to continue)";
-                break;
-            case 4:
-                TutorialText.text = "Finally, lets see if you can make profit from selling stock!\n\nThe goal is to make more than the initial money we have provided for you.\n\n(press N to end tutorial)";
-                break;
+            TutorialText.text = "Welcome to your very own supermarket!\n\nTo get started, press [Tab] to open your inventory\n\n(hold [N] to close tutorial";
+            return;
         }
+        if (!tutorial["selectedShelf"])
+        {
+            TutorialText.text = "We have provided you with your first shelf!\n\nFind it by going to the Structures section";
+            return;
+        }
+        if (!tutorial["placedShelf"])
+        {
+            TutorialText.text = "Place your shelf anywhere you want!\n\nYou can rotate using the scroll wheel, or go off-grid with [Ctrl]";
+            return;
+        }
+        if (!tutorial["openedShop"])
+        {
+            TutorialText.text = "Good job! Now we want to buy stock so we can sell something\n\nPress [Q] to open the shop screen";
+            return;
+        }
+        if (!tutorial["boughtStock"])
+        {
+            TutorialText.text = "From the Stock section, buy anything you want!\n\nUse the [x10] multiplier to make bulk purchases faster";
+            return;
+        }
+        if (!tutorial["placedStock"])
+        {
+            TutorialText.text = "Nice!\n\nGrab stock from your inventory [Tab] and place it on your shelf";
+            return;
+        }
+        if (!tutorial["soldStock"])
+        {
+            TutorialText.text = "Awesome!\n\nNow we wait for customers to come in and buy what's on the shelf";
+            return;
+        }
+        
+        InProgress = false;
+        HideTutorial();
     }
 
     // Method to hide the tutorial
-    public void HideTutorial()
+    void HideTutorial()
     {
         TutorialText.text = "";
+        TutorialText.gameObject.SetActive(false);
     }
 
-    public void NextTutorialStep()
+    public void CompleteTutorialTask(string task)
     {
-        if (currentTutorialStep < 4) // Adjust based on number of steps
-        {
-            currentTutorialStep++;
-            ShowTutorialStep(currentTutorialStep);
-        }
-        else
-        {
-            HideTutorial();
-        }
+        tutorial[task] = true;
+        AdvanceTutorial();
     }
-
 }
