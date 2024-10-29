@@ -1,34 +1,43 @@
 .money-display {
     position: absolute;
-    right: 0; 
+    right: 0;
     top: 0;
     font-size: 50px;
 }
 
-.hud-container{
-    background-color: rgba(151,151,151,0.43);
+.hud-container {
+    background-color: rgba(151, 151, 151, 0.43);
     padding: 20px;
     color: white;
 }
 
-.control-display{
+.control-display {
     position: absolute;
     right: 0;
     bottom: 0;
     font-size: 30px;
 }
 
-.error-popup{
-    position:absolute;
+.error-popup {
+    position: absolute;
     left: 0;
     font-size: 30px;
     bottom: 20%;
     display: none;
 }
 
-.version-number{
+.version-number {
     position: absolute;
     left: 0;
     top: 0;
     font-size: 15px;
+}
+
+.saved-game {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 15px;
+    display: none;
+    opacity: 1;
 }

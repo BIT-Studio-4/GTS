@@ -13,4 +13,7 @@
     <ui:VisualElement name="versionNumber" class="hud-container version-number" style="flex-grow: 1;">
         <ui:Label text="Version Number:" name="versionText" />
     </ui:VisualElement>
+    <ui:VisualElement name="savedGame" class="hud-container saved-game" style="flex-grow: 1; top: 230px; left: -1px;">
+        <ui:Label text="Game Saved!" name="saveText" />
+    </ui:VisualElement>
 </ui:UXML>

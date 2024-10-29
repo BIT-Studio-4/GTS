@@ -24,6 +24,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private GameObject buyButton;
     [SerializeField] private int structureLeftoverMoneyCount;
     [SerializeField] private List<Button> multiplierButtons;
+    [SerializeField] private GameObject selectOnOpen;
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImageComponent;
     private int tabIndex = 0;
@@ -68,6 +69,7 @@ public class StoreManager : MonoBehaviour
         if (storeGUI.activeSelf)
         {
             OnEnableStore();
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
         }
         else
         {
@@ -341,7 +343,7 @@ public class StoreManager : MonoBehaviour
                     StoreItemSO item = allStoreItems[i];
 
                     // Adds new PlaceableObject item inside of Inventory if it doesn't already exist
-                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.prefab, item.type, itemCountsInCart[i]));
+                    InventoryManager.Instance.InventoryPlaceableObjects.Add(new PlaceableObject(item.itemName, item.id, item, item.prefab, item.type, itemCountsInCart[i]));
                 }
                 else
                 {

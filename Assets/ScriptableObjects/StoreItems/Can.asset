@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Can
   m_EditorClassIdentifier: 
   itemName: Can
+  id: 3
   prefab: {fileID: 5527126596583947887, guid: a7338e75769c78841b0306eaa2a6b933, type: 3}
   type: 0
   cost: 3

@@ -16,6 +16,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private float stockHandScale;
     [SerializeField] private float structureHandScale;
     [SerializeField] private StoreItemSO shelfItem; // Reference to StoreItemSO for shelf
+    [SerializeField] private GameObject selectOnOpen;
 
     // This is the list of items the inventory contains
     private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
@@ -73,7 +74,7 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log(shelfItem.itemName);
         // Adds a shelf to the inventory on start
-        InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.prefab, shelfItem.type, 1));
+        InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.id, shelfItem, shelfItem.prefab, shelfItem.type, 1));
     }
 
     /// <summary>
@@ -88,6 +89,7 @@ public class InventoryManager : MonoBehaviour
         {
             SwitchTab(tabIndex);
             ClearHandItem();
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
         }
     }
 

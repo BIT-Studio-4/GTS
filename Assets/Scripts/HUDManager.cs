@@ -14,9 +14,13 @@ public class HUDManager : MonoBehaviour
     private Label errorMessage;
     private VisualElement versionContainer;
     private Label versionText;
+    private VisualElement saveGamePopup;
     private Boolean errorPopupUp;
-    private float popupTime;
-    [SerializeField] private float popupDelay;
+    private Boolean saveGamePopupUp;
+    private float errorPopupTime;
+    private float saveGamePopupTime;
+    [SerializeField] private float errorPopupDelay;
+    [SerializeField] private float saveGamePopupDelay;
     [SerializeField] private PlaceObject placement;
 
     void Awake()
@@ -34,7 +38,7 @@ public class HUDManager : MonoBehaviour
         errorMessage = errorPopup.Q<Label>("errorText");
         versionContainer = hud.Q<VisualElement>("versionNumber");
         versionText = versionContainer.Q<Label>("versionText");
-
+        saveGamePopup = hud.Q<VisualElement>("savedGame");
     }
 
     private void Start()
@@ -43,14 +47,21 @@ public class HUDManager : MonoBehaviour
         GameManager.Instance.OnMoneyChange.AddListener(MoneyChange);
         errorPopupUp = false;
         versionText.text = $"Version Number: {Application.version}";
+
+        saveGamePopupUp = false;
     }
 
     private void Update()
     {
-        if (errorPopupUp == true && Time.time > popupTime + popupDelay)
+        if (errorPopupUp == true && Time.time > errorPopupTime + errorPopupDelay)
         {
             errorPopup.style.display = DisplayStyle.None;
             errorPopupUp = false;
+        }
+        if (saveGamePopupUp && Time.time > saveGamePopupTime + saveGamePopupDelay)
+        {
+            saveGamePopup.style.display = DisplayStyle.None;
+            saveGamePopupUp = false;
         }
     }
 
@@ -65,6 +76,13 @@ public class HUDManager : MonoBehaviour
         errorMessage.text = message;
         errorPopup.style.display = DisplayStyle.Flex;
         errorPopupUp = true;
-        popupTime = Time.time;
+        errorPopupTime = Time.time;
+    }
+
+    public void SaveGame()
+    {
+        saveGamePopup.style.display = DisplayStyle.Flex;
+        saveGamePopupUp = true;
+        saveGamePopupTime = Time.time;
     }
 }

@@ -5,6 +5,7 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] Button continueButton;
     [SerializeField] Button quitButton;
+    [SerializeField] private GameObject selectOnOpen;
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     private void OnEnable()
     {
         Time.timeScale = 0;
+        UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
     }
 
     private void OnDisable()
@@ -24,16 +26,16 @@ public class PauseMenu : MonoBehaviour
 
     private void OnContinue()
     {
-        Debug.Log("Continue game!");
         UIManager.Instance.SetGUIState(UIType.Pause, false);
     }
 
     private void OnQuit()
     {
-        Debug.Log("Quit game!");
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        SaveManager.Instance.SaveGame();
+
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
         Application.Quit();
     }
 }
