@@ -83,13 +83,15 @@ public class TutorialManager : MonoBehaviour
             return;
         }
 
-        InProgress = false;
-        HideTutorial();
+        TutorialText.text = "That is the end of the tutorial!\n\nGo and make some profit!!";
+
+        Invoke("HideTutorial", 1);
     }
 
     // Method to hide the tutorial
     void HideTutorial()
     {
+        InProgress = false;
         TutorialText.text = "";
         TutorialText.gameObject.SetActive(false);
     }
