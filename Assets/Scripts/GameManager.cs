@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -71,7 +72,15 @@ public class GameManager : MonoBehaviour
         // yield return null;
         yield return new WaitUntil(() => User != null);
 
-        Money = startingMoney;
+
+
+        yield return new WaitUntil(() => saveGame != null);
+        if (saveGame != null)
+        {
+            //Load game
+        }
+
+        //Money = startingMoney;
     }
 
     private async void LoginUser()
@@ -85,5 +94,10 @@ public class GameManager : MonoBehaviour
         // Sends a UserLogin, and returns a User if successful
         User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
         Token = User.token;
+    }
+
+    private void StartNewGame()
+    {
+
     }
 }
