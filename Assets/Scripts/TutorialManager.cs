@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,6 +12,7 @@ public class TutorialManager : MonoBehaviour
     public bool InProgress { get; private set; }
 
     private Dictionary<string, bool> tutorial;
+    public Dictionary<string, bool> Tutorial { get => tutorial; }
 
 
     void Awake()
@@ -22,6 +24,8 @@ public class TutorialManager : MonoBehaviour
         }
 
         Instance = this;
+
+        InputSystem.actions.FindAction("SkipTutorial").performed += SkipTutorial;
     }
 
     void Start()
@@ -78,7 +82,7 @@ public class TutorialManager : MonoBehaviour
             TutorialText.text = "Awesome!\n\nNow we wait for customers to come in and buy what's on the shelf";
             return;
         }
-        
+
         InProgress = false;
         HideTutorial();
     }
@@ -94,5 +98,14 @@ public class TutorialManager : MonoBehaviour
     {
         tutorial[task] = true;
         AdvanceTutorial();
+    }
+
+    void SkipTutorial(InputAction.CallbackContext ctx)
+    {
+        string[] tasks = tutorial.Keys.ToArray();
+        foreach (string task in tasks)
+        {
+            CompleteTutorialTask(task);
+        }
     }
 }
