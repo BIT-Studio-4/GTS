@@ -426,7 +426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &96840609
 RectTransform:
   m_ObjectHideFlags: 0
@@ -806,7 +806,7 @@ MonoBehaviour:
       m_Calls: []
   username: jeffrey
   password: BetterPassword24!
-  startingMoney: 99999
+  startingMoney: 20
 --- !u!4 &220861225
 Transform:
   m_ObjectHideFlags: 0
@@ -1886,6 +1886,9 @@ MonoBehaviour:
   - {fileID: 2119960022}
   - {fileID: 1564329239}
   selectOnOpen: {fileID: 1580009834}
+  tabs:
+  - {fileID: 1580009837}
+  - {fileID: 1613576256}
 --- !u!4 &586006309
 Transform:
   m_ObjectHideFlags: 0
@@ -2872,6 +2875,7 @@ MonoBehaviour:
   structureHandScale: 0.35
   shelfItem: {fileID: 11400000, guid: 8c8b47ca405b50a419b1c70343732301, type: 2}
   selectOnOpen: {fileID: 1009891569}
+  tabs: []
 --- !u!4 &775283612
 Transform:
   m_ObjectHideFlags: 0
@@ -7287,7 +7291,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4283585106
-  m_fontColor: {r: 0.32156864, g: 0.32156864, b: 0.32156864, a: 1}
+  m_fontColor: {r: 0.32, g: 0.32, b: 0.32, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

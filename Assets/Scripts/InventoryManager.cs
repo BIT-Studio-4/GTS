@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private float structureHandScale;
     [SerializeField] private StoreItemSO shelfItem; // Reference to StoreItemSO for shelf
     [SerializeField] private GameObject selectOnOpen;
-
+    [SerializeField] private List<Image> tabs;
     // This is the list of items the inventory contains
     private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
     public List<PlaceableObject> InventoryPlaceableObjects { get => inventoryPlaceableObjects; set => inventoryPlaceableObjects = value; }
@@ -101,6 +102,17 @@ public class InventoryManager : MonoBehaviour
     {
         tabIndex = index;
         SetInventoryDisplayContent();
+
+        //change tab colour
+        foreach (Image tab in tabs)
+        {
+            if (tabs.IndexOf(tab) == index) tab.color = Color.white; //--------UPDATE LATER---------\\
+            else
+            {
+                tab.color = UIStyling.Instance.ButtonDeselectedColor;
+                //add shading onto tab to show it in BG
+            }
+        }
     }
 
     /// <summary>

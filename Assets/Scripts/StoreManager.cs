@@ -25,6 +25,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private int structureLeftoverMoneyCount;
     [SerializeField] private List<Button> multiplierButtons;
     [SerializeField] private GameObject selectOnOpen;
+    [SerializeField] private List<Image> tabs;
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImageComponent;
     private int tabIndex = 0;
@@ -202,6 +203,17 @@ public class StoreManager : MonoBehaviour
     {
         tabIndex = index;
         SetStoreDisplayContent();
+        
+        //change tab colour
+        foreach (Image tab in tabs)
+        {
+            if (tabs.IndexOf(tab) == index) tab.color = Color.white; //--------UPDATE LATER---------\\
+            else
+            {
+                tab.color = UIStyling.Instance.ButtonDeselectedColor;
+                //add shading onto tab to show it in BG
+            }
+        }
     }
 
     /// <summary>
