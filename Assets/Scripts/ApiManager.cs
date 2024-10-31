@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ApiManager : MonoBehaviour
@@ -16,5 +17,10 @@ public class ApiManager : MonoBehaviour
     public async void CreateSaveGame(string url, SaveGame saveGame, User user)
     {
         await HTTPRequests.Post<SaveGame, SaveGame>(url, saveGame, user.token);
+    }
+
+    public async Task<SaveGame> LoadSaveGame(string url, User user)
+    {
+        return await HTTPRequests.Get<SaveGame>(url, user.token);
     }
 }
