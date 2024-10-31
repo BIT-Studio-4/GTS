@@ -6,7 +6,6 @@ public class LoadManager : MonoBehaviour
 {
     public static LoadManager Instance { get; private set; }
 
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -17,5 +16,10 @@ public class LoadManager : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    public void LoadSaveGame(SaveGame saveGame)
+    {
+        GameManager.Instance.Money = saveGame.Money;
     }
 }

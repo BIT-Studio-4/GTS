@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     private SaveGame saveGame;
     public SaveGame SaveGame { get => saveGame; set => saveGame = value; }
+    private bool loadGameAttempted = false;
 
     [SerializeField]
     private int startingMoney = 100; //change to whatever we want
@@ -75,15 +77,23 @@ public class GameManager : MonoBehaviour
         // yield return null;
         yield return new WaitUntil(() => User != null);
 
+        Debug.Log("Logged in");
 
+        GetSaveGame();
 
-        yield return new WaitUntil(() => saveGame != null);
+        yield return new WaitUntil(() => loadGameAttempted);
+
+        Debug.Log("Tried to get save game");
+
         if (saveGame != null)
         {
-            //Load game
+            LoadManager.Instance.LoadSaveGame(saveGame);
         }
-
-        //Money = startingMoney;
+        else
+        {
+            StartNewGame();
+            Debug.Log("starting new game");
+        }
     }
 
     private async void LoginUser()
@@ -99,8 +109,15 @@ public class GameManager : MonoBehaviour
         Token = User.token;
     }
 
+    private async void GetSaveGame()
+    {
+        saveGame = await ApiManager.Instance.LoadSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", User);
+
+        loadGameAttempted = true;
+    }
+
     private void StartNewGame()
     {
-
+        //Money = startingMoney;
     }
 }
