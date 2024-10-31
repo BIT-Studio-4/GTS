@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private SaveGame saveGame;
+    public SaveGame SaveGame { get => saveGame; set => saveGame = value; }
+
     [SerializeField]
     private int startingMoney = 100; //change to whatever we want
 
