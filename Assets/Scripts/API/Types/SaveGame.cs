@@ -8,8 +8,7 @@ using System;
 public class SaveGame
 {
     public string id;
-    private int money;
-    public int Money { get => money; set => money = value; }
+    public int money;
     public Store store;
     public Inventory inventory;
 }

@@ -13,6 +13,7 @@ public class StoreManager : MonoBehaviour
 
     // The list of all items that are purchasable
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
+    public List<StoreItemSO> AllStoreItems { get => allStoreItems; }
     [SerializeField] private GameObject storeGUI;
     public GameObject StoreGUI { get => storeGUI; set => storeGUI = value; }
     // The grid that aligns the objects in the UI

@@ -21,6 +21,6 @@ public class ApiManager : MonoBehaviour
 
     public async Task<SaveGame> LoadSaveGame(string url, User user)
     {
-        return await HTTPRequests.Get<SaveGame>(url, user.token);
+        return await HTTPRequests.Get<SaveGame>($"{url}/{user.id}", user.token);
     }
 }

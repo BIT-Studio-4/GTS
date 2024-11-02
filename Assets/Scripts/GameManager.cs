@@ -46,8 +46,7 @@ public class GameManager : MonoBehaviour
             // can add more stuff here, eg updating UI etc later on
             if (user != null)
             {
-                // TODO!! This needs changing to the SaveGame money!!
-                //user.Money = money;
+                //saveGame.Money = money;
             }
         }
     }
@@ -83,8 +82,6 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitUntil(() => loadGameAttempted);
 
-        Debug.Log("Tried to get save game");
-
         if (saveGame != null)
         {
             LoadManager.Instance.LoadSaveGame(saveGame);
@@ -92,7 +89,6 @@ public class GameManager : MonoBehaviour
         else
         {
             StartNewGame();
-            Debug.Log("starting new game");
         }
     }
 
@@ -113,11 +109,13 @@ public class GameManager : MonoBehaviour
     {
         saveGame = await ApiManager.Instance.LoadSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", User);
 
+
         loadGameAttempted = true;
     }
 
     private void StartNewGame()
     {
-        //Money = startingMoney;
+        Money = startingMoney;
+        Debug.Log("Couldn't find a save for this user, starting new game");
     }
 }
