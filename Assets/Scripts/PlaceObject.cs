@@ -16,6 +16,7 @@ public class PlaceObject : MonoBehaviour
 
     // Parent object that all children go on
     [SerializeField] private GameObject placedObjectsParent;
+    public GameObject PlacedObjectsParent { get => placedObjectsParent; }
     private RaycastHit hit;
     private InputAction placeAction;
     private InputAction disableGridAction;
@@ -92,7 +93,7 @@ public class PlaceObject : MonoBehaviour
     /// <summary>
     /// Places an object at a certain position and rotation (used for things like loading)
     /// </summary>
-    void InstantiateObject(PlaceableObject placeableObject, Vector3 pos, Quaternion rot, Transform parent)
+    public void InstantiateObject(PlaceableObject placeableObject, Vector3 pos, Quaternion rot, Transform parent)
     {
         GameObject placedGameObject = Instantiate(placeableObject.prefab, pos, rot, parent);
         PlacedObject placedObject = placedGameObject.AddComponent<PlacedObject>();

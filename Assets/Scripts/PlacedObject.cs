@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlacedObject : MonoBehaviour
 {
     private StoreItemSO storeItem;
-    public StoreItemSO StoreItem;
+    public StoreItemSO StoreItem { get => storeItem; set => storeItem = value; }
 
     private void Start()
     {
