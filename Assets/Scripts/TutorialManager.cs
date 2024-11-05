@@ -49,7 +49,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (!tutorial["openedInventory"])
         {
-            TutorialText.text = "Welcome to your very own supermarket!\n\nTo get started, press [Tab] to open your inventory\n\n(hold [N] to close tutorial";
+            TutorialText.text = "Welcome to your very own supermarket!\n\nTo get started, press [Tab] to open your inventory\n\n(hold [N] to close tutorial)";
             return;
         }
         if (!tutorial["selectedShelf"])
