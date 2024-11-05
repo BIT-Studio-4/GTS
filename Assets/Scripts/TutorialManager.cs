@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI TutorialText; // Reference to tutorial text UI element
+    [SerializeField] private CanvasGroup canvasGroup;
 
     public static TutorialManager Instance { get; private set; }
     public bool InProgress { get; private set; }
@@ -114,6 +115,12 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator EndTutorial()
     {
-        yield return null;
+        TutorialText.text = "That is the end of the tutorial!\nGo and make some profit!!";
+        yield return new WaitForSeconds(3);
+        while (canvasGroup.alpha != 0)
+        {
+            canvasGroup.alpha -= Time.deltaTime * 0.25f;
+            yield return null;
+        }
     }
 }

@@ -1772,6 +1772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TutorialText: {fileID: 1250396551}
+  canvasGroup: {fileID: 1148093898}
 --- !u!1 &569845725
 GameObject:
   m_ObjectHideFlags: 0
