@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] Button continueButton;
+    [SerializeField] Button tutorialButton;
     [SerializeField] Button quitButton;
     [SerializeField] private GameObject selectOnOpen;
 
@@ -13,6 +14,7 @@ public class PauseMenu : MonoBehaviour
     private void Awake()
     {
         continueButton.onClick.AddListener(OnContinue);
+        tutorialButton.onClick.AddListener(OnTutorial);
         quitButton.onClick.AddListener(OnQuit);
 
         allButtonsAnimationTrigs.Add(continueButton.GetComponentInChildren<Button>().animationTriggers);
@@ -35,6 +37,11 @@ public class PauseMenu : MonoBehaviour
     private void OnContinue()
     {
         UIManager.Instance.SetGUIState(UIType.Pause, false);
+    }
+
+    private void OnTutorial()
+    {
+        TutorialManager.Instance.Start();
     }
 
     private void OnQuit()

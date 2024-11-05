@@ -13,10 +13,12 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
 
     public static TutorialManager Instance { get; private set; }
-    public bool InProgress { get; private set; }
 
     private Dictionary<string, bool> tutorial;
     public Dictionary<string, bool> Tutorial { get => tutorial; }
+
+    private bool inProgress;
+    public bool InProgress { get => inProgress; }
 
     private Coroutine fade;
 
@@ -33,7 +35,7 @@ public class TutorialManager : MonoBehaviour
         InputSystem.actions.FindAction("SkipTutorial").performed += SkipTutorial;
     }
 
-    void Start()
+    public void Start()
     {
         tutorial = new()
         {
@@ -45,8 +47,12 @@ public class TutorialManager : MonoBehaviour
             {"placedStock", false},
             {"soldStock", false}
         };
-        InProgress = true;
+
+        if (fade != null) StopCoroutine(fade);
+        inProgress = true;
+
         AdvanceTutorial();
+        fade = StartCoroutine(FadeIn());
     }
 
     // Method to show a specific tutorial step
@@ -87,14 +93,8 @@ public class TutorialManager : MonoBehaviour
             TutorialText.text = "Awesome!\nNow we wait for customers to come in and buy what's on the shelf";
             return;
         }
-    }
 
-    // Method to hide the tutorial
-    void HideTutorial()
-    {
-        InProgress = false;
-        TutorialText.text = "";
-        TutorialText.gameObject.SetActive(false);
+        StartCoroutine(EndTutorial());
     }
 
     public void CompleteTutorialTask(string task)
@@ -112,6 +112,7 @@ public class TutorialManager : MonoBehaviour
 
     void SkipTutorial(InputAction.CallbackContext ctx)
     {
+        inProgress = false;
         string[] tasks = tutorial.Keys.ToArray();
         foreach (string task in tasks)
         {
@@ -123,6 +124,7 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator EndTutorial()
     {
+        inProgress = false;
         TutorialText.text = "That is the end of the tutorial!\nGo and make some profit!!";
         yield return new WaitForSeconds(3);
         fade = StartCoroutine(FadeOut());
@@ -133,6 +135,15 @@ public class TutorialManager : MonoBehaviour
         while (canvasGroup.alpha != 0)
         {
             canvasGroup.alpha -= Time.deltaTime * 0.5f;
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeIn()
+    {
+        while (canvasGroup.alpha != 1)
+        {
+            canvasGroup.alpha += Time.deltaTime * 0.5f;
             yield return null;
         }
     }
