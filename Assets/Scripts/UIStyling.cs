@@ -10,12 +10,14 @@ public class UIStyling : MonoBehaviour
     [SerializeField] private Color buttonSubtractColor;
     [SerializeField] private Color buttonDeselectedColor;
     [SerializeField] private Color buttonInvalidColor;
+    [SerializeField] private Color tabSelectedColor;
 
     public Color ButtonValidColor {  get => buttonValidColor; }
     public Color ButtonAddColor {  get => buttonAddColor; }
     public Color ButtonNegativeColor {  get => buttonSubtractColor; }
     public Color ButtonDeselectedColor {  get => buttonDeselectedColor; }
     public Color ButtonInvalidColor {  get => buttonInvalidColor; }
+    public Color TabSelectedColor { get => tabSelectedColor; }
 
     private void Awake()
     {
