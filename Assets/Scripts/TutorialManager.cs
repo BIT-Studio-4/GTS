@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class TutorialManager : MonoBehaviour
@@ -87,7 +88,7 @@ public class TutorialManager : MonoBehaviour
             return;
         }
 
-        endTutorial = StartCoroutine(EndTutorial());        
+        endTutorial = StartCoroutine(EndTutorial());
     }
 
     // Method to hide the tutorial
@@ -101,6 +102,13 @@ public class TutorialManager : MonoBehaviour
     public void CompleteTutorialTask(string task)
     {
         tutorial[task] = true;
+
+        // edge case - skip telling user to open shop if they already bought something
+        if (task == "placedShelf" && !tutorial["boughtStock"])
+        {
+            tutorial["openedShop"] = false;
+        }
+
         AdvanceTutorial();
     }
 
@@ -122,5 +130,7 @@ public class TutorialManager : MonoBehaviour
             canvasGroup.alpha -= Time.deltaTime * 0.25f;
             yield return null;
         }
+
+        
     }
 }
