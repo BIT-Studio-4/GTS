@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -18,7 +19,6 @@ public class TutorialManager : MonoBehaviour
     public Dictionary<string, bool> Tutorial { get => tutorial; }
 
     private Coroutine fade;
-    private Coroutine endTutorial;
 
     void Awake()
     {
@@ -87,8 +87,6 @@ public class TutorialManager : MonoBehaviour
             TutorialText.text = "Awesome!\nNow we wait for customers to come in and buy what's on the shelf";
             return;
         }
-
-        endTutorial = StartCoroutine(EndTutorial());
     }
 
     // Method to hide the tutorial
@@ -117,20 +115,25 @@ public class TutorialManager : MonoBehaviour
         string[] tasks = tutorial.Keys.ToArray();
         foreach (string task in tasks)
         {
-            CompleteTutorialTask(task);
+            tutorial[task] = true;
         }
+        TutorialText.text = "Skipping tutorial...";
+        fade = StartCoroutine(FadeOut());
     }
 
     IEnumerator EndTutorial()
     {
         TutorialText.text = "That is the end of the tutorial!\nGo and make some profit!!";
         yield return new WaitForSeconds(3);
+        fade = StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeOut()
+    {
         while (canvasGroup.alpha != 0)
         {
-            canvasGroup.alpha -= Time.deltaTime * 0.25f;
+            canvasGroup.alpha -= Time.deltaTime * 0.5f;
             yield return null;
         }
-
-        
     }
 }
