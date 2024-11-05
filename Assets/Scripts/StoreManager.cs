@@ -63,8 +63,6 @@ public class StoreManager : MonoBehaviour
 
     private void Update()
     {
-        //active tab colour
-        //inactive tab(s) colour and shading
         //button shadings
         //check what input using
             //if mouse
@@ -218,21 +216,7 @@ public class StoreManager : MonoBehaviour
     {
         tabIndex = index;
         SetStoreDisplayContent();
-        
-        //change tab colour
-        for (int i = 0; i < tabs.Count; i++)
-        {
-            if (i == tabIndex) //active tab
-            {
-                tabs[i].color = UIStyling.Instance.TabSelectedColor;
-                tabShadows[i].enabled = false;
-            }
-            else //non-active tab(s)
-            {
-                tabs[i].color = UIStyling.Instance.ButtonDeselectedColor;
-                tabShadows[i].enabled = true;
-            }
-        }
+        ChangeTabColours();
     }
 
     /// <summary>
@@ -441,6 +425,23 @@ public class StoreManager : MonoBehaviour
         {
             if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = UIStyling.Instance.ButtonValidColor;
             else b.GetComponent<Image>().color = UIStyling.Instance.ButtonDeselectedColor;
+        }
+    }
+
+    private void ChangeTabColours()
+    {
+        for (int i = 0; i < tabs.Count; i++)
+        {
+            if (i == tabIndex) //active tab
+            {
+                tabs[i].color = UIStyling.Instance.TabSelectedColor;
+                tabShadows[i].enabled = false;
+            }
+            else //non-active tab(s)
+            {
+                tabs[i].color = UIStyling.Instance.ButtonDeselectedColor;
+                tabShadows[i].enabled = true;
+            }
         }
     }
 }
