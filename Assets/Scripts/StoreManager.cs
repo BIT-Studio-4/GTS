@@ -58,6 +58,18 @@ public class StoreManager : MonoBehaviour
         countMultiplier = 1; //cannot be null
     }
 
+    private void Update()
+    {
+        //active tab colour
+        //inactive tab(s) colour and shading
+        //button shadings
+        //check what input using
+            //if mouse
+                //do hover effects
+            //else
+                //selected item effect
+    }
+
     /// <summary>
     /// Toggles the state of the Store GUI (open or closed)
     /// </summary>
