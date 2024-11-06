@@ -26,9 +26,11 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private List<Button> multiplierButtons;
     [SerializeField] private GameObject selectOnOpen;
     //list of tabs at top of menu
-    [SerializeField] private List<Image> tabs;
-    //list in the same order as tabs, of their gradient shadows
-    [SerializeField] private List<Image> tabShadows;
+    [SerializeField] private List<GameObject> tabs;
+
+    //lists in the same order as tabs, of their gradient shadows and background colours
+    private List<Image> tabShadows = new();
+    private List<Image> tabBackgrounds = new();
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImageComponent;
     private int tabIndex = 0;
@@ -51,6 +53,8 @@ public class StoreManager : MonoBehaviour
 
         buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
         buyButtonImageComponent = buyButton.GetComponent<Image>();
+
+        SetUpTabImages();
     }
 
     private void Start()
@@ -428,18 +432,28 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    private void SetUpTabImages()
+    {
+        foreach (GameObject tab in tabs)
+        {
+            Image[] allImages = tab.GetComponentsInChildren<Image>();
+            tabBackgrounds.Add(allImages[0]); //background is parent, always first
+            tabShadows.Add(allImages[allImages.Length - 1]); //shadow
+        }
+    }
+
     private void ChangeTabColours()
     {
         for (int i = 0; i < tabs.Count; i++)
         {
             if (i == tabIndex) //active tab
             {
-                tabs[i].color = UIStyling.Instance.TabSelectedColor;
+                tabBackgrounds[i].color = UIStyling.Instance.TabSelectedColor;
                 tabShadows[i].enabled = false;
             }
             else //non-active tab(s)
             {
-                tabs[i].color = UIStyling.Instance.ButtonDeselectedColor;
+                tabBackgrounds[i].color = UIStyling.Instance.ButtonDeselectedColor;
                 tabShadows[i].enabled = true;
             }
         }
