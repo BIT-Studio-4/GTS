@@ -33,6 +33,7 @@ public class StoreManager : MonoBehaviour
     private List<Image> tabBackgrounds = new();
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImageComponent;
+    private Image buyButtonShadow;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
@@ -53,6 +54,7 @@ public class StoreManager : MonoBehaviour
 
         buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
         buyButtonImageComponent = buyButton.GetComponent<Image>();
+        buyButtonShadow = buyButton.GetComponentsInChildren<Image>()[2];
 
         SetUpTabImages();
     }
@@ -121,16 +123,20 @@ public class StoreManager : MonoBehaviour
         if (totalCost == 0) // no items are selected in store
         {
             buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
+            buyButtonShadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
             totalCostText.color = Color.black;
         }
         else if (totalCost > GameManager.Instance.Money) // too expensive
         {
             buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
+            buyButtonShadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
             totalCostText.color = Color.red;
         }
         else // can afford selection :D
         {
             buyButtonImageComponent.color = UIStyling.Instance.ButtonValidColor;
+            buyButtonShadow.rectTransform.rotation = Quaternion.identity;
+
             totalCostText.color = Color.black;
         }
     }
