@@ -403,7 +403,6 @@ public class StoreManager : MonoBehaviour
     {
         countMultiplier = GetIntFromButtonPrefab(buttonParent);
         ChangeMultiplierColours();
-        print("current multiplier = " + countMultiplier);
     }
 
     /// <summary>
