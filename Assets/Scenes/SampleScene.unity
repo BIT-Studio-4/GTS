@@ -696,6 +696,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Text (TMP)
       objectReference: {fileID: 0}
+    - target: {fileID: 2297786465373328051, guid: bd663c43f64067f4c92adb6dacc6c289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3400082281727248654, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
       propertyPath: m_Sprite
@@ -1024,6 +1029,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: x10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297786465373328051, guid: bd663c43f64067f4c92adb6dacc6c289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 3400082281727248654, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
@@ -3813,7 +3823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.069}
   m_AnchorMin: {x: 0.009729769, y: 0.052807223}
   m_AnchorMax: {x: 0.6508101, y: 0.85416424}
-  m_AnchoredPosition: {x: 0.31726074, y: -0.6652832}
+  m_AnchoredPosition: {x: 0.31726074, y: -0.665287}
   m_SizeDelta: {x: -3.336609, y: -3.3731995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &989199894
@@ -5012,6 +5022,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: tab1 (structures)
       objectReference: {fileID: 0}
+    - target: {fileID: 2297786465373328051, guid: bd663c43f64067f4c92adb6dacc6c289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3400082281727248654, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
       propertyPath: m_Color.a
@@ -5021,6 +5036,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: gradient shadow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6234358039407053950, guid: bd663c43f64067f4c92adb6dacc6c289,
+        type: 3}
+      propertyPath: m_Navigation.m_WrapAround
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6234358039407053950, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
@@ -5152,7 +5172,7 @@ PrefabInstance:
     - target: {fileID: 8560023249665658030, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
       propertyPath: m_fontSize
-      value: 79.8
+      value: 72
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5696,6 +5716,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: x1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297786465373328051, guid: bd663c43f64067f4c92adb6dacc6c289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 3400082281727248654, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
@@ -8080,7 +8105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.14, y: 0.057851855}
   m_AnchorMax: {x: 0.85975015, y: 0.83822227}
-  m_AnchoredPosition: {x: 0.2397461, y: -23.820312}
+  m_AnchoredPosition: {x: 0.2397461, y: -23.82013}
   m_SizeDelta: {x: -322.3298, y: -142.7574}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1939789402
@@ -8797,6 +8822,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: tab0 (stock)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297786465373328051, guid: bd663c43f64067f4c92adb6dacc6c289,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3400082281727248654, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}

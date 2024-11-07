@@ -40,6 +40,7 @@ public class StoreManager : MonoBehaviour
     // A list of how many of each item there is in the players cart
     private List<int> itemCountsInCart = new List<int>();
     private int countMultiplier;
+    private List<AnimationTriggers> allButtonsAnimationTrigs = new();
 
     private void Awake()
     {
@@ -64,17 +65,11 @@ public class StoreManager : MonoBehaviour
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyColors);
 
-        countMultiplier = 1; //cannot be null
-    }
+        SetUpAllButtonsAnimationsList();
 
-    private void Update()
-    {
-        //button shadings
-        //check what input using
-            //if mouse
-                //do hover effects
-            //else
-                //selected item effect
+        InputDeviceManager.Instance.onGameDeviceChanged.AddListener(HandleInputDeviceType);
+
+        countMultiplier = 1; //cannot be null
     }
 
     /// <summary>
@@ -89,7 +84,7 @@ public class StoreManager : MonoBehaviour
         if (storeGUI.activeSelf)
         {
             OnEnableStore();
-            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
+            HandleInputDeviceType(); //set first selected item if gamepad
         }
         else
         {
@@ -113,6 +108,50 @@ public class StoreManager : MonoBehaviour
         buyButtonText.text = "Buy!";
         InputSystem.actions.FindAction("Place").Disable();
         ChangeMultiplierColours();
+    }
+
+    /// <summary>
+    /// Collect all the animation triggers for all buttons into one list
+    /// </summary>
+    private void SetUpAllButtonsAnimationsList()
+    {
+        print("count before = " + allButtonsAnimationTrigs.Count());
+        foreach (GameObject tab in tabs)
+        {
+            allButtonsAnimationTrigs.Add(tab.GetComponentInChildren<Button>().animationTriggers);
+        }
+        foreach (GameObject mult in multiplierButtons)
+        {
+            allButtonsAnimationTrigs.Add(mult.GetComponentInChildren<Button>().animationTriggers);
+        }
+        allButtonsAnimationTrigs.Add(buyButton.GetComponentInChildren<Button>().animationTriggers);
+        //storeItemSlot buttons are setup in CreateGridItem()
+        print("count after = " + allButtonsAnimationTrigs.Count());
+    }
+
+    /// <summary>
+    /// Switch all button hover effects to match input device
+    /// </summary>
+    private void HandleInputDeviceType()
+    {
+        if (InputDeviceManager.Instance.ActiveDevice == InputDevice.KeyboardMouse)
+        {
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(null);
+            foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
+            {
+                trigs.highlightedTrigger = "Highlighted";
+                trigs.selectedTrigger = "Normal";
+            }
+        }
+        else if (InputDeviceManager.Instance.ActiveDevice == InputDevice.Gamepad)
+        {
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
+            foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
+            {
+                trigs.highlightedTrigger = "Normal";
+                trigs.selectedTrigger = "Highlighted";
+            }
+        }
     }
 
     /// <summary>
@@ -194,6 +233,10 @@ public class StoreManager : MonoBehaviour
         gridSlot.CountText.text = $"{itemCountsInCart[storeIndex]}";
         gridSlot.AddButton.GetComponent<Image>().color = UIStyling.Instance.ButtonAddColor;
         gridSlot.SubtractButton.GetComponent<Image>().color = UIStyling.Instance.ButtonNegativeColor;
+
+        //add each button to all button animation triggers list
+        allButtonsAnimationTrigs.Add(gridSlot.AddButton.GetComponent<Button>().animationTriggers);
+        allButtonsAnimationTrigs.Add(gridSlot.SubtractButton.GetComponent<Button>().animationTriggers);
     }
 
     /// <summary>
