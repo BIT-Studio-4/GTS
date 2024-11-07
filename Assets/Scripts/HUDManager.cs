@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -68,4 +69,11 @@ public class HUDManager : MonoBehaviour
         errorPopupUp = true;
         popupTime = Time.time;
     }
+
+    #region Unit Testing
+    public int TestDisplayMoney()
+    {
+        return int.Parse(moneyDisplay.text.Replace('$', '0'));
+    }
+    #endregion
 }

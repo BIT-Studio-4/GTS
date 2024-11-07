@@ -20,7 +20,7 @@ public class InventoryTests
         Customer customer = GameObject.Instantiate(customerPrefab).GetComponent<Customer>();
         SellItem item = new GameObject().AddComponent<SellItem>();
         int cost = 5;
-        item.moneyOnSell = 5;
+        item.moneyOnSell = cost;
         int startMoney = GameManager.Instance.Money;
         yield return null;
 
