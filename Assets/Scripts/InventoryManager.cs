@@ -18,7 +18,10 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private float structureHandScale;
     [SerializeField] private StoreItemSO shelfItem; // Reference to StoreItemSO for shelf
     [SerializeField] private GameObject selectOnOpen;
-    [SerializeField] private List<Image> tabs;
+    //list of tabs at the top of the menu
+    [SerializeField] private List<GameObject> tabs;
+    private List<Image> tabShadows = new();
+    private List<Image> tabBackgrounds = new();
     // This is the list of items the inventory contains
     private List<PlaceableObject> inventoryPlaceableObjects = new List<PlaceableObject>();
     public List<PlaceableObject> InventoryPlaceableObjects { get => inventoryPlaceableObjects; set => inventoryPlaceableObjects = value; }
@@ -63,6 +66,8 @@ public class InventoryManager : MonoBehaviour
         }
 
         Instance = this;
+
+        SetUpTabImages();
     }
 
     /// <summary>
@@ -102,15 +107,33 @@ public class InventoryManager : MonoBehaviour
     {
         tabIndex = index;
         SetInventoryDisplayContent();
+        ChangeTabColours();
+    }
 
-        //change tab colour
-        foreach (Image tab in tabs)
+    private void SetUpTabImages()
+    {
+        foreach (GameObject tab in tabs)
         {
-            if (tabs.IndexOf(tab) == index) tab.color = Color.white; //--------UPDATE LATER---------\\
-            else
+            Image[] allImages = tab.GetComponentsInChildren<Image>();
+            tabBackgrounds.Add(allImages[0]); //background is parent, always first
+            tabShadows.Add(allImages[allImages.Length - 1]); //shadows are always last child image
+        }
+        print(tabBackgrounds.Count +"  "+ tabShadows.Count);
+    }
+
+    private void ChangeTabColours()
+    {
+        for (int i = 0; i < tabs.Count; i++)
+        {
+            if (i == tabIndex) //active tab
             {
-                tab.color = UIStyling.Instance.ButtonDeselectedColor;
-                //add shading onto tab to show it in BG
+                tabBackgrounds[i].color = UIStyling.Instance.TabSelectedColor;
+                tabShadows[i].enabled = false;
+            }
+            else //non-active tab(s)
+            {
+                tabBackgrounds[i].color = UIStyling.Instance.ButtonDeselectedColor;
+                tabShadows[i].enabled = true;
             }
         }
     }
