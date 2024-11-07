@@ -23,7 +23,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentMoneyText;
     [SerializeField] private GameObject buyButton;
     [SerializeField] private int structureLeftoverMoneyCount;
-    [SerializeField] private List<Button> multiplierButtons;
+    [SerializeField] private List<GameObject> multiplierButtons;
     [SerializeField] private GameObject selectOnOpen;
     //list of tabs at top of menu
     [SerializeField] private List<GameObject> tabs;
@@ -122,23 +122,31 @@ public class StoreManager : MonoBehaviour
     {
         if (totalCost == 0) // no items are selected in store
         {
-            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
-            buyButtonShadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
+            SetBuyToInvalidColours();
             totalCostText.color = Color.black;
         }
         else if (totalCost > GameManager.Instance.Money) // too expensive
         {
-            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
-            buyButtonShadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
+            SetBuyToInvalidColours();
             totalCostText.color = Color.red;
         }
         else // can afford selection :D
         {
             buyButtonImageComponent.color = UIStyling.Instance.ButtonValidColor;
             buyButtonShadow.rectTransform.rotation = Quaternion.identity;
-
+            buyButtonShadow.color = UIStyling.Instance.ShadowWhenButtonActive;
             totalCostText.color = Color.black;
         }
+    }
+
+    /// <summary>
+    /// Changes the buy button to invalid colours
+    /// </summary>
+    private void SetBuyToInvalidColours()
+    {
+        buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
+        buyButtonShadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
+        buyButtonShadow.color = UIStyling.Instance.ShadowWhenButtonInvalid;
     }
 
     /// <summary>
@@ -390,25 +398,26 @@ public class StoreManager : MonoBehaviour
     /// <summary>
     /// This is called when a multiplier button is clicked
     /// </summary>
-    /// <param name="button"></param>
-    public void ChangeMultiplier(Button button)
+    /// <param name="buttonParent">Parent of button in button prefab</param>
+    public void ChangeMultiplier(GameObject buttonParent)
     {
-        countMultiplier = GetIntFromButton(button);
+        countMultiplier = GetIntFromButtonPrefab(buttonParent);
         ChangeMultiplierColours();
+        print("current multiplier = " + countMultiplier);
     }
 
     /// <summary>
-    /// Gets the number displayed inside of a button's text
+    /// Gets the number displayed inside of a button's text, using the prefab that has button as a child
     /// </summary>
-    /// <param name="button"></param>
-    /// <returns>int</returns>
-    private int GetIntFromButton(Button button)
+    /// <param name="buttonParent">The parent of the button and text objects</param>
+    /// <returns>int multiplier in text</returns>
+    private int GetIntFromButtonPrefab(GameObject buttonParent)
     {
         string text = "";
         int num = 0;
 
         // filter the num from button text
-        foreach (char a in button.GetComponentInChildren<TextMeshProUGUI>().text)
+        foreach (char a in buttonParent.GetComponentInChildren<TextMeshProUGUI>().text)
         {
             if (a >= '0' && a <= '9') text += a;
         }
@@ -420,7 +429,7 @@ public class StoreManager : MonoBehaviour
         }
         catch
         {
-            print(button.name + " invalid button text, must include numbers");
+            print(buttonParent.name + " invalid button text, must include numbers");
         }
 
         return num;
@@ -431,10 +440,26 @@ public class StoreManager : MonoBehaviour
     /// </summary>
     private void ChangeMultiplierColours()
     {
-        foreach (Button b in multiplierButtons)
+        foreach (GameObject b in multiplierButtons)
         {
-            if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = UIStyling.Instance.ButtonValidColor;
-            else b.GetComponent<Image>().color = UIStyling.Instance.ButtonDeselectedColor;
+            Image background = b.GetComponent<Image>();
+            Image shadow = b.GetComponentsInChildren<Image>()[2];
+
+            if (GetIntFromButtonPrefab(b) == countMultiplier) //if is current multiplier
+            {
+                //green and dented in to show being used
+                background.color = UIStyling.Instance.ButtonValidColor;
+                shadow.color = UIStyling.Instance.ShadowWhenButtonActive;
+                shadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
+                
+            }
+            else //not current multiplier
+            {
+                //gray and pushed out to show unused
+                background.color = UIStyling.Instance.ButtonDeselectedColor;
+                shadow.color = UIStyling.Instance.ShadowWhenButtonInactive;
+                shadow.rectTransform.rotation = Quaternion.identity;
+            }
         }
     }
 

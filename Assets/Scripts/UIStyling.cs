@@ -11,6 +11,9 @@ public class UIStyling : MonoBehaviour
     [SerializeField] private Color buttonDeselectedColor;
     [SerializeField] private Color buttonInvalidColor;
     [SerializeField] private Color tabSelectedColor;
+    [SerializeField] private Color shadowWhenButtonActive;
+    [SerializeField] private Color shadowWhenButtonInactive;
+    [SerializeField] private Color shadowWhenButtonInvalid;
 
     public Color ButtonValidColor {  get => buttonValidColor; }
     public Color ButtonAddColor {  get => buttonAddColor; }
@@ -18,6 +21,9 @@ public class UIStyling : MonoBehaviour
     public Color ButtonDeselectedColor {  get => buttonDeselectedColor; }
     public Color ButtonInvalidColor {  get => buttonInvalidColor; }
     public Color TabSelectedColor { get => tabSelectedColor; }
+    public Color ShadowWhenButtonActive { get => shadowWhenButtonActive; }
+    public Color ShadowWhenButtonInactive { get => shadowWhenButtonInactive; }
+    public Color ShadowWhenButtonInvalid { get => shadowWhenButtonInvalid; }
 
     private void Awake()
     {
