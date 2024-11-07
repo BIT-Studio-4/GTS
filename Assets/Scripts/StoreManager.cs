@@ -421,7 +421,7 @@ public class StoreManager : MonoBehaviour
         FillShoppingCartWithItems();
         int index = allStoreItems.IndexOf(item);
         itemCountsInCart[index] = 1;
-        CalculateTotalCost();
+        totalCost = CalculateTotalCost();
         PurchaseStock();
     }
     #endregion

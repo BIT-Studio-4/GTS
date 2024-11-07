@@ -40,16 +40,17 @@ public class InventoryTests
         yield return null;
         
         GameManager.Instance.Money = itemToBuy.cost;
+        yield return null;
         StoreManager.Instance.TestBuyItem(itemToBuy);
         yield return null;
         
         Assert.AreEqual(0, GameManager.Instance.Money);
     }
     
-    [UnityTest]
+    /* [UnityTest]
     // make the player buy an item and assert that it is in the inventory
     public IEnumerator BuyingItemIntoInventory()
     {
         yield return null;
-    }
+    } */
 }
