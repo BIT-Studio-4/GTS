@@ -115,7 +115,6 @@ public class StoreManager : MonoBehaviour
     /// </summary>
     private void SetUpAllButtonsAnimationsList()
     {
-        print("count before = " + allButtonsAnimationTrigs.Count());
         foreach (GameObject tab in tabs)
         {
             allButtonsAnimationTrigs.Add(tab.GetComponentInChildren<Button>().animationTriggers);
@@ -126,7 +125,6 @@ public class StoreManager : MonoBehaviour
         }
         allButtonsAnimationTrigs.Add(buyButton.GetComponentInChildren<Button>().animationTriggers);
         //storeItemSlot buttons are setup in CreateGridItem()
-        print("count after = " + allButtonsAnimationTrigs.Count());
     }
 
     /// <summary>
