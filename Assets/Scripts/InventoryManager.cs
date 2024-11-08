@@ -127,7 +127,6 @@ public class InventoryManager : MonoBehaviour
             tabBackgrounds.Add(allImages[0]); //background is parent, always first
             tabShadows.Add(allImages[allImages.Length - 1]); //shadows are always last child image
         }
-        print(tabBackgrounds.Count +"  "+ tabShadows.Count);
     }
 
     private void ChangeTabColours()
