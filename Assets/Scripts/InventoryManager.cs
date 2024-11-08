@@ -52,6 +52,8 @@ public class InventoryManager : MonoBehaviour
     private List<PlaceableObject> inventoryObjectDisplayList = new List<PlaceableObject>();
     // The GameObject that the player is holding for display.
     private GameObject playerHeldItem;
+    //list of all button's animation triggers to allow mouse and controller button hover effects
+    private List<AnimationTriggers> allButtonsAnimationTrigs = new();
 
     /// <summary>
     /// Makes InventoryManager a singleton
@@ -78,6 +80,8 @@ public class InventoryManager : MonoBehaviour
         HeldObject = null;
         SwitchTab(0);
 
+        SetUpAllButtonsAnimationsList();
+
         Debug.Log(shelfItem.itemName);
         // Adds a shelf to the inventory on start
         InventoryPlaceableObjects.Add(new PlaceableObject(shelfItem.itemName, shelfItem.id, shelfItem, shelfItem.prefab, shelfItem.type, 1));
@@ -91,11 +95,16 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryGUI.SetActive(isActive);
 
-        if (inventoryGUI.activeSelf)
+        if (inventoryGUI.activeSelf) //active
         {
+            InputDeviceManager.Instance.onGameDeviceChanged.AddListener(HandleInputDeviceType);
             SwitchTab(tabIndex);
             ClearHandItem();
-            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
+            HandleInputDeviceType(); //set first selected if gamepad
+        }
+        else //not active
+        {
+            InputDeviceManager.Instance.onGameDeviceChanged.RemoveListener(HandleInputDeviceType);
         }
     }
 
@@ -190,6 +199,21 @@ public class InventoryManager : MonoBehaviour
             // If the component does not exist, set the text to empty or a desired message
             gridSlot.SalePriceText.text = ""; 
         }
+
+        //add button to all button animation triggers list
+        allButtonsAnimationTrigs.Add(gridSlot.Button.GetComponent<Button>().animationTriggers);
+    }
+
+    /// <summary>
+    /// Collect all the animation triggers for all buttons into one list
+    /// </summary>
+    private void SetUpAllButtonsAnimationsList()
+    {
+        foreach (GameObject tab in tabs)
+        {
+            allButtonsAnimationTrigs.Add(tab.GetComponentInChildren<Button>().animationTriggers);
+        }
+        //inventoryItemSlot buttons are setup in CreateGridItem()
     }
 
     /// <summary>
@@ -248,6 +272,28 @@ public class InventoryManager : MonoBehaviour
         if (HeldObject.count <= 0)
         {
             ClearHandItem();
+        }
+    }
+
+    private void HandleInputDeviceType()
+    {
+        if (InputDeviceManager.Instance.ActiveDevice == InputDevice.KeyboardMouse)
+        {
+            foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
+            {
+                trigs.highlightedTrigger = "Highlighted";
+                trigs.selectedTrigger = "Normal";
+            }
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(null);
+        }
+        else if (InputDeviceManager.Instance.ActiveDevice == InputDevice.Gamepad)
+        {
+            foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
+            {
+                trigs.highlightedTrigger = "Normal";
+                trigs.selectedTrigger = "Highlighted";
+            }
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
         }
     }
 }

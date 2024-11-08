@@ -296,7 +296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &96840609
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5018,7 +5018,7 @@ PrefabInstance:
     - target: {fileID: 5878592655087102173, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
       propertyPath: m_Name
-      value: button and animator (tab0)
+      value: button and animator (inv tab0)
       objectReference: {fileID: 0}
     - target: {fileID: 6234358039407053950, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
@@ -8618,7 +8618,7 @@ PrefabInstance:
     - target: {fileID: 5878592655087102173, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
       propertyPath: m_Name
-      value: button and animator (tab0)
+      value: button and animator (store tab0)
       objectReference: {fileID: 0}
     - target: {fileID: 6234358039407053950, guid: bd663c43f64067f4c92adb6dacc6c289,
         type: 3}
