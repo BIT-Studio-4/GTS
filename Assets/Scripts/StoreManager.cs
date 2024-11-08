@@ -41,7 +41,7 @@ public class StoreManager : MonoBehaviour
     private List<int> itemCountsInCart = new List<int>();
     private int countMultiplier;
     private List<AnimationTriggers> allButtonsAnimationTrigs = new();
-
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -67,8 +67,6 @@ public class StoreManager : MonoBehaviour
 
         SetUpAllButtonsAnimationsList();
 
-        InputDeviceManager.Instance.onGameDeviceChanged.AddListener(HandleInputDeviceType);
-
         countMultiplier = 1; //cannot be null
     }
 
@@ -83,11 +81,13 @@ public class StoreManager : MonoBehaviour
         // When the store GUI is opened
         if (storeGUI.activeSelf)
         {
+            InputDeviceManager.Instance.onGameDeviceChanged.AddListener(HandleInputDeviceType);
             OnEnableStore();
             HandleInputDeviceType(); //set first selected item if gamepad
         }
         else
         {
+            InputDeviceManager.Instance.onGameDeviceChanged.RemoveListener(HandleInputDeviceType);
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
         }
@@ -134,21 +134,21 @@ public class StoreManager : MonoBehaviour
     {
         if (InputDeviceManager.Instance.ActiveDevice == InputDevice.KeyboardMouse)
         {
-            UIManager.Instance.EventSystemMain.SetSelectedGameObject(null);
             foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
             {
                 trigs.highlightedTrigger = "Highlighted";
                 trigs.selectedTrigger = "Normal";
             }
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(null);
         }
         else if (InputDeviceManager.Instance.ActiveDevice == InputDevice.Gamepad)
         {
-            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
             foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
             {
                 trigs.highlightedTrigger = "Normal";
                 trigs.selectedTrigger = "Highlighted";
             }
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
         }
     }
 
