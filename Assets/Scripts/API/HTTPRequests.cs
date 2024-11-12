@@ -26,7 +26,6 @@ public class HTTPRequests
         http.method = "GET";
         http.SetRequestHeader("Content-Type", "application/json");
         if (token.Length > 0) http.SetRequestHeader("Authorization", $"Bearer {token}"); // If a token exists, set it here. This allows the player access to the /api area of our API.
-
         return await MakeHttpRequest<T>(http);
     }
 
