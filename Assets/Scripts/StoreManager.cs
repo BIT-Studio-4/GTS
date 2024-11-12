@@ -14,7 +14,7 @@ public class StoreManager : MonoBehaviour
     // The list of all items that are purchasable
     [SerializeField] private List<StoreItemSO> allStoreItems = new List<StoreItemSO>();
     [SerializeField] private GameObject storeGUI;
-    public GameObject StoreGUI {  get => storeGUI; set => storeGUI = value; }
+    public GameObject StoreGUI { get => storeGUI; set => storeGUI = value; }
     // The grid that aligns the objects in the UI
     [SerializeField] private GameObject storeGrid;
     // The prefab for each item displayed in the UI
@@ -108,6 +108,7 @@ public class StoreManager : MonoBehaviour
         buyButtonText.text = "Buy!";
         InputSystem.actions.FindAction("Place").Disable();
         ChangeMultiplierColours();
+        if (TutorialManager.Instance.InProgress) TutorialManager.Instance.CompleteTutorialTask("openedShop");
     }
 
     /// <summary>
@@ -288,7 +289,7 @@ public class StoreManager : MonoBehaviour
         // Fills the cart with empty numbers
         allStoreItems.ForEach(item =>
         {
-            itemCountsInCart.Add(0);            
+            itemCountsInCart.Add(0);
         });
     }
 
@@ -403,6 +404,8 @@ public class StoreManager : MonoBehaviour
         // This is done via UI manager so the correct windows are opened and closed
         UIManager.Instance.SetGUIState(UIType.Store, false);
 
+        bool hasStock = false;
+
         // Iterates over all items able to be bought
         for (int i = 0; i < allStoreItems.Count; i++)
         {
@@ -424,7 +427,14 @@ public class StoreManager : MonoBehaviour
                     // Adds to the count of Inventory if the player already has that stock item
                     InventoryManager.Instance.InventoryPlaceableObjects[indexOfItem].count += itemCountsInCart[i];
                 }
+
+                if (allStoreItems[i].type == PlacementType.Stock) hasStock = true;
             }
+        }
+
+        if (TutorialManager.Instance.InProgress && hasStock)
+        {
+            TutorialManager.Instance.CompleteTutorialTask("boughtStock");
         }
     }
 

@@ -73,8 +73,21 @@ public class PlaceObject : MonoBehaviour
         // and becomes a child of placedObjects
         InstantiateObject(InventoryManager.Instance.HeldObject, position, rotation, placedObjectsParent.transform);
 
+        if (TutorialManager.Instance.InProgress)
+        {
+            Debug.Log("Placed object during tutorial!!");
+            if (InventoryManager.Instance.HeldObject.id == 4)
+            {
+                TutorialManager.Instance.CompleteTutorialTask("placedShelf");
+            }
+            if (InventoryManager.Instance.HeldObject.type == PlacementType.Stock)
+            {
+                TutorialManager.Instance.CompleteTutorialTask("placedStock");
+            }
+        }
+
         InventoryManager.Instance.ConsumePlacedItem();
-    } 
+    }
 
     /// <summary>
     /// Places an object at a certain position and rotation (used for things like loading)

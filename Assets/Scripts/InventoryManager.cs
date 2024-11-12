@@ -101,6 +101,7 @@ public class InventoryManager : MonoBehaviour
             SwitchTab(tabIndex);
             ClearHandItem();
             HandleInputDeviceType(); //set first selected if gamepad
+            if (TutorialManager.Instance.InProgress) TutorialManager.Instance.CompleteTutorialTask("openedInventory");
         }
         else //not active
         {
@@ -159,7 +160,8 @@ public class InventoryManager : MonoBehaviour
         int indexCount = 0;
 
         // Iterates over all stock to see if it should display in current tab
-        inventoryPlaceableObjects.ForEach(placeableObject => {
+        inventoryPlaceableObjects.ForEach(placeableObject =>
+        {
             if (((int)placeableObject.type) == tabIndex)
             {
                 CreateGridItem(indexCount, placeableObject);
@@ -196,7 +198,7 @@ public class InventoryManager : MonoBehaviour
         else
         {
             // If the component does not exist, set the text to empty or a desired message
-            gridSlot.SalePriceText.text = ""; 
+            gridSlot.SalePriceText.text = "";
         }
 
         //add button to all button animation triggers list
@@ -244,8 +246,13 @@ public class InventoryManager : MonoBehaviour
         SellItem randomSell = playerHeldItem.GetComponent<SellItem>();
         if (randomSell != null)
             randomSell.enabled = false;
-        
+
         HeldObject = placeableObject;
+
+        if (TutorialManager.Instance.InProgress && HeldObject.id == 4) // checks if player picked up shelf
+        {
+            TutorialManager.Instance.CompleteTutorialTask("selectedShelf");
+        }
     }
 
     /// <summary>
@@ -257,7 +264,7 @@ public class InventoryManager : MonoBehaviour
 
         Destroy(playerHeldItem);
         playerHeldItem = null;
-        
+
         HeldObject = null;
     }
 
