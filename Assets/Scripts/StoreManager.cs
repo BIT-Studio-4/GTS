@@ -23,17 +23,25 @@ public class StoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentMoneyText;
     [SerializeField] private GameObject buyButton;
     [SerializeField] private int structureLeftoverMoneyCount;
-    [SerializeField] private List<Button> multiplierButtons;
+    [SerializeField] private List<GameObject> multiplierButtons;
     [SerializeField] private GameObject selectOnOpen;
+    //list of tabs at top of menu
+    [SerializeField] private List<GameObject> tabs;
+
+    //lists in the same order as tabs, of their gradient shadows and background colours
+    private List<Image> tabShadows = new();
+    private List<Image> tabBackgrounds = new();
     private TextMeshProUGUI buyButtonText;
     private Image buyButtonImageComponent;
+    private Image buyButtonShadow;
     private int tabIndex = 0;
     private int totalCost = 0;
     private List<GameObject> gridObjectDisplayList = new List<GameObject>();
     // A list of how many of each item there is in the players cart
     private List<int> itemCountsInCart = new List<int>();
     private int countMultiplier;
-
+    private List<AnimationTriggers> allButtonsAnimationTrigs = new();
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,12 +55,17 @@ public class StoreManager : MonoBehaviour
 
         buyButtonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
         buyButtonImageComponent = buyButton.GetComponent<Image>();
+        buyButtonShadow = buyButton.GetComponentsInChildren<Image>()[2];
+
+        SetUpTabImages();
     }
 
     private void Start()
     {
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyText);
         GameManager.Instance.OnMoneyChange.AddListener(UpdateMoneyColors);
+
+        SetUpAllButtonsAnimationsList();
 
         countMultiplier = 1; //cannot be null
     }
@@ -68,11 +81,13 @@ public class StoreManager : MonoBehaviour
         // When the store GUI is opened
         if (storeGUI.activeSelf)
         {
+            InputDeviceManager.Instance.onGameDeviceChanged.AddListener(HandleInputDeviceType);
             OnEnableStore();
-            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
+            HandleInputDeviceType(); //set first selected item if gamepad
         }
         else
         {
+            InputDeviceManager.Instance.onGameDeviceChanged.RemoveListener(HandleInputDeviceType);
             totalCost = 0;
             InputSystem.actions.FindAction("Place").Enable();
         }
@@ -96,25 +111,79 @@ public class StoreManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Collect all the animation triggers for all buttons into one list
+    /// </summary>
+    private void SetUpAllButtonsAnimationsList()
+    {
+        foreach (GameObject tab in tabs)
+        {
+            allButtonsAnimationTrigs.Add(tab.GetComponentInChildren<Button>().animationTriggers);
+        }
+        foreach (GameObject mult in multiplierButtons)
+        {
+            allButtonsAnimationTrigs.Add(mult.GetComponentInChildren<Button>().animationTriggers);
+        }
+        allButtonsAnimationTrigs.Add(buyButton.GetComponentInChildren<Button>().animationTriggers);
+        //storeItemSlot buttons are setup in CreateGridItem()
+    }
+
+    /// <summary>
+    /// Switch all button hover effects to match input device
+    /// </summary>
+    private void HandleInputDeviceType()
+    {
+        if (InputDeviceManager.Instance.ActiveDevice == InputDevice.KeyboardMouse)
+        {
+            foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
+            {
+                trigs.highlightedTrigger = "Highlighted";
+                trigs.selectedTrigger = "Normal";
+            }
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(null);
+        }
+        else if (InputDeviceManager.Instance.ActiveDevice == InputDevice.Gamepad)
+        {
+            foreach (AnimationTriggers trigs in allButtonsAnimationTrigs)
+            {
+                trigs.highlightedTrigger = "Normal";
+                trigs.selectedTrigger = "Highlighted";
+            }
+            UIManager.Instance.EventSystemMain.SetSelectedGameObject(selectOnOpen);
+        }
+    }
+
+    /// <summary>
     /// Changes the button, and money text visually to give feedback to user
     /// </summary>
     private void UpdateMoneyColors()
     {
         if (totalCost == 0) // no items are selected in store
         {
-            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
+            SetBuyToInvalidColours();
             totalCostText.color = Color.black;
         }
         else if (totalCost > GameManager.Instance.Money) // too expensive
         {
-            buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
+            SetBuyToInvalidColours();
             totalCostText.color = Color.red;
         }
         else // can afford selection :D
         {
             buyButtonImageComponent.color = UIStyling.Instance.ButtonValidColor;
+            buyButtonShadow.rectTransform.rotation = Quaternion.identity;
+            buyButtonShadow.color = UIStyling.Instance.ShadowWhenButtonActive;
             totalCostText.color = Color.black;
         }
+    }
+
+    /// <summary>
+    /// Changes the buy button to invalid colours
+    /// </summary>
+    private void SetBuyToInvalidColours()
+    {
+        buyButtonImageComponent.color = UIStyling.Instance.ButtonInvalidColor;
+        buyButtonShadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
+        buyButtonShadow.color = UIStyling.Instance.ShadowWhenButtonInvalid;
     }
 
     /// <summary>
@@ -162,6 +231,10 @@ public class StoreManager : MonoBehaviour
         gridSlot.CountText.text = $"{itemCountsInCart[storeIndex]}";
         gridSlot.AddButton.GetComponent<Image>().color = UIStyling.Instance.ButtonAddColor;
         gridSlot.SubtractButton.GetComponent<Image>().color = UIStyling.Instance.ButtonNegativeColor;
+
+        //add each button to all button animation triggers list
+        allButtonsAnimationTrigs.Add(gridSlot.AddButton.GetComponent<Button>().animationTriggers);
+        allButtonsAnimationTrigs.Add(gridSlot.SubtractButton.GetComponent<Button>().animationTriggers);
     }
 
     /// <summary>
@@ -202,6 +275,7 @@ public class StoreManager : MonoBehaviour
     {
         tabIndex = index;
         SetStoreDisplayContent();
+        ChangeTabColours();
     }
 
     /// <summary>
@@ -365,25 +439,25 @@ public class StoreManager : MonoBehaviour
     /// <summary>
     /// This is called when a multiplier button is clicked
     /// </summary>
-    /// <param name="button"></param>
-    public void ChangeMultiplier(Button button)
+    /// <param name="buttonParent">Parent of button in button prefab</param>
+    public void ChangeMultiplier(GameObject buttonParent)
     {
-        countMultiplier = GetIntFromButton(button);
+        countMultiplier = GetIntFromButtonPrefab(buttonParent);
         ChangeMultiplierColours();
     }
 
     /// <summary>
-    /// Gets the number displayed inside of a button's text
+    /// Gets the number displayed inside of a button's text, using the prefab that has button as a child
     /// </summary>
-    /// <param name="button"></param>
-    /// <returns>int</returns>
-    private int GetIntFromButton(Button button)
+    /// <param name="buttonParent">The parent of the button and text objects</param>
+    /// <returns>int multiplier in text</returns>
+    private int GetIntFromButtonPrefab(GameObject buttonParent)
     {
         string text = "";
         int num = 0;
 
         // filter the num from button text
-        foreach (char a in button.GetComponentInChildren<TextMeshProUGUI>().text)
+        foreach (char a in buttonParent.GetComponentInChildren<TextMeshProUGUI>().text)
         {
             if (a >= '0' && a <= '9') text += a;
         }
@@ -395,7 +469,7 @@ public class StoreManager : MonoBehaviour
         }
         catch
         {
-            print(button.name + " invalid button text, must include numbers");
+            print(buttonParent.name + " invalid button text, must include numbers");
         }
 
         return num;
@@ -406,10 +480,53 @@ public class StoreManager : MonoBehaviour
     /// </summary>
     private void ChangeMultiplierColours()
     {
-        foreach (Button b in multiplierButtons)
+        foreach (GameObject b in multiplierButtons)
         {
-            if (GetIntFromButton(b) == countMultiplier) b.GetComponent<Image>().color = UIStyling.Instance.ButtonValidColor;
-            else b.GetComponent<Image>().color = UIStyling.Instance.ButtonDeselectedColor;
+            Image background = b.GetComponent<Image>();
+            Image shadow = b.GetComponentsInChildren<Image>()[2];
+
+            if (GetIntFromButtonPrefab(b) == countMultiplier) //if is current multiplier
+            {
+                //green and dented in to show being used
+                background.color = UIStyling.Instance.ButtonValidColor;
+                shadow.color = UIStyling.Instance.ShadowWhenButtonActive;
+                shadow.rectTransform.rotation = Quaternion.Euler(0, 0, 180);
+                
+            }
+            else //not current multiplier
+            {
+                //gray and pushed out to show unused
+                background.color = UIStyling.Instance.ButtonDeselectedColor;
+                shadow.color = UIStyling.Instance.ShadowWhenButtonInactive;
+                shadow.rectTransform.rotation = Quaternion.identity;
+            }
+        }
+    }
+
+    private void SetUpTabImages()
+    {
+        foreach (GameObject tab in tabs)
+        {
+            Image[] allImages = tab.GetComponentsInChildren<Image>();
+            tabBackgrounds.Add(allImages[0]); //background is parent, always first
+            tabShadows.Add(allImages[allImages.Length - 1]); //shadow
+        }
+    }
+
+    private void ChangeTabColours()
+    {
+        for (int i = 0; i < tabs.Count; i++)
+        {
+            if (i == tabIndex) //active tab
+            {
+                tabBackgrounds[i].color = UIStyling.Instance.TabSelectedColor;
+                tabShadows[i].enabled = false;
+            }
+            else //non-active tab(s)
+            {
+                tabBackgrounds[i].color = UIStyling.Instance.ButtonDeselectedColor;
+                tabShadows[i].enabled = true;
+            }
         }
     }
 }

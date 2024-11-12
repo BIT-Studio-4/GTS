@@ -42,10 +42,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        // force resolution so that the gamepad virtual cursor works
-        // i'm sure theres a better way to get it working but this is it for now
-        Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-
         InputSystem.actions.FindAction("ToggleInventory").performed += ctx => SetGUIState(UIType.Inventory, !InventoryManager.Instance.InventoryGUI.activeSelf);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => SetGUIState(UIType.Store, !StoreManager.Instance.StoreGUI.activeSelf);
         InputSystem.actions.FindAction("Pause").performed += ctx => SetGUIState(UIType.Pause, !pauseMenu.isActiveAndEnabled);
@@ -123,7 +119,7 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // swap between using cursor and virtual mouse
+        // swap between using cursor and UI navigation
         switch (InputDeviceManager.Instance.ActiveDevice)
         {
             case InputDevice.Gamepad:
