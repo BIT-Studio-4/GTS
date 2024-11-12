@@ -42,12 +42,6 @@ public class GameManager : MonoBehaviour
         {
             money = value;
             OnMoneyChange?.Invoke();
-
-            // can add more stuff here, eg updating UI etc later on
-            if (user != null)
-            {
-                //saveGame.Money = money;
-            }
         }
     }
 
