@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 using UnityEngine.EventSystems;
 
 // Which inventory do you want to apply things to
