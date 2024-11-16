@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 using UnityEngine.EventSystems;
 
 // Which inventory do you want to apply things to
@@ -25,9 +24,8 @@ public class UIManager : MonoBehaviour
     private bool isGUIOpen = false;
     public bool IsGUIOpen { get => isGUIOpen; }
 
-    [SerializeField] private TextMeshProUGUI TutorialText; // Reference to tutorial text UI element
 
-    private int currentTutorialStep = 0; // Tracks current tutorial step
+    
 
     private void Awake()
     {
@@ -42,10 +40,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        // force resolution so that the gamepad virtual cursor works
-        // i'm sure theres a better way to get it working but this is it for now
-        Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-
         InputSystem.actions.FindAction("ToggleInventory").performed += ctx => SetGUIState(UIType.Inventory, !InventoryManager.Instance.InventoryGUI.activeSelf);
         InputSystem.actions.FindAction("ToggleStore").performed += ctx => SetGUIState(UIType.Store, !StoreManager.Instance.StoreGUI.activeSelf);
         InputSystem.actions.FindAction("Pause").performed += ctx => SetGUIState(UIType.Pause, !pauseMenu.isActiveAndEnabled);
@@ -55,22 +49,8 @@ public class UIManager : MonoBehaviour
         pauseMenu.gameObject.SetActive(false);
 
         InputDeviceManager.Instance.onGameDeviceChanged.AddListener(ChangeCursorMode);
-
-        StartTutorial();
     }
 
-    private void Update()
-    {
-        // Check if the "N" key is pressed and advances tutorial step
-        if (Keyboard.current.nKey.wasPressedThisFrame)
-        {
-            NextTutorialStep();
-        }
-        else if (Gamepad.current != null)
-        {
-            if (Gamepad.current.dpad.right.wasPressedThisFrame) NextTutorialStep();
-        }
-    }
 
     /// <summary>
     /// Used to open/close a specific GUI
@@ -123,7 +103,7 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        // swap between using cursor and virtual mouse
+        // swap between using cursor and UI navigation
         switch (InputDeviceManager.Instance.ActiveDevice)
         {
             case InputDevice.Gamepad:
@@ -134,56 +114,6 @@ public class UIManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 break;
-        }
-    }
-
-    // Method to start the tutorial
-    public void StartTutorial()
-    {
-        ShowTutorialStep(0); // Starts with the first step
-    }
-
-    // Method to show a specific tutorial step
-    public void ShowTutorialStep(int stepIndex)
-    {
-        TutorialText.text = "";
-
-        switch (stepIndex)
-        {
-            case 0:
-                TutorialText.text = "Welcome to your very own supermarket!\n\nThis is the tutorial, which will help you to get started.\n\n(press 'N' to continue)";
-                break;
-            case 1:
-                TutorialText.text = "We have provided you with your first shelf!\n\nPlace it somewhere in the shop by opening the inventory, and selecting the shelf from the structure tab.\n\n (Press N to continue)";
-                break;
-            case 2:
-                TutorialText.text = "Good job!\n\nnow you have placed your first shelf, lets buy some stock to put on it.\n\nPress Q to access the shop screen, there you can purchase stock to sell for profit to customers.\n\n(Press N to continue)";
-                break;
-            case 3:
-                TutorialText.text = "Nice!\n\nNow you can place those stock items on your shelf, by clicking on them in the inventory screen.\n\n stock items can only be placed on shelves.\n\n(Press N to continue)";
-                break;
-            case 4:
-                TutorialText.text = "Finally, lets see if you can make profit from selling stock!\n\nThe goal is to make more than the initial money we have provided for you.\n\n(press N to end tutorial)";
-                break;
-        }
-    }
-
-    // Method to hide the tutorial
-    public void HideTutorial()
-    {
-        TutorialText.text = "";
-    }
-
-    public void NextTutorialStep()
-    {
-        if (currentTutorialStep < 4) // Adjust based on number of steps
-        {
-            currentTutorialStep++;
-            ShowTutorialStep(currentTutorialStep);
-        }
-        else
-        {
-            HideTutorial();
         }
     }
 }

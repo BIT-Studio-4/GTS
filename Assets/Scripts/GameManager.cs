@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private SaveGame saveGame;
+    public SaveGame SaveGame { get => saveGame; set => saveGame = value; }
+    private bool loadGameAttempted = false;
+
     [SerializeField]
     private int startingMoney = 100; //change to whatever we want
 
@@ -36,13 +40,6 @@ public class GameManager : MonoBehaviour
         {
             money = value;
             OnMoneyChange?.Invoke();
-
-            // can add more stuff here, eg updating UI etc later on
-            if (user != null)
-            {
-                // TODO!! This needs changing to the SaveGame money!!
-                //user.Money = money;
-            }
         }
     }
 
@@ -68,10 +65,23 @@ public class GameManager : MonoBehaviour
         LoginUser();
 
         // TEMPORARY HOTFIX~
-        //yield return null;
+        // yield return null;
         yield return new WaitUntil(() => User != null);
 
-        Money = startingMoney;
+        Debug.Log("Logged in");
+
+        GetSaveGame();
+
+        yield return new WaitUntil(() => loadGameAttempted);
+
+        if (saveGame != null)
+        {
+            LoadManager.Instance.LoadSaveGame(saveGame);
+        }
+        else
+        {
+            StartNewGame();
+        }
     }
 
     private async void LoginUser()
@@ -85,5 +95,19 @@ public class GameManager : MonoBehaviour
         // Sends a UserLogin, and returns a User if successful
         User = await HTTPRequests.Post<User, UserLogin>($"{ApiManager.Instance.ApiUrl}/auth/login", login);
         Token = User.token;
+    }
+
+    private async void GetSaveGame()
+    {
+        saveGame = await ApiManager.Instance.LoadSaveGame($"{ApiManager.Instance.ApiUrl}/api/save_games", User);
+
+
+        loadGameAttempted = true;
+    }
+
+    private void StartNewGame()
+    {
+        Money = startingMoney;
+        Debug.Log("Couldn't find a save for this user, starting new game");
     }
 }

@@ -69,7 +69,7 @@ public class SaveManager : MonoBehaviour
         SaveGame saveGame = new SaveGame()
         {
             id = GameManager.Instance.User.id,
-            Money = GameManager.Instance.Money,
+            money = GameManager.Instance.Money,
             store = new Store()
             {
                 store_objects = GetStoreObjects(),
@@ -118,14 +118,6 @@ public class SaveManager : MonoBehaviour
         });
 
         return inventoryItems.ToArray();
-    }
-
-    /// <summary>
-    /// Loads the game from the api
-    /// </summary>
-    public void LoadGame()
-    {
-
     }
 
     /// <summary>

@@ -16,6 +16,7 @@ public class PlaceObject : MonoBehaviour
 
     // Parent object that all children go on
     [SerializeField] private GameObject placedObjectsParent;
+    public GameObject PlacedObjectsParent { get => placedObjectsParent; }
     private RaycastHit hit;
     private InputAction placeAction;
     private InputAction disableGridAction;
@@ -67,19 +68,32 @@ public class PlaceObject : MonoBehaviour
     void PlayerPlaceObject()
     {
         if (InventoryManager.Instance.HeldObject == null) return;
-        if (!IsPlacementValid()) return;
+        if (!IsPlacementValid(true)) return;
 
         // places the object at the coordinates of the raycast hit
         // and becomes a child of placedObjects
         InstantiateObject(InventoryManager.Instance.HeldObject, position, rotation, placedObjectsParent.transform);
 
+        if (TutorialManager.Instance.InProgress)
+        {
+            Debug.Log("Placed object during tutorial!!");
+            if (InventoryManager.Instance.HeldObject.id == 4)
+            {
+                TutorialManager.Instance.CompleteTutorialTask("placedShelf");
+            }
+            if (InventoryManager.Instance.HeldObject.type == PlacementType.Stock)
+            {
+                TutorialManager.Instance.CompleteTutorialTask("placedStock");
+            }
+        }
+
         InventoryManager.Instance.ConsumePlacedItem();
-    } 
+    }
 
     /// <summary>
     /// Places an object at a certain position and rotation (used for things like loading)
     /// </summary>
-    void InstantiateObject(PlaceableObject placeableObject, Vector3 pos, Quaternion rot, Transform parent)
+    public void InstantiateObject(PlaceableObject placeableObject, Vector3 pos, Quaternion rot, Transform parent)
     {
         GameObject placedGameObject = Instantiate(placeableObject.prefab, pos, rot, parent);
         PlacedObject placedObject = placedGameObject.AddComponent<PlacedObject>();
@@ -91,11 +105,11 @@ public class PlaceObject : MonoBehaviour
     /// object should be successful
     /// </summary>
     /// <returns>True if object can be placed</returns>
-    public bool IsPlacementValid()
+    public bool IsPlacementValid(bool attemptedPlace = false)
     {
         if (Vector3.Angle(hit.normal, Vector3.up) > 5f) //angle threshhold to place objects on flat surfaces only
         {
-            if (placeAction.WasPressedThisFrame())
+            if (attemptedPlace)
                 HUDManager.Instance.ErrorPopup("Can't place object on non-flat surface");
             return false;
         }
@@ -105,7 +119,7 @@ public class PlaceObject : MonoBehaviour
         {
             if (!hit.collider.CompareTag("Shelf"))
             {
-                if (placeAction.WasPressedThisFrame())
+                if (attemptedPlace)
                     HUDManager.Instance.ErrorPopup("Stock items can only be placed on shelves");
                 return false;
             }
@@ -116,7 +130,7 @@ public class PlaceObject : MonoBehaviour
         {
             if (!hit.collider.CompareTag("Floor"))
             {
-                if (placeAction.WasPressedThisFrame())
+                if (attemptedPlace)
                     HUDManager.Instance.ErrorPopup("Shelves can only be placed on the floor");
                 return false;
             }
@@ -125,7 +139,7 @@ public class PlaceObject : MonoBehaviour
         // If there are any intersecting objects
         if (ghostObject.isIntersecting)
         {
-            if (placeAction.WasPressedThisFrame())
+            if (attemptedPlace)
             {
                 HUDManager.Instance.ErrorPopup("Items cannot intersect");
             }

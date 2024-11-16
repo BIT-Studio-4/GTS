@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class StoreItemSlot : MonoBehaviour
 {
     [SerializeField] private Button subtractButton;
+    [SerializeField] private Image subtractButtonBackground;
     [SerializeField] private Button addButton;
+    [SerializeField] private Image addButtonBackground;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI priceText;
     [SerializeField] private TextMeshProUGUI countText;
